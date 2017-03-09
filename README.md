@@ -1,6 +1,7 @@
 ## OTLS-AppCommon
 This repository contains code that is common or shared between OTLS
-applications.
+applications. It is not standalone, and is meant to be included into projects
+where the functionality is needed.
 
 ## Categories
 * Editors
@@ -13,3 +14,8 @@ applications.
   * Miscellaneous GUI windows and utilities
 * Xml
   * Node generators and parsers for common classes
+
+## Dependencies
+The projects that use this repository will also need the following dependencies:
+* [OTLS-Models](https://github.com/OverheadTransmissionLineSoftware/Models)
+* [wxWidgets](https://github.com/wxWidgets/wxWidgets)
