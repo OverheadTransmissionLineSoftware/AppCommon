@@ -9,7 +9,7 @@
 #include "models/base/vector.h"
 #include "wx/xml/xml.h"
 
-#include "appcommon/xml_handler.h"
+#include "appcommon/xml/xml_handler.h"
 
 /// \par OVERVIEW
 ///
