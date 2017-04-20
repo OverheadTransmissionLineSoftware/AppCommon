@@ -5,12 +5,6 @@
 
 #include "models/base/helper.h"
 
-CableComponentXmlHandler::CableComponentXmlHandler() {
-}
-
-CableComponentXmlHandler::~CableComponentXmlHandler() {
-}
-
 wxXmlNode* CableComponentXmlHandler::CreateNode(
     const CableComponent& component,
     const std::string& name,
@@ -24,7 +18,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   double value;
   const std::vector<double>* coefficients = nullptr;
 
-  // creates a node for the cable component root
+  // creates a node for the root
   node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "cable_component");
   node_root->AddAttribute("name", wxString(name));
   node_root->AddAttribute("version", "1");
@@ -309,11 +303,6 @@ bool CableComponentXmlHandler::ParseNodeV1(const wxXmlNode* root,
   return status;
 }
 
-CableXmlHandler::CableXmlHandler() {
-}
-
-CableXmlHandler::~CableXmlHandler() {
-}
 
 wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
                                        const std::string& name,
@@ -326,7 +315,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   wxXmlNode* node_root = nullptr;
   wxXmlNode* node_element = nullptr;
 
-  // creates a root node for the cable
+  // creates a node for the root
   node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "cable");
   node_root->AddAttribute("version", "1");
 

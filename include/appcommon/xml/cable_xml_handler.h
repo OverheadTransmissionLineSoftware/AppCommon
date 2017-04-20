@@ -28,12 +28,6 @@
 /// systems.
 class CableComponentXmlHandler : public XmlHandler {
  public:
-  /// \brief Constructor.
-  CableComponentXmlHandler();
-
-  /// \brief Destructor.
-  ~CableComponentXmlHandler();
-
   /// \brief Creates an XML node for a cable component.
   /// \param[in] component
   ///   The cable component.
@@ -99,12 +93,6 @@ class CableComponentXmlHandler : public XmlHandler {
 /// systems.
 class CableXmlHandler : public XmlHandler {
  public:
-  /// \brief Default constructor.
-  CableXmlHandler();
-
-  /// \brief Destructor.
-  ~CableXmlHandler();
-
   /// \brief Creates an XML node for a cable struct.
   /// \param[in] cable
   ///   The cable.
