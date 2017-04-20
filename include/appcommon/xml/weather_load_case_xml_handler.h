@@ -28,12 +28,6 @@
 /// systems.
 class WeatherLoadCaseXmlHandler : public XmlHandler {
  public:
-  /// \brief Constructor.
-  WeatherLoadCaseXmlHandler();
-
-  /// \brief Destructor.
-  ~WeatherLoadCaseXmlHandler();
-
   /// \brief Creates an XML node for a weathercase.
   /// \param[in] weathercase
   ///   The weathercase.

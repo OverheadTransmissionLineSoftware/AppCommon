@@ -5,12 +5,6 @@
 
 #include "models/base/helper.h"
 
-WeatherLoadCaseXmlHandler::WeatherLoadCaseXmlHandler() {
-}
-
-WeatherLoadCaseXmlHandler::~WeatherLoadCaseXmlHandler() {
-}
-
 wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
     const WeatherLoadCase& weathercase,
     const std::string& name,
