@@ -3,12 +3,6 @@
 
 #include "appcommon/units/weather_load_case_unit_converter.h"
 
-WeatherLoadCaseUnitConverter::WeatherLoadCaseUnitConverter() {
-}
-
-WeatherLoadCaseUnitConverter::~WeatherLoadCaseUnitConverter() {
-}
-
 void WeatherLoadCaseUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,

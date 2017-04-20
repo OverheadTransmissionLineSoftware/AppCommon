@@ -13,12 +13,6 @@
 /// styles.
 class WeatherLoadCaseUnitConverter {
  public:
-  /// \brief Constructor.
-  WeatherLoadCaseUnitConverter();
-
-  /// \brief Destructor.
-  ~WeatherLoadCaseUnitConverter();
-
   /// \brief Changes the weather case between unit styles.
   /// \param[in] system
   ///   The unit system.

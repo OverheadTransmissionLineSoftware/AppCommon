@@ -20,13 +20,7 @@
 /// Models libraries requires the values be defined in terms of load.
 class CableComponentUnitConverter {
  public:
-  /// \brief Constructor.
-  CableComponentUnitConverter();
-
-  /// \brief Destructor.
-  ~CableComponentUnitConverter();
-
-  /// \brief Changes the cable between unit styles.
+  /// \brief Changes between unit styles.
   /// \param[in] system
   ///   The unit system.
   /// \param[in] style_from
@@ -48,7 +42,7 @@ class CableComponentUnitConverter {
                                const units::UnitStyle& style_to,
                                CableComponent& component);
 
-  /// \brief Changes the cable between unit systems.
+  /// \brief Changes between unit systems.
   /// \param[in] system_from
   ///   The unit system to convert from.
   /// \param[in] system_to
@@ -67,13 +61,7 @@ class CableComponentUnitConverter {
 /// This class converts a cable between unit systems as well as unit styles.
 class CableUnitConverter {
  public:
-  /// \brief Constructor.
-  CableUnitConverter();
-
-  /// \brief Destructor.
-  ~CableUnitConverter();
-
-  /// \brief Changes the cable between unit styles.
+  /// \brief Changes between unit styles.
   /// \param[in] system
   ///   The unit system.
   /// \param[in] style_from
@@ -83,18 +71,17 @@ class CableUnitConverter {
   /// \param[in,out] cable
   ///   The cable to be converted.
   /// The 'different' style units are as follows:
-  ///  - area_electrical = [??? or kcmil]
-  ///  - area_physical = [??? or in^2]
-  ///  - diameter = [??? or in]
-  ///  - strength_rated = [??? or lbs]
-  ///  - temperature_properties_components = [??? or deg F]
-  ///  - weight_unit = [/// or lbs/ft]
+  ///  - area_physical = [mm^2 or in^2]
+  ///  - diameter = [mm or in]
+  ///  - strength_rated = [N or lbs]
+  ///  - temperature_properties_components = [degC or degF]
+  ///  - weight_unit = [N/m or lbs/ft]
   static void ConvertUnitStyle(const units::UnitSystem& system,
                                const units::UnitStyle& style_from,
                                const units::UnitStyle& style_to,
                                Cable& cable);
 
-  /// \brief Changes the cable between unit systems.
+  /// \brief Changes between unit systems.
   /// \param[in] system_from
   ///   The unit system to convert from. These must be consistent style units.
   /// \param[in] system_to

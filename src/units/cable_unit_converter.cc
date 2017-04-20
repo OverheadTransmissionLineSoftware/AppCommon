@@ -100,12 +100,6 @@ void ConvertComponentStressToLoad(
 }
 
 
-CableComponentUnitConverter::CableComponentUnitConverter() {
-}
-
-CableComponentUnitConverter::~CableComponentUnitConverter() {
-}
-
 void CableComponentUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
@@ -263,12 +257,6 @@ void CableComponentUnitConverter::ConvertUnitSystem(
   }
 }
 
-
-CableUnitConverter::CableUnitConverter() {
-}
-
-CableUnitConverter::~CableUnitConverter() {
-}
 
 void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
                                           const units::UnitStyle& style_from,
