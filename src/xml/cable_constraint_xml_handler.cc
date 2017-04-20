@@ -7,12 +7,6 @@
 
 #include "appcommon/xml/weather_load_case_xml_handler.h"
 
-CableConstraintXmlHandler::CableConstraintXmlHandler() {
-}
-
-CableConstraintXmlHandler::~CableConstraintXmlHandler() {
-}
-
 wxXmlNode* CableConstraintXmlHandler::CreateNode(
     const CableConstraint& constraint,
     const std::string name,
@@ -25,7 +19,7 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
   wxXmlAttribute attribute;
   double value;
 
-  // creates a node for the cable constraint root
+  // creates a node for the root
   node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "cable_constraint");
   node_root->AddAttribute("version", "1");
 
@@ -122,7 +116,7 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
 bool CableConstraintXmlHandler::ParseNode(
     const wxXmlNode* root,
     const std::string& filepath,
-    const std::list<WeatherLoadCase*>* weathercases,
+    const std::list<const WeatherLoadCase*>* weathercases,
     CableConstraint& constraint) {
   wxString message;
 
@@ -157,7 +151,7 @@ bool CableConstraintXmlHandler::ParseNode(
 bool CableConstraintXmlHandler::ParseNodeV1(
     const wxXmlNode* root,
     const std::string& filepath,
-    const std::list<WeatherLoadCase*>* weathercases,
+    const std::list<const WeatherLoadCase*>* weathercases,
     CableConstraint& constraint) {
   bool status = true;
   wxString message;

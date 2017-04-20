@@ -29,12 +29,6 @@
 /// systems.
 class CableConstraintXmlHandler : public XmlHandler {
  public:
-  /// \brief Constructor.
-  CableConstraintXmlHandler();
-
-  /// \brief Destructor.
-  ~CableConstraintXmlHandler();
-
   /// \brief Creates an XML node for a cable constraint.
   /// \param[in] constraint
   ///   The cable constraint.
@@ -67,7 +61,7 @@ class CableConstraintXmlHandler : public XmlHandler {
   /// property to an invalid state (if applicable).
   static bool ParseNode(const wxXmlNode* root,
                         const std::string& filepath,
-                        const std::list<WeatherLoadCase*>* weathercases,
+                        const std::list<const WeatherLoadCase*>* weathercases,
                         CableConstraint& constraint);
 
  private:
@@ -90,7 +84,7 @@ class CableConstraintXmlHandler : public XmlHandler {
   /// property to an invalid state (if applicable).
   static bool ParseNodeV1(const wxXmlNode* root,
                           const std::string& filepath,
-                          const std::list<WeatherLoadCase*>* weathercases,
+                          const std::list<const WeatherLoadCase*>* weathercases,
                           CableConstraint& constraint);
 };
 
