@@ -27,9 +27,7 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
     node_root->AddAttribute("name", name);
   }
 
-  // adds child nodes for struct parameters
-
-  // creates limit node and adds to parent node
+  // creates limit node and adds to root node
   title = "limit";
   value = constraint.limit;
   content = helper::DoubleToFormattedString(value, 1);
@@ -109,7 +107,7 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content);
   node_root->AddChild(node_element);
 
-  // returns node
+  // returns root node
   return node_root;
 }
 

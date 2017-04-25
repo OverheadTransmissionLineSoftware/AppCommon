@@ -25,15 +25,13 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
     node_root->AddAttribute("name", name);
   }
 
-  // adds child nodes for parameters
-
   // creates description node
   title = "description";
   content = weathercase.description;
   node_element = CreateElementNodeWithContent(title, content);
   node_root->AddChild(node_element);
 
-  // creates thickness-ice node
+  // creates thickness-ice node and adds to root node
   title = "thickness_ice";
   value = weathercase.thickness_ice;
   content = helper::DoubleToFormattedString(value, 3);
@@ -45,7 +43,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates density-ice node
+  // creates density-ice node and adds to root node
   title = "density_ice";
   value = weathercase.density_ice;
   content = helper::DoubleToFormattedString(value, 1);
@@ -57,7 +55,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates pressure-wind node
+  // creates pressure-wind node and adds to root node
   title = "pressure_wind";
   value = weathercase.pressure_wind;
   content = helper::DoubleToFormattedString(value, 1);
@@ -69,7 +67,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates temperature-cable node
+  // creates temperature-cable node and adds to root node
   title = "temperature_cable";
   value = weathercase.temperature_cable;
   content = helper::DoubleToFormattedString(value, 0);
@@ -81,7 +79,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // returns node
+  // returns root node
   return node_root;
 }
 
