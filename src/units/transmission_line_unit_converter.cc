@@ -19,11 +19,14 @@ void TransmissionLineUnitConverter::ConvertUnitStyle(
   // station values don't change, so order of unit conversions isn't important
   int index = -9999;
 
+  // alignment always uses consistent units - no unit style change required
+
   // modifies line structures
   index = 0;
-  for (auto iter = line.line_structures()->cbegin();
-       iter != line.line_structures()->cend(); iter++) {
-    LineStructure line_structure = *iter;
+  const int kSizeLineStructures = line.line_structures()->size();
+  while (index < kSizeLineStructures) {
+    LineStructure line_structure = *std::next(line.line_structures()->cbegin(),
+                                              index);
     LineStructureUnitConverter::ConvertUnitStyle(system, style_from, style_to,
                                                  line_structure);
     line.ModifyLineStructure(index, line_structure);
@@ -33,9 +36,9 @@ void TransmissionLineUnitConverter::ConvertUnitStyle(
 
   // modifies line cables
   index = 0;
-  for (auto iter = line.line_cables()->cbegin();
-        iter != line.line_cables()->cend(); iter++) {
-    LineCable line_cable = *iter;
+  const int kSizeLineCables = line.line_cables()->size();
+  while (index < kSizeLineCables) {
+    LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
     LineCableUnitConverter::ConvertUnitStyle(system, style_from, style_to,
                                              line_cable);
     line.ModifyLineCable(index, line_cable);
@@ -54,16 +57,18 @@ void TransmissionLineUnitConverter::ConvertUnitSystem(
     return;
   }
 
+  int index = -9999;
+
   if (system_to == units::UnitSystem::kMetric) {
     // max station value is decreasing
     // the unit conversions ordered such that the line structures remain on the
     // alignment and don't get deleted
 
     // modifies line cables
-    int index = line.line_structures()->size() - 1;
-    for (auto iter = line.line_cables()->crbegin();
-          iter != line.line_cables()->crend(); iter++) {
-      LineCable line_cable = *iter;
+    index = 0;
+    const int kSizeLineCables = line.line_cables()->size();
+    while (index < kSizeLineCables) {
+      LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
       LineCableUnitConverter::ConvertUnitSystem(system_from, system_to,
                                                 line_cable);
       line.ModifyLineCable(index, line_cable);
@@ -72,10 +77,12 @@ void TransmissionLineUnitConverter::ConvertUnitSystem(
     }
 
     // modifies line structures
-    index = line.line_structures()->size() - 1;
-    for (auto iter = line.line_structures()->cbegin();
-         iter != line.line_structures()->cend(); iter++) {
-      LineStructure line_structure = *iter;
+    index = 0;
+    const int kSizeLineStructures = line.line_structures()->size();
+    while (index < kSizeLineStructures) {
+      LineStructure line_structure = *std::next(
+          line.line_structures()->cbegin(),
+          index);
       LineStructureUnitConverter::ConvertUnitSystem(system_from, system_to,
                                                     line_structure);
       line.ModifyLineStructure(index, line_structure);
@@ -84,11 +91,20 @@ void TransmissionLineUnitConverter::ConvertUnitSystem(
     }
 
     // modifies alignment points
-    index = line.alignment()->points()->size() - 1;
-    for (auto iter = line.alignment()->points()->crbegin();
-         iter != line.alignment()->points()->crend(); iter++) {
-      AlignmentPoint point = *iter;
-      /// \todo implement alignment point conversions
+    index = 0;
+    const int kSizeAlignment = line.alignment()->points()->size();
+    while (index < kSizeAlignment) {
+      AlignmentPoint point = *std::next(line.alignment()->points()->cbegin(),
+                                        index);
+      point.elevation = units::ConvertLength(
+          point.elevation,
+          units::LengthConversionType::kFeetToMeters);
+
+      point.station = units::ConvertLength(
+          point.station,
+          units::LengthConversionType::kFeetToMeters);
+
+      line.ModifyAlignmentPoint(index, point);
 
       index++;
     }
@@ -99,20 +115,29 @@ void TransmissionLineUnitConverter::ConvertUnitSystem(
     // alignment and don't get deleted
 
     // modifies alignment points
-    int index = line.alignment()->points()->size() - 1;
-    for (auto iter = line.alignment()->points()->crbegin();
-         iter != line.alignment()->points()->crend(); iter++) {
-      AlignmentPoint point = *iter;
-      /// \todo implement alignment point conversions
+    index = line.alignment()->points()->size() - 1;
+    while (0 <= index) {
+      AlignmentPoint point = *std::next(line.alignment()->points()->cbegin(),
+                                        index);
+      point.elevation = units::ConvertLength(
+          point.elevation,
+          units::LengthConversionType::kMetersToFeet);
+
+      point.station = units::ConvertLength(
+          point.station,
+          units::LengthConversionType::kMetersToFeet);
+
+      line.ModifyAlignmentPoint(index, point);
 
       index--;
     }
 
     // modifies line structures
     index = line.line_structures()->size() - 1;
-    for (auto iter = line.line_structures()->crbegin();
-         iter != line.line_structures()->crend(); iter++) {
-      LineStructure line_structure = *iter;
+    while (0 <= index) {
+      LineStructure line_structure = *std::next(
+          line.line_structures()->cbegin(),
+          index);
       LineStructureUnitConverter::ConvertUnitSystem(system_from, system_to,
                                                     line_structure);
       line.ModifyLineStructure(index, line_structure);
@@ -121,10 +146,9 @@ void TransmissionLineUnitConverter::ConvertUnitSystem(
     }
 
     // modifies line cables
-    index = line.line_structures()->size() - 1;
-    for (auto iter = line.line_cables()->crbegin();
-          iter != line.line_cables()->crend(); iter++) {
-      LineCable line_cable = *iter;
+    index = line.line_cables()->size() - 1;
+    while (0 <= index) {
+      LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
       LineCableUnitConverter::ConvertUnitSystem(system_from, system_to,
                                                 line_cable);
       line.ModifyLineCable(index, line_cable);
