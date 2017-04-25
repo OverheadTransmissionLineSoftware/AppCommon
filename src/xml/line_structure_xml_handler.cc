@@ -28,7 +28,7 @@ wxXmlNode* LineStructureXmlHandler::CreateNode(
   // creates structure node and adds to root node
   title = "structure";
   if (line_structure.structure() != nullptr) {
-    content = line_structure.structure()->description;
+    content = line_structure.structure()->name;
   } else {
     content = *wxEmptyString;
   }
@@ -90,13 +90,17 @@ wxXmlNode* LineStructureXmlHandler::CreateNode(
   const std::vector<const Hardware*>* hardwares = line_structure.hardwares();
   for (auto iter = hardwares->cbegin(); iter != hardwares->cend(); iter++) {
     const Hardware* hardware = *iter;
-    wxXmlNode* sub_node = CreateElementNodeWithContent("hardware",
-                                                       hardware->description);
+    wxXmlNode* sub_node;
+    if (hardware == nullptr) {
+      sub_node = CreateElementNodeWithContent("hardware", "");
+    } else {
+      sub_node = CreateElementNodeWithContent("hardware", hardware->name);
+    }
     node_element->AddChild(sub_node);
   }
   node_root->AddChild(node_element);
 
-  // returns node
+  // returns root node
   return node_root;
 }
 
@@ -158,7 +162,7 @@ bool LineStructureXmlHandler::ParseNodeV1(
       for (auto iter = structures->cbegin(); iter != structures->cend();
            iter++) {
         const Structure* structure = *iter;
-        if (content == structure->description) {
+        if (content == structure->name) {
           line_structure.set_structure(structure);
           break;
         }
@@ -217,19 +221,17 @@ bool LineStructureXmlHandler::ParseNodeV1(
       int index = 0;
       while (sub_node != nullptr) {
         // gets content of a hardware node
-        const wxString sub_content = ParseElementNodeWithContent(node);
-        if (sub_content == wxEmptyString) {
-          continue;
-        }
-
-        // searches hardware list for a match
-        for (auto iter = hardwares->cbegin(); iter != hardwares->cend();
-             iter++) {
-          const Hardware* hardware = *iter;
-          if (sub_content == hardware->description) {
-            // match is found, attaches to line structure
-            line_structure.AttachHardware(index, hardware);
-            break;
+        const wxString sub_content = ParseElementNodeWithContent(sub_node);
+        if (sub_content != wxEmptyString) {
+          // searches hardware list for a match
+          for (auto iter = hardwares->cbegin(); iter != hardwares->cend();
+               iter++) {
+            const Hardware* hardware = *iter;
+            if (sub_content == hardware->name) {
+              // match is found, attaches to line structure
+              line_structure.AttachHardware(index, hardware);
+              break;
+            }
           }
         }
 
