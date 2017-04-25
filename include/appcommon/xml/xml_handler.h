@@ -22,12 +22,6 @@
 /// and the attribute is in parenthesis.
 class XmlHandler {
  public:
-  /// \brief Constructor.
-  XmlHandler();
-
-  /// \brief Destructor.
-  ~XmlHandler();
-
   /// \brief Creates an 'element' type node with a child 'text' type node.
   /// \param[in] title
   ///   The title of the element node.

@@ -3,12 +3,6 @@
 
 #include "appcommon/xml/xml_handler.h"
 
-XmlHandler::XmlHandler() {
-}
-
-XmlHandler::~XmlHandler() {
-}
-
 wxXmlNode* XmlHandler::CreateElementNodeWithContent(
     const std::string& title,
     const std::string& content,
