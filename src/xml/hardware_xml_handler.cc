@@ -25,14 +25,30 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
     node_root->AddAttribute("name", name);
   }
 
+  // creates name node and adds to root node
+  title = "name";
+  content = hardware.name;
+  node_element = CreateElementNodeWithContent(title, content);
+  node_root->AddChild(node_element);
+
+  // creates type node and adds to root node
+  title = "type";
+  if (hardware.type == Hardware::HardwareType::kDeadEnd) {
+    content = "DeadEnd";
+  } else if (hardware.type == Hardware::HardwareType::kSuspension) {
+    content = "Suspension";
+  }
+  node_element = CreateElementNodeWithContent(title, content);
+  node_root->AddChild(node_element);
+
   // creates area-cross-section node and adds to root node
   title = "area_cross_section";
   value = hardware.area_cross_section;
   content = helper::DoubleToFormattedString(value, 2);
   if (units == units::UnitSystem::kImperial) {
-    attribute = wxXmlAttribute("units", "ft");
+    attribute = wxXmlAttribute("units", "ft^2");
   } else if (units == units::UnitSystem::kMetric) {
-    attribute = wxXmlAttribute("units", "m");
+    attribute = wxXmlAttribute("units", "m^2");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
@@ -49,16 +65,6 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates type node and adds to root node
-  title = "type";
-  if (hardware.type == Hardware::HardwareType::kDeadEnd) {
-    content = "DeadEnd";
-  } else if (hardware.type == Hardware::HardwareType::kSuspension) {
-    content = "Suspension";
-  }
-  node_element = CreateElementNodeWithContent(title, content, &attribute);
-  node_root->AddChild(node_element);
-
   // creates weight node and adds to root node
   title = "weight";
   value = hardware.weight;
@@ -71,7 +77,7 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // returns node
+  // returns root node
   return node_root;
 }
 
@@ -123,7 +129,20 @@ bool HardwareXmlHandler::ParseNodeV1(
     const wxString content = ParseElementNodeWithContent(node);
     double value = -999999;
 
-    if (title == "area_cross_section") {
+    if (title == "name") {
+      hardware.name = content;
+    } else if (title == "type") {
+      if (content == "DeadEnd") {
+        hardware.type = Hardware::HardwareType::kDeadEnd;
+      } else if (content == "Suspension") {
+        hardware.type = Hardware::HardwareType::kSuspension;
+      } else {
+        message = FileAndLineNumber(filepath, node)
+                  + "Invalid type.";
+        wxLogError(message);
+        status = false;
+      }
+    } else if (title == "area_cross_section") {
       if (content.ToDouble(&value) == true) {
         hardware.area_cross_section = value;
       } else {
@@ -141,17 +160,6 @@ bool HardwareXmlHandler::ParseNodeV1(
                   + "Invalid length.";
         wxLogError(message);
         hardware.length = -999999;
-        status = false;
-      }
-    } else if (title == "type") {
-      if (content == "DeadEnd") {
-        hardware.type = Hardware::HardwareType::kDeadEnd;
-      } else if (content == "Suspension") {
-        hardware.type = Hardware::HardwareType::kSuspension;
-      } else {
-        message = FileAndLineNumber(filepath, node)
-                  + "Invalid type.";
-        wxLogError(message);
         status = false;
       }
     } else if (title == "weight") {
