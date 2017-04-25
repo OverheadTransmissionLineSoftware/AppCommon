@@ -20,13 +20,13 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
 
   // creates a node for the root
   node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "cable_component");
-  node_root->AddAttribute("name", wxString(name));
   node_root->AddAttribute("version", "1");
 
-  // adds child nodes for struct parameters
+  if (name != "") {
+    node_root->AddAttribute("name", name);
+  }
 
-  // creates coefficient-expansion-linear-thermal node and adds to component
-  // node
+  // creates coefficient-expansion-linear-thermal node and adds to root node
   title = "coefficient_expansion_linear_thermal";
   value = component.coefficient_expansion_linear_thermal;
   content = helper::DoubleToFormattedString(value, 7);
@@ -38,7 +38,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates modulus-tension-elastic-area node and adds to component node
+  // creates modulus-tension-elastic-area node and adds to root node
   title = "modulus_tension_elastic";
   value = component.modulus_tension_elastic_area;
   content = helper::DoubleToFormattedString(value, 0);
@@ -50,7 +50,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates modulus-compression-elastic-area node and adds to component node
+  // creates modulus-compression-elastic-area node and adds to root node
   title = "modulus_compression_elastic";
   value = component.modulus_compression_elastic_area;
   content = helper::DoubleToFormattedString(value, 0);
@@ -62,7 +62,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates coefficients stress-strain node and adds to component node
+  // creates coefficients stress-strain node and adds to root node
   title = "coefficients";
   node_element = new wxXmlNode(wxXML_ELEMENT_NODE, title);
   node_element->AddAttribute("name", "stress-strain");
@@ -88,7 +88,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   }
   node_root->AddChild(node_element);
 
-  // creates load-limit-polynomial-loadstrain node and adds to component node
+  // creates load-limit-polynomial-loadstrain node and adds to root node
   title = "limit_polynomial_stress-strain";
   value = component.load_limit_polynomial_loadstrain;
   content = helper::DoubleToFormattedString(value, 1);
@@ -100,7 +100,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates coefficients-creep node and adds to component node
+  // creates coefficients-creep node and adds to root node
   title = "coefficients";
   node_element = new wxXmlNode(wxXML_ELEMENT_NODE, title);
   node_element->AddAttribute("name", "creep");
@@ -126,7 +126,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   }
   node_root->AddChild(node_element);
 
-  // creates load-limit-polynomial-creep node and adds to component node
+  // creates load-limit-polynomial-creep node and adds to root node
   title = "limit_polynomial_creep";
   value = component.load_limit_polynomial_creep;
   content = helper::DoubleToFormattedString(value, 1);
@@ -138,7 +138,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // returns node
+  // returns root node
   return node_root;
 }
 
@@ -319,13 +319,17 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "cable");
   node_root->AddAttribute("version", "1");
 
-  // creates name node and adds to cable node
+  if (name != "") {
+    node_root->AddAttribute("name", name);
+  }
+
+  // creates name node and adds to root node
   title = "name";
   content = cable.name;
   node_element = CreateElementNodeWithContent(title, content);
   node_root->AddChild(node_element);
 
-  // creates area-physical node and adds to cable node
+  // creates area-physical node and adds to root node
   title = "area_physical";
   value = cable.area_physical;
   content = helper::DoubleToFormattedString(value, 4);
@@ -337,7 +341,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates diameter node and adds to cable node
+  // creates diameter node and adds to root node
   title = "diameter";
   value = cable.diameter;
   content = helper::DoubleToFormattedString(value, 3);
@@ -349,7 +353,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates weight-unit node and adds to cable node
+  // creates weight-unit node and adds to root node
   title = "weight_unit";
   value = cable.weight_unit;
   content = helper::DoubleToFormattedString(value, 3);
@@ -361,7 +365,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates strength-rated node and adds to cable node
+  // creates strength-rated node and adds to root node
   title = "strength_rated";
   value = cable.strength_rated;
   content = helper::DoubleToFormattedString(value, 0);
@@ -373,7 +377,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates temperature-component-properties node and adds to cable node
+  // creates temperature-component-properties node and adds to root node
   title = "temperature_properties_components";
   value = cable.temperature_properties_components;
   content = helper::DoubleToFormattedString(value, 0);
@@ -385,16 +389,17 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates component-shell node and adds to cable node
+  // creates component-shell node and adds to root node
   node_root->AddChild(
       CableComponentXmlHandler::CreateNode(cable.component_shell, "shell",
                                            units));
 
-  // creates component-core node and adds to cable node
+  // creates component-core node and adds to root node
   node_root->AddChild(
       CableComponentXmlHandler::CreateNode(cable.component_core, "core",
                                            units));
 
+  // returns root node
   return node_root;
 }
 
@@ -441,10 +446,6 @@ bool CableXmlHandler::ParseNodeV1(const wxXmlNode* root,
   double value = -999999;
 
   wxString message;
-
-  // gets cable name from root attribute
-  root->GetAttribute("name", &title);
-  cable.name = title;
 
   // evaluates each child node
   const wxXmlNode* node = root->GetChildren();

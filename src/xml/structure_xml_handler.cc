@@ -16,12 +16,14 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
   std::string content;
   wxXmlAttribute attribute;
   double value;
-  const std::vector<double>* coefficients = nullptr;
 
   // creates a node for the root
   node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "structure_attachment");
-  node_root->AddAttribute("name", wxString(name));
   node_root->AddAttribute("version", "1");
+
+  if (name != "") {
+    node_root->AddAttribute("name", name);
+  }
 
   // creates offset-longitudinal node and adds to root node
   title = "offset_longitudinal";
@@ -59,7 +61,7 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // returns node
+  // returns root node
   return node_root;
 }
 
@@ -169,10 +171,13 @@ wxXmlNode* StructureXmlHandler::CreateNode(const Structure& structure,
   node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "structure");
   node_root->AddAttribute("version", "1");
 
+  if (name != "") {
+    node_root->AddAttribute("name", name);
+  }
+
   // creates name node and adds to root node
-  /// \todo change structure variable to name to match cable
   title = "name";
-  content = structure.description;
+  content = structure.name;
   node_element = CreateElementNodeWithContent(title, content);
   node_root->AddChild(node_element);
 
@@ -249,17 +254,15 @@ bool StructureXmlHandler::ParseNodeV1(const wxXmlNode* root,
 
   wxString message;
 
-  // gets structure name from root attribute
-  root->GetAttribute("name", &title);
-  structure.description = title;
-
   // evaluates each child node
   const wxXmlNode* node = root->GetChildren();
   while (node != nullptr) {
     title = node->GetName();
     content = ParseElementNodeWithContent(node);
 
-    if (title == "height") {
+    if (title == "name") {
+      structure.name = content;
+    } else if (title == "height") {
       if (content.ToDouble(&value) == true) {
         structure.height = value;
       } else {
