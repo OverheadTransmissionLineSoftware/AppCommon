@@ -29,11 +29,11 @@ WeatherLoadCaseEditorDialog::WeatherLoadCaseEditorDialog(
   weathercase_ = weathercase;
   weathercase_modified_ = WeatherLoadCase(*weathercase);
 
-  // sets variables not stored in modified cable
-  name_ = weathercase_modified_.description;
-
   // sets form validators to transfer between controls data and controls
   SetValidators();
+
+  // transfers non-validator data to the window
+  TransferCustomDataToWindow();
 
   // fits the dialog around the sizers
   this->Fit();
@@ -59,9 +59,9 @@ void WeatherLoadCaseEditorDialog::OnOk(wxCommandEvent &event) {
 
   wxBusyCursor cursor;
 
-  // transfers data from dialog controls to modified weathercase
-  this->TransferDataFromWindow();
-  weathercase_modified_.description = name_.ToStdString();
+  // transfers data from dialog controls
+  TransferDataFromWindow();
+  TransferCustomDataFromWindow();
 
   // validates weathercase data
   std::list<ErrorMessage> messages;
@@ -105,16 +105,14 @@ void WeatherLoadCaseEditorDialog::SetUnitsStaticText(
 void WeatherLoadCaseEditorDialog::SetValidators() {
   // variables used for creating validators
   int style = 0;
-  wxString* value_str = nullptr;
   double* value_num = nullptr;
   int precision = 0;
   wxTextCtrl* textctrl = nullptr;
 
   // description
-  value_str = &name_;
   style = wxFILTER_NONE;
   textctrl = XRCCTRL(*this, "textctrl_description", wxTextCtrl);
-  textctrl->SetValidator(wxTextValidator(style, value_str));
+  textctrl->SetValidator(wxTextValidator(style, nullptr));
 
   // thickness-ice
   precision = 3;
@@ -147,4 +145,16 @@ void WeatherLoadCaseEditorDialog::SetValidators() {
   textctrl = XRCCTRL(*this, "textctrl_temperature_cable", wxTextCtrl);
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
+}
+
+void WeatherLoadCaseEditorDialog::TransferCustomDataFromWindow() {
+  // transfers name
+  wxTextCtrl* textctrl = XRCCTRL(*this, "textctrl_description", wxTextCtrl);
+  weathercase_modified_.description = textctrl->GetValue();
+}
+
+void WeatherLoadCaseEditorDialog::TransferCustomDataToWindow() {
+  // transfers name
+  wxTextCtrl* textctrl = XRCCTRL(*this, "textctrl_description", wxTextCtrl);
+  textctrl->SetValue(weathercase_modified_.description);
 }

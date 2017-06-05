@@ -50,10 +50,13 @@ class WeatherLoadCaseEditorDialog : public wxDialog {
   /// \brief Sets the control validators on the form.
   void SetValidators();
 
-  /// \var name_
-  ///   The wxString version of the weathercase name. This is tied to a form
-  ///    control.
-  wxString name_;
+  /// \brief Transfers data that isn't tied to a validator from the window to
+  ///   the modified weathercase object.
+  void TransferCustomDataFromWindow();
+
+  /// \brief Transfers data that isn't tied to a validator from the modified
+  ///   weathercase object to the window.
+  void TransferCustomDataToWindow();
 
   /// \var weathercase_
   ///   The reference weathercase, which the user edits if changes are accepted.
