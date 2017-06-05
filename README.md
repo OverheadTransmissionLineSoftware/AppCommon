@@ -19,3 +19,8 @@ where the functionality is needed.
 The projects that use this repository will also need the following dependencies:
 * [OTLS-Models](https://github.com/OverheadTransmissionLineSoftware/Models)
 * [wxWidgets](https://github.com/wxWidgets/wxWidgets)
+
+## Branches
+The master branch attempts to keep in sync with the master branch of the
+ [OTLS-Models](https://github.com/OverheadTransmissionLineSoftware/Models)
+ repository.
