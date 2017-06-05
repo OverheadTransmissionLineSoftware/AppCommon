@@ -43,6 +43,12 @@ void CableConstraintUnitConverter::ConvertUnitSystem(
       constraint.limit = units::ConvertForce(
           constraint.limit,
           units::ForceConversionType::kPoundsToNewtons);
+    } else if (constraint.type_limit == CableConstraint::LimitType::kLength) {
+      constraint.limit = units::ConvertLength(
+          constraint.limit,
+          units::LengthConversionType::kFeetToMeters,
+          1,
+          false);
     } else if (constraint.type_limit == CableConstraint::LimitType::kSag) {
       constraint.limit = units::ConvertLength(
           constraint.limit,
@@ -72,6 +78,12 @@ void CableConstraintUnitConverter::ConvertUnitSystem(
       constraint.limit = units::ConvertForce(
           constraint.limit,
           units::ForceConversionType::kNewtonsToPounds);
+    } else if (constraint.type_limit == CableConstraint::LimitType::kLength) {
+      constraint.limit = units::ConvertLength(
+          constraint.limit,
+          units::LengthConversionType::kMetersToFeet,
+          1,
+          false);
     } else if (constraint.type_limit == CableConstraint::LimitType::kSag) {
       constraint.limit = units::ConvertLength(
           constraint.limit,
