@@ -33,6 +33,9 @@ class CableEditorDialog : public wxDialog {
   ~CableEditorDialog() {};
 
  private:
+  /// \brief Initializes any missing cable component polynomial coefficients.
+  void InitializeMissingPolynomialCoefficients();
+
   /// \brief Handles the cancel button event.
   /// \param[in] event
   ///   The event.
@@ -56,6 +59,14 @@ class CableEditorDialog : public wxDialog {
   /// \brief Sets the control validators on the form.
   void SetValidators();
 
+  /// \brief Transfers data that isn't tied to a validator from the window to
+  ///   the modified cable object.
+  void TransferCustomDataFromWindow();
+
+  /// \brief Transfers data that isn't tied to a validator from the modified
+  ///   cable object to the window.
+  void TransferCustomDataToWindow();
+
   /// \var cable_
   ///   The cable that is edited.
   Cable* cable_;
@@ -63,10 +74,6 @@ class CableEditorDialog : public wxDialog {
   /// \var cable_modified_
   ///   The cable that is modified and tied to the dialog controls.
   Cable cable_modified_;
-
-  /// \var name_
-  ///   The wxString version of the cable name. This is tied to a form control.
-  wxString name_;
 
   DECLARE_EVENT_TABLE()
 };

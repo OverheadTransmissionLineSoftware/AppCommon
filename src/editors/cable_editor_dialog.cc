@@ -28,15 +28,49 @@ CableEditorDialog::CableEditorDialog(wxWindow* parent,
   // saves unmodified cable reference, and copies to modified cable
   cable_ = cable;
   cable_modified_ = Cable(*cable);
-
-  // sets variables not stored in modified cable
-  name_ = cable_modified_.name;
+  InitializeMissingPolynomialCoefficients();
 
   // sets form validators to transfer between controls data and controls
   SetValidators();
 
+  // transfers non-validator data to the window
+  TransferCustomDataToWindow();
+
   // fits the dialog around the sizers
   this->Fit();
+}
+
+void CableEditorDialog::InitializeMissingPolynomialCoefficients() {
+  // at least 5 coefficients per polynomial
+  std::vector<double>* coefficients = nullptr;
+  const unsigned int kSizeRequired = 5;
+  int num_needed = 0;
+
+  coefficients = &cable_modified_.component_core.coefficients_polynomial_creep;
+  num_needed = kSizeRequired - coefficients->size();
+  for (int i = 0; i < num_needed; i++) {
+    coefficients->push_back(0);
+  }
+
+  coefficients =
+      &cable_modified_.component_core.coefficients_polynomial_loadstrain;
+  num_needed = kSizeRequired - coefficients->size();
+  for (int i = 0; i < num_needed; i++) {
+    coefficients->push_back(0);
+  }
+
+  coefficients = &cable_modified_.component_shell.coefficients_polynomial_creep;
+  num_needed = kSizeRequired - coefficients->size();
+  for (int i = 0; i < num_needed; i++) {
+    coefficients->push_back(0);
+  }
+
+  coefficients =
+      &cable_modified_.component_shell.coefficients_polynomial_loadstrain;
+  num_needed = kSizeRequired - coefficients->size();
+  for (int i = 0; i < num_needed; i++) {
+    coefficients->push_back(0);
+  }
 }
 
 void CableEditorDialog::OnCancel(wxCommandEvent &event) {
@@ -56,9 +90,9 @@ void CableEditorDialog::OnOk(wxCommandEvent &event) {
 
   wxBusyCursor cursor;
 
-  // transfers data from dialog controls to modified cable
-  this->TransferDataFromWindow();
-  cable_modified_.name = name_.ToStdString();
+  // transfers data from dialog controls
+  TransferDataFromWindow();
+  TransferCustomDataFromWindow();
 
   // validates cable data
   std::list<ErrorMessage> messages;
@@ -133,18 +167,15 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
 
 void CableEditorDialog::SetValidators() {
   // variables used for creating validators
-  wxString name;
   int style = 0;
-  wxString* value_str = nullptr;
   double* value_num = nullptr;
   int precision = 0;
   wxTextCtrl* textctrl = nullptr;
 
   // cable name
-  value_str = &name_;
   style = wxFILTER_NONE;
   textctrl = XRCCTRL(*this, "textctrl_name", wxTextCtrl);
-  textctrl->SetValidator(wxTextValidator(style, value_str));
+  textctrl->SetValidator(wxTextValidator(style, nullptr));
 
   // area-physical
   precision = 4;
@@ -188,7 +219,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell coefficient-expansion-thermal
   precision = 7;
-  value_num = &cable_->component_shell.coefficient_expansion_linear_thermal;
+  value_num =
+      &cable_modified_.component_shell.coefficient_expansion_linear_thermal;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_coefficient_expansion_thermal",
                      wxTextCtrl);
@@ -197,7 +229,7 @@ void CableEditorDialog::SetValidators() {
 
   // shell modulus
   precision = 0;
-  value_num = &cable_->component_shell.modulus_tension_elastic_area;
+  value_num = &cable_modified_.component_shell.modulus_tension_elastic_area;
   style = wxNUM_VAL_THOUSANDS_SEPARATOR;
   textctrl = XRCCTRL(*this, "textctrl_shell_modulus_tension", wxTextCtrl);
   textctrl->SetValidator(
@@ -205,7 +237,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell stress-strain a0
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_loadstrain.at(0);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_loadstrain.at(0);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_stressstrain_a0", wxTextCtrl);
   textctrl->SetValidator(
@@ -213,7 +246,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell stress-strain a1
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_loadstrain.at(1);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_loadstrain.at(1);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_stressstrain_a1", wxTextCtrl);
   textctrl->SetValidator(
@@ -221,7 +255,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell stress-strain a2
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_loadstrain.at(2);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_loadstrain.at(2);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_stressstrain_a2", wxTextCtrl);
   textctrl->SetValidator(
@@ -229,7 +264,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell stress-strain a3
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_loadstrain.at(3);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_loadstrain.at(3);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_stressstrain_a3", wxTextCtrl);
   textctrl->SetValidator(
@@ -237,7 +273,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell stress-strain a4
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_loadstrain.at(4);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_loadstrain.at(4);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_stressstrain_a4", wxTextCtrl);
   textctrl->SetValidator(
@@ -245,7 +282,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell creep a0
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_creep.at(0);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_creep.at(0);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_creep_a0", wxTextCtrl);
   textctrl->SetValidator(
@@ -253,7 +291,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell creep a1
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_creep.at(1);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_creep.at(1);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_creep_a1", wxTextCtrl);
   textctrl->SetValidator(
@@ -261,7 +300,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell creep a2
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_creep.at(2);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_creep.at(2);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_creep_a2", wxTextCtrl);
   textctrl->SetValidator(
@@ -269,7 +309,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell creep a3
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_creep.at(3);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_creep.at(3);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_creep_a3", wxTextCtrl);
   textctrl->SetValidator(
@@ -277,7 +318,8 @@ void CableEditorDialog::SetValidators() {
 
   // shell creep a4
   precision = 1;
-  value_num = &cable_->component_shell.coefficients_polynomial_creep.at(4);
+  value_num =
+      &cable_modified_.component_shell.coefficients_polynomial_creep.at(4);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_creep_a4", wxTextCtrl);
   textctrl->SetValidator(
@@ -285,7 +327,8 @@ void CableEditorDialog::SetValidators() {
 
   // core coefficient-expansion-thermal
   precision = 7;
-  value_num = &cable_->component_core.coefficient_expansion_linear_thermal;
+  value_num =
+      &cable_modified_.component_core.coefficient_expansion_linear_thermal;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_coefficient_expansion_thermal",
                      wxTextCtrl);
@@ -294,7 +337,8 @@ void CableEditorDialog::SetValidators() {
 
   // core elastic area modulus
   precision = 0;
-  value_num = &cable_->component_core.modulus_tension_elastic_area;
+  value_num =
+      &cable_modified_.component_core.modulus_tension_elastic_area;
   style = wxNUM_VAL_THOUSANDS_SEPARATOR;
   textctrl = XRCCTRL(*this, "textctrl_core_modulus_tension", wxTextCtrl);
   textctrl->SetValidator(
@@ -302,7 +346,8 @@ void CableEditorDialog::SetValidators() {
 
   // core stress-strain a0
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_loadstrain.at(0);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_loadstrain.at(0);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_stressstrain_a0", wxTextCtrl);
   textctrl->SetValidator(
@@ -310,7 +355,8 @@ void CableEditorDialog::SetValidators() {
 
   // core stress-strain a1
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_loadstrain.at(1);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_loadstrain.at(1);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_stressstrain_a1", wxTextCtrl);
   textctrl->SetValidator(
@@ -318,7 +364,8 @@ void CableEditorDialog::SetValidators() {
 
   // core stress-strain a2
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_loadstrain.at(2);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_loadstrain.at(2);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_stressstrain_a2", wxTextCtrl);
   textctrl->SetValidator(
@@ -326,7 +373,8 @@ void CableEditorDialog::SetValidators() {
 
   // core stress-strain a3
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_loadstrain.at(3);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_loadstrain.at(3);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_stressstrain_a3", wxTextCtrl);
   textctrl->SetValidator(
@@ -334,7 +382,8 @@ void CableEditorDialog::SetValidators() {
 
   // core stress-strain a4
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_loadstrain.at(4);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_loadstrain.at(4);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_stressstrain_a4", wxTextCtrl);
   textctrl->SetValidator(
@@ -342,7 +391,8 @@ void CableEditorDialog::SetValidators() {
 
   // core creep a0
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_creep.at(0);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_creep.at(0);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_creep_a0", wxTextCtrl);
   textctrl->SetValidator(
@@ -350,7 +400,8 @@ void CableEditorDialog::SetValidators() {
 
   // core creep a1
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_creep.at(1);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_creep.at(1);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_creep_a1", wxTextCtrl);
   textctrl->SetValidator(
@@ -358,7 +409,8 @@ void CableEditorDialog::SetValidators() {
 
   // core creep a2
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_creep.at(2);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_creep.at(2);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_creep_a2", wxTextCtrl);
   textctrl->SetValidator(
@@ -366,7 +418,8 @@ void CableEditorDialog::SetValidators() {
 
   // core creep a3
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_creep.at(3);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_creep.at(3);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_creep_a3", wxTextCtrl);
   textctrl->SetValidator(
@@ -374,9 +427,22 @@ void CableEditorDialog::SetValidators() {
 
   // core creep a4
   precision = 1;
-  value_num = &cable_->component_core.coefficients_polynomial_creep.at(4);
+  value_num =
+      &cable_modified_.component_core.coefficients_polynomial_creep.at(4);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_creep_a4", wxTextCtrl);
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
+}
+
+void CableEditorDialog::TransferCustomDataFromWindow() {
+  // transfers name
+  wxTextCtrl* textctrl = XRCCTRL(*this, "textctrl_name", wxTextCtrl);
+  cable_modified_.name = textctrl->GetValue();
+}
+
+void CableEditorDialog::TransferCustomDataToWindow() {
+  // transfers name
+  wxTextCtrl* textctrl = XRCCTRL(*this, "textctrl_name", wxTextCtrl);
+  textctrl->SetValue(cable_modified_.name);
 }
