@@ -26,8 +26,8 @@ void CircleRenderer2d::Draw(wxDC& dc, wxRect rc,
     const Circle2d* circle = *iter;
 
     // gets circle center
-    double x = circle->center.x;
-    double y = circle->center.y;
+    const float& x = circle->center.x;
+    const float& y = circle->center.y;
 
     // skips lines that are out of range
     if ((x + circle->radius) < axis_horizontal.Min()) {

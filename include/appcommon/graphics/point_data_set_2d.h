@@ -25,30 +25,30 @@ class PointDataSet2d : public DataSet2d {
   /// \param[in] point
   ///   The point.
   /// This class will take ownership of the pointer.
-  void Add(const Point2d* point);
+  void Add(const Point2d<float>* point);
 
   /// \brief Clears all of the stored lines.
   void Clear();
 
   /// \brief Gets the maximum x value.
   /// \return The maximum x value.
-  virtual double MaxX() const override;
+  virtual float MaxX() const override;
 
   /// \brief Gets the maximum y value.
   /// \return The maximum y value.
-  virtual double MaxY() const override;
+  virtual float MaxY() const override;
 
   /// \brief Gets the minimum x value.
   /// \return The minimum x value.
-  virtual double MinX() const override;
+  virtual float MinX() const override;
 
   /// \brief Gets the minimum y value.
   /// \return The minimum y value.
-  virtual double MinY() const override;
+  virtual float MinY() const override;
 
   /// \brief Gets the data.
   /// \return The data.
-  const std::list<const Point2d*>* data() const;
+  const std::list<const Point2d<float>*>* data() const;
 
  private:
   /// \brief Updates the cached values.
@@ -56,7 +56,7 @@ class PointDataSet2d : public DataSet2d {
 
   /// \var data_
   ///   The point data.
-  std::list<const Point2d*> data_;
+  std::list<const Point2d<float>*> data_;
 
   /// \var is_updated_
   ///   An indicator that tells if the cached values have been updated.

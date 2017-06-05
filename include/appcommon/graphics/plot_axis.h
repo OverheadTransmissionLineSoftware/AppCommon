@@ -12,6 +12,7 @@ class PlotAxis {
  public:
   /// The plot axis orientation type.
   enum class OrientationType {
+    kNull,
     kHorizontal,
     kVertical
   };
@@ -33,19 +34,19 @@ class PlotAxis {
 
   /// \brief Gets the maximum rendered data value.
   /// \return The maximum rendered data value.
-  double Max() const;
+  float Max() const;
 
   /// \brief Gets the minimum rendered data value.
   /// \return The minimum rendered data value.
-  double Min() const;
+  float Min() const;
 
   /// \brief Gets the center position value.
   /// \return The center position.
-  double position_center() const;
+  float position_center() const;
 
   /// \brief Gets the range (distance) between min/max values.
   /// \return The range (distance) between min/max values.
-  double range() const;
+  float range() const;
 
   /// \brief Sets the center position.
   /// \param[in] position_center
@@ -60,11 +61,11 @@ class PlotAxis {
  private:
   /// \var max_
   ///   The maximum data value to be rendered on the axis.
-  double max_;
+  float max_;
 
   /// \var min_
   ///   The minimum data value to be rendered on the axis.
-  double min_;
+  float min_;
 
   /// \var orientation_
   ///   The type of orientation.
@@ -72,11 +73,11 @@ class PlotAxis {
 
   /// \var position_center_
   ///   The data position/value at the center of the axis.
-  double position_center_;
+  float position_center_;
 
   /// \var range_
   ///   The distance between the max/min data values, centered on the position.
-  double range_;
+  float range_;
 };
 
 #endif  // OTLS_APPCOMMON_GRAPHICS_PLOTAXIS_H_

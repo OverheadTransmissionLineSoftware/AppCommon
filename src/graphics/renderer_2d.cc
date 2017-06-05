@@ -19,8 +19,8 @@ void Renderer2d::set_dataset(const DataSet2d* dataset) {
 }
 
 void Renderer2d::ClipHorizontal(const PlotAxis& axis,
-                                const double& x_vis, const double& y_vis,
-                                double& x, double& y) {
+                                const float& x_vis, const float& y_vis,
+                                float& x, float& y) {
   // determines axis boundary
   double b;
   if (x < axis.Min()) {
@@ -35,8 +35,8 @@ void Renderer2d::ClipHorizontal(const PlotAxis& axis,
 }
 
 void Renderer2d::ClipVertical(const PlotAxis& axis,
-                              const double& x_vis, const double& y_vis,
-                              double& x, double& y) {
+                              const float& x_vis, const float& y_vis,
+                              float& x, float& y) {
   // determines axis boundary
   double b;
   if (y < axis.Min()) {
@@ -50,9 +50,9 @@ void Renderer2d::ClipVertical(const PlotAxis& axis,
   y = b;
 }
 
-wxCoord Renderer2d::DataToGraphics(const double& value,
-                                   const double& value_min,
-                                   const double& value_max,
+wxCoord Renderer2d::DataToGraphics(const float& value,
+                                   const float& value_min,
+                                   const float& value_max,
                                    const int& range_graphics,
                                    const bool& is_vertical) {
   // calcs the value range

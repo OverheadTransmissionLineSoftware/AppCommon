@@ -16,14 +16,14 @@ void PointRenderer2d::Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
   const PointDataSet2d* dataset = dynamic_cast<const PointDataSet2d*>(dataset_);
 
   // draws each point in dataset
-  const std::list<const Point2d*>* data = dataset->data();
+  const std::list<const Point2d<float>*>* data = dataset->data();
   for (auto iter = data->cbegin(); iter != data->cend(); iter++) {
     // gets point
-    const Point2d* line = *iter;
+    const Point2d<float>* line = *iter;
 
     // gets points to draw
-    double x = line->x;
-    double y = line->y;
+    const float& x = line->x;
+    const float& y = line->y;
 
     // skips points that are out of range
     if (x < axis_horizontal.Min()) {

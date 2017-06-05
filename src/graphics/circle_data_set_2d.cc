@@ -30,7 +30,7 @@ void CircleDataSet2d::Clear() {
   is_updated_ = false;
 }
 
-double CircleDataSet2d::MaxX() const {
+float CircleDataSet2d::MaxX() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -38,7 +38,7 @@ double CircleDataSet2d::MaxX() const {
   return x_max_;
 }
 
-double CircleDataSet2d::MaxY() const {
+float CircleDataSet2d::MaxY() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -46,7 +46,7 @@ double CircleDataSet2d::MaxY() const {
   return y_max_;
 }
 
-double CircleDataSet2d::MinX() const {
+float CircleDataSet2d::MinX() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -54,7 +54,7 @@ double CircleDataSet2d::MinX() const {
   return x_min_;
 }
 
-double CircleDataSet2d::MinY() const {
+float CircleDataSet2d::MinY() const {
   if (is_updated_ == false) {
     Update();
   }

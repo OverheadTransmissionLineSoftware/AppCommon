@@ -18,19 +18,19 @@
 struct Plot2dDataLimits {
   /// \var x_max
   ///   The maximum x value.
-  double x_max;
+  float x_max;
 
   /// \var x_min
   ///   The minimum x value.
-  double x_min;
+  float x_min;
 
   /// \var y_max
   ///   The maximum y value.
-  double y_max;
+  float y_max;
 
   /// \var y_min
   ///   The minimum y value.
-  double y_min;
+  float y_min;
 };
 
 /// \par OVERVIEW
@@ -101,13 +101,13 @@ class Plot2d {
   /// \param[in] point_data
   ///   The data coordinate.
   /// \return The graphics coordinate.
-  wxPoint PointDataToGraphics(const Point2d& point_data) const;
+  wxPoint PointDataToGraphics(const Point2d<float>& point_data) const;
 
   /// \brief Translates a graphics coordinate to a data coordinate.
   /// \param[in] point_graphics
   ///   The graphics coordinate.
   /// \return The data coordinate.
-  Point2d PointGraphicsToData(const wxPoint& point_graphics) const;
+  Point2d<float> PointGraphicsToData(const wxPoint& point_graphics) const;
 
   /// \brief Renders the plot.
   /// \param[in] dc
@@ -142,7 +142,7 @@ class Plot2d {
 
   /// \brief Gets the offset.
   /// \return The offset.
-  Point2d offset() const;
+  Point2d<float> offset() const;
 
   /// \brief Gets the aspect ratio.
   /// \return The aspect ratio.
@@ -166,7 +166,7 @@ class Plot2d {
   /// \brief Sets the offset.
   /// \param[in] offset
   ///   The offset.
-  void set_offset(const Point2d& offset);
+  void set_offset(const Point2d<float>& offset);
 
   /// \brief Sets the aspect ratio.
   /// \param[in] ratio_aspect
@@ -221,18 +221,18 @@ class Plot2d {
   ///   The upper left coordinate of the rendered data. This aligns with the
   ///   graphics origin coordinate, which is always (0,0). This value is used to
   ///   translate between graphics and data coordinates.
-  mutable Point2d offset_;
+  mutable Point2d<float> offset_;
 
   /// \var ratio_aspect_
   ///   The ratio of the vertical and horizontal units (V / H). When rendering
   ///   the vertical axis is scaled by this ratio, while the horizontal axis
   ///   remains unchanged.
-  double ratio_aspect_;
+  float ratio_aspect_;
 
   /// \var scale_
   ///   The multiplication factor used to scale graphics coordinates to the data
   ///   coordinates.
-  mutable double scale_;
+  mutable float scale_;
 
   /// \var renderers_
   ///   The list of renderers.

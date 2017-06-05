@@ -30,7 +30,7 @@ void TextDataSet2d::Clear() {
   is_updated_ = false;
 }
 
-double TextDataSet2d::MaxX() const {
+float TextDataSet2d::MaxX() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -38,7 +38,7 @@ double TextDataSet2d::MaxX() const {
   return x_max_;
 }
 
-double TextDataSet2d::MaxY() const {
+float TextDataSet2d::MaxY() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -46,7 +46,7 @@ double TextDataSet2d::MaxY() const {
   return y_max_;
 }
 
-double TextDataSet2d::MinX() const {
+float TextDataSet2d::MinX() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -54,7 +54,7 @@ double TextDataSet2d::MinX() const {
   return x_min_;
 }
 
-double TextDataSet2d::MinY() const {
+float TextDataSet2d::MinY() const {
   if (is_updated_ == false) {
     Update();
   }

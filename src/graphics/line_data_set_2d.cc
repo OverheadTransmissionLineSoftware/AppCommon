@@ -30,7 +30,7 @@ void LineDataSet2d::Clear() {
   is_updated_ = false;
 }
 
-double LineDataSet2d::MaxX() const {
+float LineDataSet2d::MaxX() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -38,7 +38,7 @@ double LineDataSet2d::MaxX() const {
   return x_max_;
 }
 
-double LineDataSet2d::MaxY() const {
+float LineDataSet2d::MaxY() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -46,7 +46,7 @@ double LineDataSet2d::MaxY() const {
   return y_max_;
 }
 
-double LineDataSet2d::MinX() const {
+float LineDataSet2d::MinX() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -54,7 +54,7 @@ double LineDataSet2d::MinX() const {
   return x_min_;
 }
 
-double LineDataSet2d::MinY() const {
+float LineDataSet2d::MinY() const {
   if (is_updated_ == false) {
     Update();
   }

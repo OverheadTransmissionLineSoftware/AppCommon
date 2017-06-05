@@ -4,10 +4,16 @@
 #include "appcommon/graphics/plot_axis.h"
 
 PlotAxis::PlotAxis() {
+  max_ = -999999;
+  min_ = 999999;
+  orientation_ = OrientationType::kNull;
+  position_center_ = -999999;
+  range_ = -999999;
 }
 
 PlotAxis::PlotAxis(PlotAxis::OrientationType orientation) {
   orientation_ = orientation;
+
   max_ = -999999;
   min_ = 999999;
   position_center_ = -999999;
@@ -21,19 +27,19 @@ bool PlotAxis::IsVisible(const double& v) const {
   return (v >= min_ && v <= max_);
 }
 
-double PlotAxis::Max() const {
+float PlotAxis::Max() const {
   return max_;
 }
 
-double PlotAxis::Min() const {
+float PlotAxis::Min() const {
   return min_;
 }
 
-double PlotAxis::position_center() const {
+float PlotAxis::position_center() const {
   return position_center_;
 }
 
-double PlotAxis::range() const {
+float PlotAxis::range() const {
   return range_;
 }
 

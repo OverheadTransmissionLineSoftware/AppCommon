@@ -41,7 +41,7 @@ struct Text2d {
 
   /// \var point
   ///   The text origin point, in data coordinates.
-  Point2d point;
+  Point2d<float> point;
 
   /// \var position
   ///   The boundary position of the point.
@@ -70,19 +70,19 @@ class TextDataSet2d : public DataSet2d {
 
   /// \brief Gets the maximum x value.
   /// \return The maximum x value.
-  virtual double MaxX() const override;
+  virtual float MaxX() const override;
 
   /// \brief Gets the maximum y value.
   /// \return The maximum y value.
-  virtual double MaxY() const override;
+  virtual float MaxY() const override;
 
   /// \brief Gets the minimum x value.
   /// \return The minimum x value.
-  virtual double MinX() const override;
+  virtual float MinX() const override;
 
   /// \brief Gets the minimum y value.
   /// \return The minimum y value.
-  virtual double MinY() const override;
+  virtual float MinY() const override;
 
   /// \brief Gets the data.
   /// \return The data.

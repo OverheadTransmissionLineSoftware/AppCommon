@@ -56,8 +56,8 @@ class Renderer2d {
   ///   The x coordinate that needs clipped. At the start of the function
   ///   this coordinate is not visible.
   static void ClipHorizontal(const PlotAxis& axis,
-                             const double& x_vis, const double& y_vis,
-                             double& x, double& y);
+                             const float& x_vis, const float& y_vis,
+                             float& x, float& y);
 
   /// \brief Clips the points to fit the horizontal axis.
   /// \param[in] axis
@@ -73,8 +73,8 @@ class Renderer2d {
   ///   The x coordinate that needs clipped. At the start of the function
   ///   this coordinate is not visible.
   static void ClipVertical(const PlotAxis& axis,
-                           const double& x_vis, const double& y_vis,
-                           double& x, double& y);
+                           const float& x_vis, const float& y_vis,
+                           float& x, float& y);
 
   /// \brief Translates from data to graphics coordinates.
   /// \param[in] value
@@ -90,9 +90,9 @@ class Renderer2d {
   ///   vertical orientations has to be inverted to match the graphics
   ///   coordinate system.
   /// \return The graphics coordinate.
-  static wxCoord DataToGraphics(const double& value,
-                                const double& value_min,
-                                const double& value_max,
+  static wxCoord DataToGraphics(const float& value,
+                                const float& value_min,
+                                const float& value_max,
                                 const int& range_graphics,
                                 const bool& is_vertical);
 

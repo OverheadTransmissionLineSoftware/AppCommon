@@ -16,11 +16,11 @@
 struct Line2d {
   /// \var p0
   ///   The start point.
-  Point2d p0;
+  Point2d<float> p0;
 
   /// \var p1
   ///   The end point.
-  Point2d p1;
+  Point2d<float> p1;
 };
 
 /// \par OVERVIEW
@@ -45,19 +45,19 @@ class LineDataSet2d : public DataSet2d {
 
   /// \brief Gets the maximum x value.
   /// \return The maximum x value.
-  virtual double MaxX() const override;
+  virtual float MaxX() const override;
 
   /// \brief Gets the maximum y value.
   /// \return The maximum y value.
-  virtual double MaxY() const override;
+  virtual float MaxY() const override;
 
   /// \brief Gets the minimum x value.
   /// \return The minimum x value.
-  virtual double MinX() const override;
+  virtual float MinX() const override;
 
   /// \brief Gets the minimum y value.
   /// \return The minimum y value.
-  virtual double MinY() const override;
+  virtual float MinY() const override;
 
   /// \brief Gets the data.
   /// \return The data.

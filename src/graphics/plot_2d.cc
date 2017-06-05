@@ -60,7 +60,7 @@ Plot2dDataLimits Plot2d::LimitsData() const {
   return limits_data_;
 }
 
-wxPoint Plot2d::PointDataToGraphics(const Point2d& point_data) const {
+wxPoint Plot2d::PointDataToGraphics(const Point2d<float>& point_data) const {
   // scales and applies offset
   wxPoint point;
   point.x = (point_data.x / scale_) + offset_.x;
@@ -69,11 +69,13 @@ wxPoint Plot2d::PointDataToGraphics(const Point2d& point_data) const {
   return point;
 }
 
-Point2d Plot2d::PointGraphicsToData(const wxPoint& point_graphics) const {
+Point2d<float> Plot2d::PointGraphicsToData(
+    const wxPoint& point_graphics) const {
   // scales and applies offset
-  Point2d point;
-  point.x = offset_.x + ((double)point_graphics.x * scale_);
-  point.y = offset_.y - ((double)point_graphics.y * scale_ / ratio_aspect_);
+  Point2d<float> point;
+  point.x = offset_.x + (static_cast<float>(point_graphics.x) * scale_);
+  point.y = offset_.y - (static_cast<float>(point_graphics.y)
+                         * scale_ / ratio_aspect_);
 
   return point;
 }
@@ -119,13 +121,13 @@ void Plot2d::Shift(const double& x, const double& y) {
 
 void Plot2d::Zoom(const double& factor, const wxPoint& point) {
   // caches the data point corresponding to the graphics point
-  const Point2d point_old = PointGraphicsToData(point);
+  const Point2d<float> point_old = PointGraphicsToData(point);
 
   // updates the scale
   scale_ *= factor;
 
   // calculates a data point corresponding to the graphics point
-  Point2d point_new = PointGraphicsToData(point);
+  Point2d<float> point_new = PointGraphicsToData(point);
 
   // updates offset
   offset_.x -= (point_new.x - point_old.x);
@@ -143,7 +145,7 @@ bool Plot2d::is_fitted() const {
   return is_fitted_;
 }
 
-Point2d Plot2d::offset() const {
+Point2d<float> Plot2d::offset() const {
   return offset_;
 }
 
@@ -163,7 +165,7 @@ void Plot2d::set_is_fitted(const bool& is_fitted) {
   is_fitted_ = is_fitted;
 }
 
-void Plot2d::set_offset(const Point2d& offset) {
+void Plot2d::set_offset(const Point2d<float>& offset) {
   offset_ = offset;
 }
 
@@ -259,10 +261,10 @@ void Plot2d::UpdateOffsetAndScaleToFitData(const wxRect& rc) const {
 
 void Plot2d::UpdateDataLimits() const {
   // searches all the datasets and finds the min/max values for each axis
-  double x_min = 999999;
-  double x_max = -999999;
-  double y_min = 999999;
-  double y_max = -999999;
+  float x_min = 999999;
+  float x_max = -999999;
+  float y_min = 999999;
+  float y_max = -999999;
   for (auto iter = renderers_.cbegin(); iter != renderers_.cend(); iter++) {
     const Renderer2d* renderer = *iter;
     const DataSet2d* dataset = renderer->dataset();

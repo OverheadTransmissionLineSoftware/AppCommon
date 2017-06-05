@@ -13,7 +13,7 @@ PointDataSet2d::~PointDataSet2d() {
   Clear();
 }
 
-void PointDataSet2d::Add(const Point2d* point) {
+void PointDataSet2d::Add(const Point2d<float>* point) {
   data_.push_back(point);
 
   is_updated_ = false;
@@ -21,7 +21,7 @@ void PointDataSet2d::Add(const Point2d* point) {
 
 void PointDataSet2d::Clear() {
   for (auto iter = data_.begin(); iter != data_.end(); iter++) {
-    const Point2d* point = *iter;
+    const Point2d<float>* point = *iter;
     delete point;
   }
 
@@ -30,7 +30,7 @@ void PointDataSet2d::Clear() {
   is_updated_ = false;
 }
 
-double PointDataSet2d::MaxX() const {
+float PointDataSet2d::MaxX() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -38,7 +38,7 @@ double PointDataSet2d::MaxX() const {
   return x_max_;
 }
 
-double PointDataSet2d::MaxY() const {
+float PointDataSet2d::MaxY() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -46,7 +46,7 @@ double PointDataSet2d::MaxY() const {
   return y_max_;
 }
 
-double PointDataSet2d::MinX() const {
+float PointDataSet2d::MinX() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -54,7 +54,7 @@ double PointDataSet2d::MinX() const {
   return x_min_;
 }
 
-double PointDataSet2d::MinY() const {
+float PointDataSet2d::MinY() const {
   if (is_updated_ == false) {
     Update();
   }
@@ -62,7 +62,7 @@ double PointDataSet2d::MinY() const {
   return y_min_;
 }
 
-const std::list<const Point2d*>* PointDataSet2d::data() const {
+const std::list<const Point2d<float>*>* PointDataSet2d::data() const {
   return &data_;
 }
 
@@ -80,7 +80,7 @@ void PointDataSet2d::Update() const {
   }
 
   for (auto iter = data_.cbegin(); iter != data_.cend(); iter++) {
-    const Point2d* point = *iter;
+    const Point2d<float>* point = *iter;
 
     x_min_ = std::min(point->x, x_min_);
     x_max_ = std::max(point->x, x_max_);

@@ -25,8 +25,8 @@ void TextRenderer2d::Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
     const Text2d* text = *iter;
 
     // gets points to draw
-    double x = text->point.x;
-    double y = text->point.y;
+    const float& x = text->point.x;
+    const float& y = text->point.y;
 
     // skips points that are out of range
     if (x < axis_horizontal.Min()) {

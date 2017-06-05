@@ -22,10 +22,10 @@ void LineRenderer2d::Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
     const Line2d* line = *iter;
 
     // gets points to draw
-    double x0 = line->p0.x;
-    double y0 = line->p0.y;
-    double x1 = line->p1.x;
-    double y1 = line->p1.y;
+    float x0 = line->p0.x;
+    float y0 = line->p0.y;
+    float x1 = line->p1.x;
+    float y1 = line->p1.y;
 
     // skips lines that are out of range
     if ((x0 < axis_horizontal.Min()) && (x1 < axis_horizontal.Min())) {
