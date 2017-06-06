@@ -29,9 +29,10 @@ struct SortData {
 ///
 /// This is the enumeration for the context menu.
 enum {
-  kCopyHeaders = 0,
-  kCopyRow = 1,
-  kCopyTable = 2
+  kClearSort = 0,
+  kCopyHeaders = 1,
+  kCopyRow = 2,
+  kCopyTable = 3
 };
 
 /// \brief This function is used by the wxListCtrl to sort items.
@@ -374,6 +375,8 @@ void ReportTable::OnColumnClick(wxListEvent& event) {
 void ReportTable::OnColumnRightClick(wxListEvent& event) {
   // displays a context menu based on the item that was right clicked
   wxMenu menu;
+  menu.Append(kClearSort, "Clear Sort");
+  menu.AppendSeparator();
   menu.Append(kCopyHeaders, "Copy Headers");
   menu.Append(kCopyTable, "Copy Table");
 
@@ -388,7 +391,11 @@ void ReportTable::OnColumnRightClick(wxListEvent& event) {
 void ReportTable::OnContextMenuSelect(wxCommandEvent& event) {
   // gets context menu selection and sends to handler function
   const int id_event = event.GetId();
-  if (id_event == kCopyHeaders) {
+  if (id_event == kClearSort) {
+    index_sorted_ = -1;
+    type_sort_ = SortOrderType::kNone;
+    Refresh();
+  } else if (id_event == kCopyHeaders) {
     std::string str = ClipboardStringHeaders();
     CopyToClipboard(str);
   } else if (id_event == kCopyRow) {
