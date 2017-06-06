@@ -9,7 +9,22 @@
 #include "wx/listctrl.h"
 #include "wx/wx.h"
 
-/// \todo Rework how the columns are formatted.
+/// \par OVERVIEW
+///
+/// This struct represents a single column header.
+struct ReportColumnHeader {
+  /// \var format
+  ///   The column format.
+  wxListColumnFormat format;
+
+  /// \var title
+  ///   The column title.
+  std::string title;
+
+  /// \var width
+  ///   The column width.
+  int width;
+};
 
 /// \par OVERVIEW
 ///
@@ -26,7 +41,7 @@ struct ReportRow {
 struct ReportData {
   /// \var headers
   ///   The column headers of the data.
-  std::list<std::string> headers;
+  std::list<ReportColumnHeader> headers;
 
   /// \var rows
   ///   The data rows.
@@ -95,16 +110,6 @@ class ReportTable : public wxPanel {
   /// \param[in] data
   ///   The data.
   void set_data(const ReportData* data);
-
-  /// \brief Sets the column formatting.
-  /// \param[in] column
-  ///   The column to format.
-  /// \param[in] width
-  ///   The width of the column.
-  /// \param[in] align
-  ///   The alignment style of the column.
-  void set_formatting_column(const int& column, const int& width,
-                             const wxListColumnFormat& align);
 
   /// \brief Sets the selected row index.
   /// \param[in] index

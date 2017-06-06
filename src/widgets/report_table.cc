@@ -163,9 +163,10 @@ void ReportTable::Refresh() {
   // inserts columns
   for (auto iter = data_->headers.cbegin(); iter != data_->headers.cend();
        iter++) {
-    const std::string& str = *iter;
+    const ReportColumnHeader& header = *iter;
+
     const int i = std::distance(data_->headers.cbegin(), iter);
-    listctrl_->InsertColumn(i, str, wxLIST_FORMAT_CENTER, 80);
+    listctrl_->InsertColumn(i, header.title, header.format, header.width);
   }
 
   // fills data
@@ -228,22 +229,6 @@ long ReportTable::index_sorted() const {
 
 void ReportTable::set_data(const ReportData* data) {
   data_ = data;
-}
-
-void ReportTable::set_formatting_column(const int& column, const int& width,
-                                        const wxListColumnFormat& align) {
-  // checks if column exists
-  if (column < 0 || listctrl_->GetColumnCount() - 1 < column) {
-    return;
-  }
-
-  // modifies column formatting
-  wxListItem item;
-  listctrl_->GetColumn(column, item);
-
-  item.SetWidth(width);
-  item.SetAlign(align);
-  listctrl_->SetColumn(column, item);
 }
 
 void ReportTable::set_index_selected(const long& index) {
