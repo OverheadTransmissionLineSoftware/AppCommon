@@ -33,7 +33,7 @@ struct Text2d {
   /// \var angle
   ///   The angle (in degrees) to rotate the text. Zero is aligned horizontal.
   ///   Positive angles are rotated counter-clockwise.
-  double angle;
+  float angle;
 
   /// \var message
   ///   The message.

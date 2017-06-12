@@ -110,16 +110,16 @@ void Plot2d::Render(wxDC& dc, wxRect rc) const {
   }
 }
 
-void Plot2d::Shift(const double& x, const double& y) {
+void Plot2d::Shift(const float& x, const float& y) {
   // converts to data coordinates
-  const double kShiftX = x * scale_;
-  const double kShiftY = y * scale_ / ratio_aspect_;
+  const float kShiftX = x * scale_;
+  const float kShiftY = y * scale_ / ratio_aspect_;
 
   offset_.x += kShiftX;
   offset_.y += kShiftY;
 }
 
-void Plot2d::Zoom(const double& factor, const wxPoint& point) {
+void Plot2d::Zoom(const float& factor, const wxPoint& point) {
   // caches the data point corresponding to the graphics point
   const Point2d<float> point_old = PointGraphicsToData(point);
 
@@ -149,11 +149,11 @@ Point2d<float> Plot2d::offset() const {
   return offset_;
 }
 
-double Plot2d::ratio_aspect() const {
+float Plot2d::ratio_aspect() const {
   return ratio_aspect_;
 }
 
-double Plot2d::scale() const {
+float Plot2d::scale() const {
   return scale_;
 }
 
@@ -169,11 +169,11 @@ void Plot2d::set_offset(const Point2d<float>& offset) {
   offset_ = offset;
 }
 
-void Plot2d::set_ratio_aspect(const double& ratio_aspect) {
+void Plot2d::set_ratio_aspect(const float& ratio_aspect) {
   ratio_aspect_ = ratio_aspect;
 }
 
-void Plot2d::set_scale(const double& scale) {
+void Plot2d::set_scale(const float& scale) {
   scale_ = scale;
 }
 
@@ -185,7 +185,8 @@ PlotAxis Plot2d::Axis(const int& position, const int& range,
     axis = PlotAxis(PlotAxis::OrientationType::kVertical);
 
     // solves for center graphics position and converts to data coordinates
-    double center = (double)position + ((double)range / 2);
+    float center = static_cast<float>(position)
+                   + (static_cast<float>(range) / 2);
     center = offset_.y - (center * scale_ / ratio_aspect_);
     axis.set_position_center(center);
 
@@ -195,7 +196,8 @@ PlotAxis Plot2d::Axis(const int& position, const int& range,
     axis = PlotAxis(PlotAxis::OrientationType::kHorizontal);
 
     // solves for center graphics position and converts to data coordiantes
-    double center = (double)position + ((double)range / 2);
+    float center = static_cast<float>(position)
+                   + (static_cast<float>(range) / 2);
     center = offset_.x + (center * scale_);
     axis.set_position_center(center);
 
@@ -215,17 +217,17 @@ void Plot2d::UpdateOffsetAndScaleToFitData(const wxRect& rc) const {
   }
 
   // gets data rect height/width
-  const double xg = (double)rc.GetWidth();
-  const double yg = (double)rc.GetHeight();
+  const float xg = static_cast<float>(rc.GetWidth());
+  const float yg = static_cast<float>(rc.GetHeight());
 
   // solves for the data rect height/width
-  double xd = limits_data_.x_max - limits_data_.x_min;
-  double yd = (limits_data_.y_max - limits_data_.y_min) * ratio_aspect_;
+  float xd = limits_data_.x_max - limits_data_.x_min;
+  float yd = (limits_data_.y_max - limits_data_.y_min) * ratio_aspect_;
 
   // compares the aspect ratios of the render and data rectangles to determine
   // which axis is most space limited
-  const double kRatioAspectGraph = yg / xg;
-  const double kRatioAspectData = yd / xd;
+  const float kRatioAspectGraph = yg / xg;
+  const float kRatioAspectData = yd / xd;
 
   // vertical axis controls
   if (kRatioAspectGraph <= kRatioAspectData) {
@@ -236,7 +238,7 @@ void Plot2d::UpdateOffsetAndScaleToFitData(const wxRect& rc) const {
     xd = xg * (yd / yg);
 
     // solves for x average
-    const double xavg = (limits_data_.x_max + limits_data_.x_min) / 2;
+    const float xavg = (limits_data_.x_max + limits_data_.x_min) / 2;
 
     // solves for upper left corner of graphics rect, but in data coordinates
     offset_.x = xavg - (xd / 2);
@@ -251,7 +253,7 @@ void Plot2d::UpdateOffsetAndScaleToFitData(const wxRect& rc) const {
     yd = yg * (xd / xg);
 
     // solves for y average
-    const double yavg = (limits_data_.y_max + limits_data_.y_min) / 2;
+    const float yavg = (limits_data_.y_max + limits_data_.y_min) / 2;
 
     // solves for upper left corner of graphics rect, but in data coordinates
     offset_.x = limits_data_.x_min;

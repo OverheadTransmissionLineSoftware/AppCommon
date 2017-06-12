@@ -59,8 +59,8 @@ void PlotPane2d::OnMouse(wxMouseEvent& event) {
 
     // finds difference between cached and new mouse points
     // applies inversion to make plot track mouse position
-    const double kShiftX = (coord_new.x - coord_mouse_.x) * -1;
-    const double kShiftY = (coord_new.y - coord_mouse_.y);
+    const float kShiftX = (coord_new.x - coord_mouse_.x) * -1;
+    const float kShiftY = (coord_new.y - coord_mouse_.y);
     plot_.Shift(kShiftX, kShiftY);
 
     // updates cached mouse point
@@ -98,7 +98,7 @@ void PlotPane2d::OnMouseWheel(wxMouseEvent& event) {
   }
 
   // zoom factor
-  const double kZoomFactor = 1.2;
+  const float kZoomFactor = 1.2;
 
   // zoom point
   wxPoint coord_zoom = event.GetPosition();

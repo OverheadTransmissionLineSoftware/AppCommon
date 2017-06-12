@@ -30,7 +30,7 @@ class PlotAxis {
   /// \param[in] v
   ///   The value to check.
   /// \return If the point is visible on the axis.
-  bool IsVisible(const double& v) const;
+  bool IsVisible(const float& v) const;
 
   /// \brief Gets the maximum rendered data value.
   /// \return The maximum rendered data value.
@@ -51,12 +51,12 @@ class PlotAxis {
   /// \brief Sets the center position.
   /// \param[in] position_center
   ///   The center position.
-  void set_position_center(const double& position_center);
+  void set_position_center(const float& position_center);
 
   /// \brief Sets the range.
   /// \param[in] range
   ///   The range.
-  void set_range(const double& range);
+  void set_range(const float& range);
 
  private:
   /// \var max_

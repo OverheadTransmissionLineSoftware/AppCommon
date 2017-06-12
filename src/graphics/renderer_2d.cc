@@ -22,7 +22,7 @@ void Renderer2d::ClipHorizontal(const PlotAxis& axis,
                                 const float& x_vis, const float& y_vis,
                                 float& x, float& y) {
   // determines axis boundary
-  double b;
+  float b;
   if (x < axis.Min()) {
     b = axis.Min();
   } else {
@@ -38,7 +38,7 @@ void Renderer2d::ClipVertical(const PlotAxis& axis,
                               const float& x_vis, const float& y_vis,
                               float& x, float& y) {
   // determines axis boundary
-  double b;
+  float b;
   if (y < axis.Min()) {
     b = axis.Min();
   } else {
@@ -56,10 +56,10 @@ wxCoord Renderer2d::DataToGraphics(const float& value,
                                    const int& range_graphics,
                                    const bool& is_vertical) {
   // calcs the value range
-  const double range_values = value_max - value_min;
+  const float range_values = value_max - value_min;
 
   // calculates ratio of point along axis
-  double k = 0;
+  float k = 0;
   if (is_vertical == true) {
     k = (value_max - value) / range_values;
   } else {

@@ -72,7 +72,6 @@ struct Plot2dDataLimits {
 /// \par ZOOM
 ///
 /// This plot supports zooming in/out.
-///
 class Plot2d {
  public:
   /// \brief Constructor.
@@ -121,7 +120,7 @@ class Plot2d {
   ///   The amount (in graphics units) to shift the x axis.
   /// \param[in] y
   ///   The amount (in graphics units) to shift the y axis.
-  void Shift(const double& x, const double& y);
+  void Shift(const float& x, const float& y);
 
   /// \brief Zooms the plot.
   /// \param[in] factor
@@ -130,7 +129,7 @@ class Plot2d {
   ///   The point (in graphics units) to zoom to.
   /// This function does not render the graph. The function parameters are used
   /// to update the internal class members only.
-  void Zoom(const double& factor, const wxPoint& point);
+  void Zoom(const float& factor, const wxPoint& point);
 
   /// \brief Gets the background brush.
   /// \return The background brush.
@@ -146,11 +145,11 @@ class Plot2d {
 
   /// \brief Gets the aspect ratio.
   /// \return The aspect ratio.
-  double ratio_aspect() const;
+  float ratio_aspect() const;
 
   /// \brief Gets the scaling factor.
   /// \return The scaling factor.
-  double scale() const;
+  float scale() const;
 
   /// \brief Sets the background brush.
   /// \param[in] brush
@@ -171,12 +170,12 @@ class Plot2d {
   /// \brief Sets the aspect ratio.
   /// \param[in] ratio_aspect
   ///   The aspect ratio.
-  void set_ratio_aspect(const double& ratio_aspect);
+  void set_ratio_aspect(const float& ratio_aspect);
 
   /// \brief Sets the scale.
   /// \param[in] scale
   ///   The scaling factor.
-  void set_scale(const double& scale);
+  void set_scale(const float& scale);
 
  private:
   /// \brief Gets a plot axis used for rendering.
