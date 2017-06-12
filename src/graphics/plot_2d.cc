@@ -12,6 +12,7 @@ Plot2d::Plot2d() {
   offset_.y = -999999;
   ratio_aspect_ = 1;
   scale_ = -999999;
+  zoom_factor_fitted_ = 1;
 
   limits_data_.x_max = -999999;
   limits_data_.x_min = 999999;
@@ -95,6 +96,12 @@ void Plot2d::Render(wxDC& dc, wxRect rc) const {
 
     // updates the offset and scale
     UpdateOffsetAndScaleToFitData(rc);
+
+    // applies zoom adjustment at center of graphics rect
+    wxPoint point_zoom;
+    point_zoom.x = rc.GetPosition().x + (rc.GetWidth() / 2);
+    point_zoom.y = rc.GetPosition().y + (rc.GetHeight() / 2);
+    DoZoom(zoom_factor_fitted_, point_zoom);
   }
 
   // generates plot render axes
@@ -120,18 +127,7 @@ void Plot2d::Shift(const float& x, const float& y) {
 }
 
 void Plot2d::Zoom(const float& factor, const wxPoint& point) {
-  // caches the data point corresponding to the graphics point
-  const Point2d<float> point_old = PointGraphicsToData(point);
-
-  // updates the scale
-  scale_ *= factor;
-
-  // calculates a data point corresponding to the graphics point
-  Point2d<float> point_new = PointGraphicsToData(point);
-
-  // updates offset
-  offset_.x -= (point_new.x - point_old.x);
-  offset_.y -= (point_new.y - point_old.y);
+  DoZoom(factor, point);
 
   // removes fitting
   is_fitted_ = false;
@@ -177,6 +173,14 @@ void Plot2d::set_scale(const float& scale) {
   scale_ = scale;
 }
 
+void Plot2d::set_zoom_factor_fitted(const float& zoom_factor_fitted) {
+  zoom_factor_fitted_ = zoom_factor_fitted;
+}
+
+float Plot2d::zoom_factor_fitted() const {
+  return zoom_factor_fitted_;
+}
+
 PlotAxis Plot2d::Axis(const int& position, const int& range,
                       const bool& is_vertical) const {
   // initializes axis
@@ -206,6 +210,21 @@ PlotAxis Plot2d::Axis(const int& position, const int& range,
   }
 
   return axis;
+}
+
+void Plot2d::DoZoom(const float& factor, const wxPoint& point) const {
+  // caches the data point corresponding to the graphics point
+  const Point2d<float> point_old = PointGraphicsToData(point);
+
+  // updates the scale
+  scale_ *= factor;
+
+  // calculates a data point corresponding to the graphics point
+  Point2d<float> point_new = PointGraphicsToData(point);
+
+  // updates offset
+  offset_.x -= (point_new.x - point_old.x);
+  offset_.y -= (point_new.y - point_old.y);
 }
 
 /// This method compares the aspect ratio (height/width) of the data and the

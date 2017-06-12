@@ -177,6 +177,15 @@ class Plot2d {
   ///   The scaling factor.
   void set_scale(const float& scale);
 
+  /// \brief Sets the zoom factor to apply after fitting the plot.
+  /// \param[in] zoom_factor_fitted
+  ///   The zoom factor to apply after fitting the plot.
+  void set_zoom_factor_fitted(const float& zoom_factor_fitted);
+
+  /// \brief Gets the zoom factor to apply after fitting the plot.
+  /// \return The zoom factor to apply after fitting the plot.
+  float zoom_factor_fitted() const;
+
  private:
   /// \brief Gets a plot axis used for rendering.
   /// \param[in] position
@@ -189,6 +198,13 @@ class Plot2d {
   ///   These axes are needed by the renderers to draw onto the graphics rect.
   PlotAxis Axis(const int& position, const int& range,
                 const bool& is_vertical) const;
+
+  /// \brief Does a zoom.
+  /// \param[in] factor
+  ///   The zoom factor, which is used to adjust the current plot scale.
+  /// \param[in] point
+  ///   The point (in graphics units) to zoom to.
+  void DoZoom(const float& factor, const wxPoint& point) const;
 
   /// \brief Updates the plot offset and scale to encapsulate the plot data.
   /// \param[in] rc
@@ -236,6 +252,11 @@ class Plot2d {
   /// \var renderers_
   ///   The list of renderers.
   std::list<const Renderer2d*> renderers_;
+
+  /// \var zoom_modified_fitted_
+  ///   The zoom factor to apply after the plot is fitted. Setting this to 1
+  ///   will not modify the scale or offset.
+  float zoom_factor_fitted_;
 };
 
 #endif  // OTLS_APPCOMMON_GRAPHICS_PLOT2D_H_
