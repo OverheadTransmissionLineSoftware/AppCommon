@@ -28,6 +28,10 @@ PlotPane2d::PlotPane2d(wxWindow* parent)
 PlotPane2d::~PlotPane2d() {
 }
 
+const Plot2d* PlotPane2d::plot() const {
+  return &plot_;
+}
+
 /// This function overrides the typical window erase background event handling.
 /// When used in conjuction with double-buffered device contexts, it will
 /// prevent flickering.

@@ -22,6 +22,10 @@ class PlotPane2d : public wxPanel {
   /// \brief Destructor.
   ~PlotPane2d();
 
+  /// \brief Gets the plot.
+  /// \return The plot
+  const Plot2d* plot() const;
+
  protected:
   /// \brief Handles the erase background event.
   /// \param[in] event
