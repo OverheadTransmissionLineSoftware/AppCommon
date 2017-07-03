@@ -28,6 +28,10 @@ PlotPane2d::PlotPane2d(wxWindow* parent)
 PlotPane2d::~PlotPane2d() {
 }
 
+void PlotPane2d::RenderPlot(wxDC& dc) {
+  plot_.Render(dc, GetClientRect());
+}
+
 const Plot2d* PlotPane2d::plot() const {
   return &plot_;
 }
@@ -126,8 +130,4 @@ void PlotPane2d::OnPaint(wxPaintEvent& event) {
 
   // renders
   RenderPlot(dc);
-}
-
-void PlotPane2d::RenderPlot(wxDC& dc) {
-  plot_.Render(dc, GetClientRect());
 }

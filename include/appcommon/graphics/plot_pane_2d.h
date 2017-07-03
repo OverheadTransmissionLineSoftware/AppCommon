@@ -22,6 +22,11 @@ class PlotPane2d : public wxPanel {
   /// \brief Destructor.
   ~PlotPane2d();
 
+  /// \brief Renders the plot within the pane.
+  /// \param[in] dc
+  ///   The device context.
+  void RenderPlot(wxDC& dc);
+
   /// \brief Gets the plot.
   /// \return The plot
   const Plot2d* plot() const;
@@ -46,11 +51,6 @@ class PlotPane2d : public wxPanel {
   /// \param[in] event
   ///   The event.
   void OnPaint(wxPaintEvent& event);
-
-  /// \brief Renders the plot within the pane.
-  /// \param[in] dc
-  ///   The device context.
-  void RenderPlot(wxDC& dc);
 
   /// \brief Updates the plot datasets.
   virtual void UpdatePlotDatasets() = 0;
