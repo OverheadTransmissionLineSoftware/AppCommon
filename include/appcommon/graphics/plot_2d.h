@@ -244,14 +244,14 @@ class Plot2d {
   ///   remains unchanged.
   float ratio_aspect_;
 
+  /// \var renderers_
+  ///   The list of renderers.
+  std::list<const Renderer2d*> renderers_;
+
   /// \var scale_
   ///   The multiplication factor used to scale graphics coordinates to the data
   ///   coordinates.
   mutable float scale_;
-
-  /// \var renderers_
-  ///   The list of renderers.
-  std::list<const Renderer2d*> renderers_;
 
   /// \var zoom_modified_fitted_
   ///   The zoom factor to apply after the plot is fitted. Setting this to 1
