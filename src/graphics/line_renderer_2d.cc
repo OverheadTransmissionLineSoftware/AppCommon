@@ -10,7 +10,21 @@ LineRenderer2d::LineRenderer2d() {
 void LineRenderer2d::Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
                           const PlotAxis& axis_vertical) const {
   // sets drawing pen
-  dc.SetPen(*pen_);
+  if ((always_contrast_background_ == true)
+       && (pen_->GetColour() == dc.GetBackground().GetColour())) {
+    // gets the inverse color
+    wxColour color_inverse = InvertColor(pen_->GetColour());
+
+    // creates a new pen with the inverted color
+    wxPen pen = *pen_;
+    pen.SetColour(color_inverse);
+
+    // updates dc with inverted pen
+    dc.SetPen(pen);
+  } else {
+    // updates dc with typical pen
+    dc.SetPen(*pen_);
+  }
 
   // casts to line dataset
   const LineDataSet2d* dataset = dynamic_cast<const LineDataSet2d*>(dataset_);

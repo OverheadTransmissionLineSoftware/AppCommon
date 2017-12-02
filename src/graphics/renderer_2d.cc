@@ -4,14 +4,24 @@
 #include "appcommon/graphics/renderer_2d.h"
 
 Renderer2d::Renderer2d() {
+  always_contrast_background_ = true;
   dataset_ = nullptr;
 }
 
 Renderer2d::~Renderer2d() {
 }
 
+bool Renderer2d::always_contrast_background() const {
+  return always_contrast_background_;
+}
+
 const DataSet2d* Renderer2d::dataset() const {
   return dataset_;
+}
+
+void Renderer2d::set_always_contrast_background(
+    const bool& always_contrast_background) {
+  always_contrast_background_ = always_contrast_background;
 }
 
 void Renderer2d::set_dataset(const DataSet2d* dataset) {
@@ -68,4 +78,14 @@ wxCoord Renderer2d::DataToGraphics(const float& value,
 
   // scales to graphics range
   return k * range_graphics;
+}
+
+wxColour Renderer2d::InvertColor(const wxColour& color) {
+  // calculates the inverted rgb components
+  const int r = 255 - color.Red();
+  const int g = 255 - color.Green();
+  const int b = 255 - color.Blue();
+
+  // returns
+  return wxColour(r, g, b);
 }

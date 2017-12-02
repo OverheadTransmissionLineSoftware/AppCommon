@@ -13,7 +13,17 @@ void TextRenderer2d::Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
                           const PlotAxis& axis_vertical) const {
   // sets text colors for dc
   dc.SetBackgroundMode(wxPENSTYLE_TRANSPARENT);
-  dc.SetTextForeground(*color_);
+  if ((always_contrast_background_ == true)
+       && (*color_ == dc.GetBackground().GetColour())) {
+    // gets the inverse color
+    wxColour color_inverse = InvertColor(*color_);
+
+    // updates dc with inverted color
+    dc.SetTextForeground(color_inverse);
+  } else {
+    // updates dc with typical color
+    dc.SetTextForeground(*color_);
+  }
 
   // casts to text dataset
   const TextDataSet2d* dataset = dynamic_cast<const TextDataSet2d*>(dataset_);

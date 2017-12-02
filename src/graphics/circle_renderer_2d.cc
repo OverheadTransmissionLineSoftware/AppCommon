@@ -11,9 +11,39 @@ CircleRenderer2d::CircleRenderer2d() {
 void CircleRenderer2d::Draw(wxDC& dc, wxRect rc,
                             const PlotAxis& axis_horizontal,
                             const PlotAxis& axis_vertical) const {
-  // sets drawing brush and pen
-  dc.SetBrush(*brush_);
-  dc.SetPen(*pen_);
+  // sets drawing brush
+  if ((always_contrast_background_ == true)
+       && (brush_->GetColour() == dc.GetBackground().GetColour())) {
+    // gets the inverse color
+    wxColour color_inverse = InvertColor(pen_->GetColour());
+
+    // creates a new brush with the inverted color
+    wxBrush brush = *brush_;
+    brush.SetColour(color_inverse);
+
+    // updates dc with inverted brush
+    dc.SetBrush(brush);
+  } else {
+    // updates dc with typical brush
+    dc.SetBrush(*brush_);
+  }
+
+  // sets drawing pen
+  if ((always_contrast_background_ == true)
+       && (pen_->GetColour() == dc.GetBackground().GetColour())) {
+    // gets the inverse color
+    wxColour color_inverse = InvertColor(pen_->GetColour());
+
+    // creates a new pen with the inverted color
+    wxPen pen = *pen_;
+    pen.SetColour(color_inverse);
+
+    // updates dc with inverted pen
+    dc.SetPen(pen);
+  } else {
+    // updates dc with typical pen
+    dc.SetPen(*pen_);
+  }
 
   // casts to circle dataset
   const CircleDataSet2d* dataset =

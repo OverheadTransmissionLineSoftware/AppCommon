@@ -32,9 +32,18 @@ class Renderer2d {
   virtual void Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
                     const PlotAxis& axis_vertical) const = 0;
 
+  /// \brief Gets if the rendered item must contrast the background color.
+  /// \return If the rendered item must always contrast the background color.
+  bool always_contrast_background() const;
+
   /// \brief Gets the dataset.
   /// \return The dataset.
   const DataSet2d* dataset() const;
+
+  /// \brief Sets if the rendered item must contrast the background color.
+  /// \param[in] always_contrast_background
+  ///   The indicator.
+  void set_always_contrast_background(const bool& always_contrast_background);
 
   /// \brief Sets the dataset.
   /// \param[in] dataset
@@ -95,6 +104,17 @@ class Renderer2d {
                                 const float& value_max,
                                 const int& range_graphics,
                                 const bool& is_vertical);
+
+  /// \brief Inverts a color.
+  /// \param[in] color
+  ///   The color to invert.
+  /// \return The inverted color.
+  static wxColour InvertColor(const wxColour& color);
+
+  /// \var always_contrast_background_
+  ///   An indicator that determines if the rendered item color must always
+  ///   be different than the background color.
+  bool always_contrast_background_;
 
   /// \var dataset_
   ///   The dataset.
