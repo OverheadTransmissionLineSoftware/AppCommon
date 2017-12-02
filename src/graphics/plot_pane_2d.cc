@@ -32,8 +32,16 @@ void PlotPane2d::RenderPlot(wxDC& dc) {
   plot_.Render(dc, GetClientRect());
 }
 
+wxBrush PlotPane2d::background() const {
+  return plot_.background();
+}
+
 const Plot2d* PlotPane2d::plot() const {
   return &plot_;
+}
+
+void PlotPane2d::set_background(const wxBrush& brush) {
+  plot_.set_background(brush);
 }
 
 /// This function overrides the typical window erase background event handling.

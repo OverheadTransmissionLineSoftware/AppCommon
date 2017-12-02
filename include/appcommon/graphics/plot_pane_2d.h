@@ -27,9 +27,18 @@ class PlotPane2d : public wxPanel {
   ///   The device context.
   void RenderPlot(wxDC& dc);
 
+  /// \brief Gets the background brush.
+  /// \return The background brush.
+  wxBrush background() const;
+
   /// \brief Gets the plot.
   /// \return The plot
   const Plot2d* plot() const;
+
+  /// \brief Sets the background brush.
+  /// \param[in] brush
+  ///   The background brush.
+  void set_background(const wxBrush& brush);
 
  protected:
   /// \brief Handles the erase background event.
