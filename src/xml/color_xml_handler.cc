@@ -74,7 +74,7 @@ bool ColorXmlHandler::ParseNodeV1(
   wxString message;
 
   // parses content into separate strings
-  const wxString content = ParseElementNodeWithContent(root);
+  const std::string content = ParseElementNodeWithContent(root);
   std::list<std::string> content_parsed = helper::Parse(content, ',');
   if (content_parsed.size() != 3) {
     message = FileAndLineNumber(filepath, root)
