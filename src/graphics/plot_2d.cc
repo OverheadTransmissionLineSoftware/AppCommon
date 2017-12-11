@@ -10,8 +10,9 @@
 Plot2d::Plot2d() {
   offset_.x = -999999;
   offset_.y = -999999;
-  ratio_aspect_ = 1;
   scale_ = -999999;
+  scale_x_ = -999999;
+  scale_y_ = -999999;
   zoom_factor_fitted_ = 1;
 
   limits_data_.x_max = -999999;
@@ -62,21 +63,22 @@ Plot2dDataLimits Plot2d::LimitsData() const {
 }
 
 wxPoint Plot2d::PointDataToGraphics(const Point2d<float>& point_data) const {
-  // scales and applies offset
+  // applies offset and scale
   wxPoint point;
-  point.x = (point_data.x / scale_) + offset_.x;
-  point.y = (point_data.y / scale_ * ratio_aspect_) - offset_.y;
+  point.x = (point_data.x - offset_.x) * (scale_ * scale_x_);
+  point.y = (point_data.y + offset_.y) * (scale_ * scale_y_);
 
   return point;
 }
 
 Point2d<float> Plot2d::PointGraphicsToData(
     const wxPoint& point_graphics) const {
-  // scales and applies offset
+  // applies scale and offset
   Point2d<float> point;
-  point.x = offset_.x + (static_cast<float>(point_graphics.x) * scale_);
-  point.y = offset_.y - (static_cast<float>(point_graphics.y)
-                         * scale_ / ratio_aspect_);
+  point.x = offset_.x
+            + (static_cast<float>(point_graphics.x) / (scale_ * scale_x_));
+  point.y = offset_.y
+            - (static_cast<float>(point_graphics.y) / (scale_ * scale_y_));
 
   return point;
 }
@@ -86,6 +88,11 @@ void Plot2d::Render(wxDC& dc, wxRect rc) const {
   dc.SetBackgroundMode(wxSOLID);
   dc.SetBackground(brush_background_);
   dc.Clear();
+
+  // exits if no renderers are present
+  if (renderers_.empty() == true) {
+    return;
+  }
 
   // fits plot data to graphics rect
   if (is_fitted_ == true) {
@@ -117,11 +124,12 @@ void Plot2d::Render(wxDC& dc, wxRect rc) const {
   }
 }
 
-void Plot2d::Shift(const float& x, const float& y) {
-  // converts to data coordinates
-  const float kShiftX = x * scale_;
-  const float kShiftY = y * scale_ / ratio_aspect_;
+void Plot2d::Shift(const int& x, const int& y) {
+  // scales graphics to data coordinates
+  const float kShiftX = x / (scale_ * scale_x_);
+  const float kShiftY = y / (scale_ * scale_y_);
 
+  // updates offset
   offset_.x += kShiftX;
   offset_.y += kShiftY;
 }
@@ -145,12 +153,16 @@ Point2d<float> Plot2d::offset() const {
   return offset_;
 }
 
-float Plot2d::ratio_aspect() const {
-  return ratio_aspect_;
-}
-
 float Plot2d::scale() const {
   return scale_;
+}
+
+float Plot2d::scale_x() const {
+  return scale_x_;
+}
+
+float Plot2d::scale_y() const {
+  return scale_y_;
 }
 
 void Plot2d::set_background(const wxBrush& brush) {
@@ -165,12 +177,16 @@ void Plot2d::set_offset(const Point2d<float>& offset) {
   offset_ = offset;
 }
 
-void Plot2d::set_ratio_aspect(const float& ratio_aspect) {
-  ratio_aspect_ = ratio_aspect;
-}
-
 void Plot2d::set_scale(const float& scale) {
   scale_ = scale;
+}
+
+void Plot2d::set_scale_x(const float& scale_x) {
+  scale_x_ = scale_x;
+}
+
+void Plot2d::set_scale_y(const float& scale_y) {
+  scale_y_ = scale_y;
 }
 
 void Plot2d::set_zoom_factor_fitted(const float& zoom_factor_fitted) {
@@ -185,28 +201,30 @@ PlotAxis Plot2d::Axis(const int& position, const int& range,
                       const bool& is_vertical) const {
   // initializes axis
   PlotAxis axis;
+
+
   if (is_vertical == true) {
     axis = PlotAxis(PlotAxis::OrientationType::kVertical);
 
     // solves for center graphics position and converts to data coordinates
     float center = static_cast<float>(position)
                    + (static_cast<float>(range) / 2);
-    center = offset_.y - (center * scale_ / ratio_aspect_);
+    center = offset_.y - (center / (scale_ * scale_y_));
     axis.set_position_center(center);
 
-    // solves for range
-    axis.set_range(range * scale_ / ratio_aspect_);
+    // solves for data range
+    axis.set_range(range / (scale_ * scale_y_));
   } else {
     axis = PlotAxis(PlotAxis::OrientationType::kHorizontal);
 
     // solves for center graphics position and converts to data coordiantes
     float center = static_cast<float>(position)
                    + (static_cast<float>(range) / 2);
-    center = offset_.x + (center * scale_);
+    center = offset_.x + (center / (scale_ * scale_x_));
     axis.set_position_center(center);
 
-    // solves for range
-    axis.set_range(range * scale_);
+    // solves for data range
+    axis.set_range(range / (scale_ * scale_x_));
   }
 
   return axis;
@@ -230,18 +248,18 @@ void Plot2d::DoZoom(const float& factor, const wxPoint& point) const {
 /// This method compares the aspect ratio (height/width) of the data and the
 /// graphics rect to solve for offset and scaling.
 void Plot2d::UpdateOffsetAndScaleToFitData(const wxRect& rc) const {
-  // checks if rect is valid
-  if (rc.GetHeight() == 0 || rc.GetWidth() == 0) {
-    return;
-  }
-
   // gets data rect height/width
   const float xg = static_cast<float>(rc.GetWidth());
   const float yg = static_cast<float>(rc.GetHeight());
 
+  // checks if rect is valid
+  if (xg == 0 || yg == 0) {
+    return;
+  }
+
   // solves for the data rect height/width
-  float xd = limits_data_.x_max - limits_data_.x_min;
-  float yd = (limits_data_.y_max - limits_data_.y_min) * ratio_aspect_;
+  float xd = (limits_data_.x_max - limits_data_.x_min) * scale_x_;
+  float yd = (limits_data_.y_max - limits_data_.y_min) * scale_y_;
 
   // compares the aspect ratios of the render and data rectangles to determine
   // which axis is most space limited
@@ -251,7 +269,7 @@ void Plot2d::UpdateOffsetAndScaleToFitData(const wxRect& rc) const {
   // vertical axis controls
   if (kRatioAspectGraph <= kRatioAspectData) {
     // solves for scale
-    scale_ = yd / yg;
+    scale_ = yg / yd;
 
     // solves for new data rect width
     xd = xg * (yd / yg);
@@ -260,13 +278,13 @@ void Plot2d::UpdateOffsetAndScaleToFitData(const wxRect& rc) const {
     const float xavg = (limits_data_.x_max + limits_data_.x_min) / 2;
 
     // solves for upper left corner of graphics rect, but in data coordinates
-    offset_.x = xavg - (xd / 2);
+    offset_.x = xavg - (xd / scale_x_ / 2);
     offset_.y = limits_data_.y_max;
 
   // horizontal axis controls
   } else {
     // solves for scale
-    scale_ = xd / xg;
+    scale_ = xg / xd;
 
     // solves for new data rect height
     yd = yg * (xd / xg);
@@ -276,7 +294,7 @@ void Plot2d::UpdateOffsetAndScaleToFitData(const wxRect& rc) const {
 
     // solves for upper left corner of graphics rect, but in data coordinates
     offset_.x = limits_data_.x_min;
-    offset_.y = yavg + (yd  / ratio_aspect_ / 2);
+    offset_.y = yavg + (yd / scale_y_ / 2);
   }
 }
 

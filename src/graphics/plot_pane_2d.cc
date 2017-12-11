@@ -120,11 +120,11 @@ void PlotPane2d::OnMouseWheel(wxMouseEvent& event) {
   wxPoint coord_zoom = event.GetPosition();
 
   if (event.GetWheelRotation() < 0) {
+    // zooms out
+    plot_.Zoom(1.0 / kZoomFactor, coord_zoom);
+  } else if (0 < event.GetWheelRotation()) {
     // zooms in
     plot_.Zoom(kZoomFactor, coord_zoom);
-  } else if (0 < event.GetWheelRotation()) {
-    // zooms out
-    plot_.Zoom(1 / kZoomFactor, coord_zoom);
   }
 
   // refreshes window

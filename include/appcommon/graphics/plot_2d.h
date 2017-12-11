@@ -38,11 +38,22 @@ struct Plot2dDataLimits {
 /// This class is a 2D plot. It accepts data/renderers and renders them onto a
 /// device context.
 ///
-/// There are two coordinate systems that are used in this class: data and
-/// graphics. The data coordinate system is used to define most class
-/// parameters. However, most of the functions for manipulating the plot accept
-/// graphics coordinates and convert them to data coordinates internally as
-/// needed.
+/// \par COORDINATE SYSTEMS
+///
+/// There are two coordinate systems that are used in this class:
+/// - data
+/// - graphics
+///
+/// The data coordinate system aligns with the data/renderers. The horizontal
+/// axis increases to the right, while the vertical axis increases upward.
+///
+/// The graphics coordinate system origin aligns with the upper left corner of
+/// the rendering window. The horizontal axis increases to the right, while the
+/// vertical axis increases downward. The vertical axis is inverted compared to
+/// the data coordinate system.
+///
+/// To translate between these coordinate systems, this class uses an offset for
+/// each axis and a scaling factor.
 ///
 /// \par RENDERERS
 ///
@@ -50,20 +61,21 @@ struct Plot2dDataLimits {
 /// the device context. Multiple renderers may be added to create successive
 /// layers to be drawn.
 ///
-/// Note that this plot copies the renderers as they are added to the class, but
-/// does NOT own the datasets that are referenced by the renderers. This is done
-/// by design, as this class is purely a data visualizer.
+/// This plot copies the renderers as they are added to the class, but does NOT
+/// own the datasets that are referenced by the renderers. This is done by
+/// design, as this class is purely a data visualizer.
 ///
-/// \par ASPECT RATIO
+/// \par AXIS SCALING
 ///
 /// This plot allows the vertical and horizontal axes to have different scales.
-/// The data will stay in the native units, but the vertical graphics
-/// coordinates will be scaled by the aspect ratio factor (V/H) when rendered.
+/// The data will stay in the native units, but the graphics coordinates will be
+/// scaled when rendered.
 ///
 /// \par FIT
 ///
-/// The plot can fit the data to a specific device context size. It will keep
-/// the aspect ratio that is currently set.
+/// The plot can fit the data to a specific device context size. It can center
+/// the data on the graphics rect, adjust the general scale to fit exactly, and
+/// then apply the zoom modifier.
 ///
 /// \par SHIFTING
 ///
@@ -120,7 +132,9 @@ class Plot2d {
   ///   The amount (in graphics units) to shift the x axis.
   /// \param[in] y
   ///   The amount (in graphics units) to shift the y axis.
-  void Shift(const float& x, const float& y);
+  /// The shift is converted from graphics units to data units and applied to
+  /// the offset.
+  void Shift(const int& x, const int& y);
 
   /// \brief Zooms the plot.
   /// \param[in] factor
@@ -143,13 +157,17 @@ class Plot2d {
   /// \return The offset.
   Point2d<float> offset() const;
 
-  /// \brief Gets the aspect ratio.
-  /// \return The aspect ratio.
-  float ratio_aspect() const;
-
   /// \brief Gets the scaling factor.
   /// \return The scaling factor.
   float scale() const;
+
+  /// \brief Gets the x-axis scaling factor.
+  /// \return The x-axis scaling factor.
+  float scale_x() const;
+
+  /// \brief Gets the y-axis scaling factor.
+  /// \return The y-axis scaling factor.
+  float scale_y() const;
 
   /// \brief Sets the background brush.
   /// \param[in] brush
@@ -167,15 +185,20 @@ class Plot2d {
   ///   The offset.
   void set_offset(const Point2d<float>& offset);
 
-  /// \brief Sets the aspect ratio.
-  /// \param[in] ratio_aspect
-  ///   The aspect ratio.
-  void set_ratio_aspect(const float& ratio_aspect);
-
   /// \brief Sets the scale.
   /// \param[in] scale
   ///   The scaling factor.
   void set_scale(const float& scale);
+
+  /// \brief Sets the x-axis scale.
+  /// \param[in] scale_x
+  ///   The x-axis scaling factor.
+  void set_scale_x(const float& scale_x);
+
+  /// \brief Sets the y-axis scale.
+  /// \param[in] scale_y
+  ///   The y-axis scaling factor.
+  void set_scale_y(const float& scale_y);
 
   /// \brief Sets the zoom factor to apply after fitting the plot.
   /// \param[in] zoom_factor_fitted
@@ -193,7 +216,7 @@ class Plot2d {
   /// \param[in] range
   ///   The height/width of the graphics rectangle.
   /// \param[in] is_vertical
-  ///   An indicator that adjusts whether the aspect ratio is used.
+  ///   An indicator that adjusts the axis to create.
   /// \return A plot axis (in data coordinates) of the area being rendered.
   ///   These axes are needed by the renderers to draw onto the graphics rect.
   PlotAxis Axis(const int& position, const int& range,
@@ -233,25 +256,32 @@ class Plot2d {
   mutable bool is_updated_limits_data_;
 
   /// \var offset_
-  ///   The upper left coordinate of the rendered data. This aligns with the
-  ///   graphics origin coordinate, which is always (0,0). This value is used to
-  ///   translate between graphics and data coordinates.
+  ///   The horizontal and vertical offset from the data coordinate system origin
+  ///   to the graphics coordinate system origin. This is effectively the graphics
+  ///   origin defined in the data coordinate system.
   mutable Point2d<float> offset_;
-
-  /// \var ratio_aspect_
-  ///   The ratio of the vertical and horizontal units (V / H). When rendering
-  ///   the vertical axis is scaled by this ratio, while the horizontal axis
-  ///   remains unchanged.
-  float ratio_aspect_;
 
   /// \var renderers_
   ///   The list of renderers.
   std::list<const Renderer2d*> renderers_;
 
   /// \var scale_
-  ///   The multiplication factor used to scale graphics coordinates to the data
-  ///   coordinates.
+  ///   The factor that is used to scale the plot (x+y axes) data coordinates
+  ///   to graphics coordinates. This factor and the individual axis factor are
+  ///   combined when scaling.
   mutable float scale_;
+
+  /// \var scale_x_
+  ///   A factor that is used to scale the x-axis data coordinates to graphics
+  ///   coordinates. This factor and the general scale factor are combined when
+  ///   scaling.
+  float scale_x_;
+
+  /// \var scale_y_
+  ///   A factor that is used to scale the y-axis data coordinates to graphics
+  ///   coordinates. This factor and the general scale factor are combined when
+  ///   scaling.
+  float scale_y_;
 
   /// \var zoom_modified_fitted_
   ///   The zoom factor to apply after the plot is fitted. Setting this to 1
