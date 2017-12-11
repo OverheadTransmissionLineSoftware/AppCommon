@@ -18,8 +18,14 @@ END_EVENT_TABLE()
 PlotPane2d::PlotPane2d(wxWindow* parent)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
               wxTAB_TRAVERSAL) {
+  // initializes plot
   plot_.set_background(*wxBLACK_BRUSH);
   plot_.set_is_fitted(true);
+  plot_.set_offset(Point2d<float>(0, 0));
+  plot_.set_scale(1);
+  plot_.set_scale_x(1);
+  plot_.set_scale_y(1);
+  plot_.set_zoom_factor_fitted(1);
 
   // setting to avoid flickering
   this->SetBackgroundStyle(wxBG_STYLE_PAINT);
@@ -52,11 +58,6 @@ void PlotPane2d::OnEraseBackground(wxEraseEvent& event) {
 }
 
 void PlotPane2d::OnMouse(wxMouseEvent& event) {
-  // skips if no plot renderers are active
-  if (plot_.HasRenderers() == false) {
-    return;
-  }
-
   if (event.Dragging() == true) {
     // checks if left button is pressed
     if (event.LeftIsDown() == false) {
@@ -75,8 +76,8 @@ void PlotPane2d::OnMouse(wxMouseEvent& event) {
 
     // finds difference between cached and new mouse points
     // applies inversion to make plot track mouse position
-    const float kShiftX = (coord_new.x - coord_mouse_.x) * -1;
-    const float kShiftY = (coord_new.y - coord_mouse_.y);
+    const int kShiftX = (coord_new.x - coord_mouse_.x) * -1;
+    const int kShiftY = (coord_new.y - coord_mouse_.y);
     plot_.Shift(kShiftX, kShiftY);
 
     // updates cached mouse point
