@@ -11,6 +11,7 @@ BEGIN_EVENT_TABLE(PlotPane2d, wxPanel)
   EVT_LEFT_DOWN(PlotPane2d::OnMouse)
   EVT_LEFT_UP(PlotPane2d::OnMouse)
   EVT_ENTER_WINDOW(PlotPane2d::OnMouse)
+  EVT_LEAVE_WINDOW(PlotPane2d::OnMouse)
   EVT_MOUSEWHEEL(PlotPane2d::OnMouseWheel)
   EVT_PAINT(PlotPane2d::OnPaint)
 END_EVENT_TABLE()
@@ -18,6 +19,10 @@ END_EVENT_TABLE()
 PlotPane2d::PlotPane2d(wxWindow* parent)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
               wxTAB_TRAVERSAL) {
+  // initializes mouse coordinate
+  coord_mouse_.x = -9999;
+  coord_mouse_.y = -9999;
+
   // initializes plot
   plot_.set_background(*wxBLACK_BRUSH);
   plot_.set_is_fitted(true);
@@ -64,6 +69,12 @@ void PlotPane2d::OnMouse(wxMouseEvent& event) {
       return;
     }
 
+    // checks if cached mouse coordinate is valid
+    // this guards against dragging events that start outside of window
+    if ((coord_mouse_.x < 0) || (coord_mouse_.y < 0)) {
+      return;
+    }
+
     // disables plot fitting if active
     if (plot_.is_fitted() == true) {
       plot_.set_is_fitted(false);
@@ -88,13 +99,18 @@ void PlotPane2d::OnMouse(wxMouseEvent& event) {
   } else if (event.Entering() == true) {
     // forces the pane to get focus, which helps catch mouse events
     this->SetFocus();
+  } else if (event.Leaving() == true) {
+    // resets mouse coordinates
+    coord_mouse_.x = -9999;
+    coord_mouse_.y = -9999;
   } else if (event.LeftDown() == true) {
     // caches the mouse coordinates
     coord_mouse_.x = event.GetX();
     coord_mouse_.y = event.GetY();
   } else if (event.LeftUp() == true) {
-    coord_mouse_.x = -999999;
-    coord_mouse_.y = -999999;
+    // resets mouse coordinates
+    coord_mouse_.x = -9999;
+    coord_mouse_.y = -9999;
   }
 }
 
