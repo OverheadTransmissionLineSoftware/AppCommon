@@ -66,7 +66,7 @@ wxPoint Plot2d::PointDataToGraphics(const Point2d<float>& point_data) const {
   // applies offset and scale
   wxPoint point;
   point.x = (point_data.x - offset_.x) * (scale_ * scale_x_);
-  point.y = (point_data.y + offset_.y) * (scale_ * scale_y_);
+  point.y = (point_data.y - offset_.y) * (scale_ * scale_y_) * -1;
 
   return point;
 }
@@ -78,7 +78,7 @@ Point2d<float> Plot2d::PointGraphicsToData(
   point.x = offset_.x
             + (static_cast<float>(point_graphics.x) / (scale_ * scale_x_));
   point.y = offset_.y
-            - (static_cast<float>(point_graphics.y) / (scale_ * scale_y_));
+            + (static_cast<float>(point_graphics.y) / (scale_ * scale_y_)) * -1;
 
   return point;
 }
