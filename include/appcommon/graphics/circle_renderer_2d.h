@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_GRAPHICS_POINTRENDERER2D_H_
-#define OTLS_APPCOMMON_GRAPHICS_POINTRENDERER2D_H_
+#ifndef OTLS_APPCOMMON_GRAPHICS_CIRCLERENDERER2D_H_
+#define OTLS_APPCOMMON_GRAPHICS_CIRCLERENDERER2D_H_
 
 #include "wx/wx.h"
 
@@ -59,4 +59,4 @@ class CircleRenderer2d : public Renderer2d {
   const wxPen* pen_;
 };
 
-#endif  // OTLS_APPCOMMON_GRAPHICS_POINTRENDERER2D_H_
+#endif  // OTLS_APPCOMMON_GRAPHICS_CIRCLERENDERER2D_H_
