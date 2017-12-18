@@ -39,6 +39,13 @@ struct Text2d {
   ///   The message.
   std::string message;
 
+  /// \var offset
+  ///   The translation from the point-position alignment, in graphics units.
+  ///   This is mostly used for readability of the text if another rendered item
+  ///   (e.g. line) is adjacent. The orientation of the axes is increasing to
+  ///   the right and up. This is applied before the text is angled.
+  Point2d<int> offset;
+
   /// \var point
   ///   The text origin point, in data coordinates.
   Point2d<float> point;
@@ -93,7 +100,7 @@ class TextDataSet2d : public DataSet2d {
   void Update() const;
 
   /// \var data_
-  ///   The line data.
+  ///   The text data.
   std::list<const Text2d*> data_;
 
   /// \var is_updated_

@@ -89,6 +89,11 @@ void TextRenderer2d::Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
       offset.set_y(0);
     }
 
+    // applies additional offset stored in text
+    offset.set_x(offset.x() - text->offset.x);
+    offset.set_y(offset.y() - text->offset.y);
+
+    // rotates
     offset.Rotate(text->angle);
 
     // adjusts the graphics coordinates using the offset
