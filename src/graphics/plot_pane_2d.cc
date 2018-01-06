@@ -7,13 +7,15 @@
 #include "wx/dcbuffer.h"
 
 BEGIN_EVENT_TABLE(PlotPane2d, wxPanel)
+  EVT_ENTER_WINDOW(PlotPane2d::OnMouse)
   EVT_ERASE_BACKGROUND(PlotPane2d::OnEraseBackground)
+  EVT_LEAVE_WINDOW(PlotPane2d::OnMouse)
   EVT_LEFT_DOWN(PlotPane2d::OnMouse)
   EVT_LEFT_UP(PlotPane2d::OnMouse)
-  EVT_ENTER_WINDOW(PlotPane2d::OnMouse)
-  EVT_LEAVE_WINDOW(PlotPane2d::OnMouse)
+  EVT_MIDDLE_DOWN(PlotPane2d::OnMouse)
   EVT_MOUSEWHEEL(PlotPane2d::OnMouseWheel)
   EVT_PAINT(PlotPane2d::OnPaint)
+  EVT_RIGHT_DOWN(PlotPane2d::OnMouse)
 END_EVENT_TABLE()
 
 PlotPane2d::PlotPane2d(wxWindow* parent)
@@ -96,14 +98,14 @@ void PlotPane2d::OnMouse(wxMouseEvent& event) {
 
     // refreshes window
     this->Refresh();
-  } else if (event.Entering() == true) {
-    // forces the pane to get focus, which helps catch mouse events
-    this->SetFocus();
   } else if (event.Leaving() == true) {
     // resets mouse coordinates
     coord_mouse_.x = -9999;
     coord_mouse_.y = -9999;
   } else if (event.LeftDown() == true) {
+    // forces the pane to get focus, which helps catch mouse events
+    this->SetFocus();
+
     // caches the mouse coordinates
     coord_mouse_.x = event.GetX();
     coord_mouse_.y = event.GetY();
@@ -111,6 +113,12 @@ void PlotPane2d::OnMouse(wxMouseEvent& event) {
     // resets mouse coordinates
     coord_mouse_.x = -9999;
     coord_mouse_.y = -9999;
+  } else if (event.MiddleDown() == true) {
+    // forces the pane to get focus, which helps catch mouse events
+    this->SetFocus();
+  } else if (event.RightDown() == true) {
+    // forces the pane to get focus, which helps catch mouse events
+    this->SetFocus();
   }
 }
 
