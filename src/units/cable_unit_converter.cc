@@ -111,25 +111,32 @@ void CableComponentUnitConverter::ConvertUnitStyle(
 
   // converts unit style for cable components
   if (system == units::UnitSystem::kMetric) {
-    // converts cable units to consistent unit style
     if (style_to == units::UnitStyle::kConsistent) {
       ConvertComponentCoefficientsStress(
           units::StressConversionType::kMegaPascalToPascal,
           component.coefficients_polynomial_creep);
+
       ConvertComponentCoefficientsStress(
           units::StressConversionType::kMegaPascalToPascal,
           component.coefficients_polynomial_loadstrain);
 
+      component.load_limit_polynomial_creep = units::ConvertStress(
+          component.load_limit_polynomial_creep,
+          units::StressConversionType::kMegaPascalToPascal);
+
+      component.load_limit_polynomial_loadstrain = units::ConvertStress(
+          component.load_limit_polynomial_loadstrain,
+          units::StressConversionType::kMegaPascalToPascal);
+
       component.modulus_compression_elastic_area = units::ConvertStress(
           component.modulus_compression_elastic_area,
           units::StressConversionType::kMegaPascalToPascal);
+
       component.modulus_tension_elastic_area = units::ConvertStress(
           component.modulus_tension_elastic_area,
           units::StressConversionType::kMegaPascalToPascal);
 
     } else if (style_to == units::UnitStyle::kDifferent) {
-    // converts cable units to different unit style
-    if (style_to == units::UnitStyle::kConsistent) {
       ConvertComponentCoefficientsStress(
           units::StressConversionType::kPascalToMegaPascal,
           component.coefficients_polynomial_creep);
@@ -137,21 +144,28 @@ void CableComponentUnitConverter::ConvertUnitStyle(
           units::StressConversionType::kPascalToMegaPascal,
           component.coefficients_polynomial_loadstrain);
 
+      component.load_limit_polynomial_creep = units::ConvertStress(
+          component.load_limit_polynomial_creep,
+          units::StressConversionType::kPascalToMegaPascal);
+
+      component.load_limit_polynomial_loadstrain = units::ConvertStress(
+          component.load_limit_polynomial_loadstrain,
+          units::StressConversionType::kPascalToMegaPascal);
+
       component.modulus_compression_elastic_area = units::ConvertStress(
           component.modulus_compression_elastic_area,
           units::StressConversionType::kPascalToMegaPascal);
+
       component.modulus_tension_elastic_area = units::ConvertStress(
           component.modulus_tension_elastic_area,
           units::StressConversionType::kPascalToMegaPascal);
-      }
     }
-
   } else if (system == units::UnitSystem::kImperial) {
-    // converts cable units to consistent unit style
     if (style_to == units::UnitStyle::kConsistent) {
       ConvertComponentCoefficientsStress(
           units::StressConversionType::kPsiToPsf,
           component.coefficients_polynomial_creep);
+
       ConvertComponentCoefficientsStress(
           units::StressConversionType::kPsiToPsf,
           component.coefficients_polynomial_loadstrain);
@@ -159,39 +173,43 @@ void CableComponentUnitConverter::ConvertUnitStyle(
       component.load_limit_polynomial_creep = units::ConvertStress(
           component.load_limit_polynomial_creep,
           units::StressConversionType::kPsiToPsf);
+
       component.load_limit_polynomial_loadstrain = units::ConvertStress(
           component.load_limit_polynomial_loadstrain,
           units::StressConversionType::kPsiToPsf);
+
       component.modulus_compression_elastic_area = units::ConvertStress(
           component.modulus_compression_elastic_area,
           units::StressConversionType::kPsiToPsf);
+
       component.modulus_tension_elastic_area = units::ConvertStress(
           component.modulus_tension_elastic_area,
           units::StressConversionType::kPsiToPsf);
 
     } else if (style_to == units::UnitStyle::kDifferent) {
-      // converts cable units to different unit style
-      if (style_to == units::UnitStyle::kConsistent) {
-        ConvertComponentCoefficientsStress(
-            units::StressConversionType::kPsfToPsi,
-            component.coefficients_polynomial_creep);
-        ConvertComponentCoefficientsStress(
-            units::StressConversionType::kPsfToPsi,
-            component.coefficients_polynomial_loadstrain);
+      ConvertComponentCoefficientsStress(
+          units::StressConversionType::kPsfToPsi,
+          component.coefficients_polynomial_creep);
+
+      ConvertComponentCoefficientsStress(
+          units::StressConversionType::kPsfToPsi,
+          component.coefficients_polynomial_loadstrain);
 
       component.load_limit_polynomial_creep = units::ConvertStress(
           component.load_limit_polynomial_creep,
           units::StressConversionType::kPsfToPsi);
+
       component.load_limit_polynomial_loadstrain = units::ConvertStress(
           component.load_limit_polynomial_loadstrain,
           units::StressConversionType::kPsfToPsi);
-        component.modulus_compression_elastic_area = units::ConvertStress(
-            component.modulus_compression_elastic_area,
-            units::StressConversionType::kPsfToPsi);
-        component.modulus_tension_elastic_area = units::ConvertStress(
-            component.modulus_tension_elastic_area,
-            units::StressConversionType::kPsfToPsi);
-      }
+
+      component.modulus_compression_elastic_area = units::ConvertStress(
+          component.modulus_compression_elastic_area,
+          units::StressConversionType::kPsfToPsi);
+
+      component.modulus_tension_elastic_area = units::ConvertStress(
+          component.modulus_tension_elastic_area,
+          units::StressConversionType::kPsfToPsi);
     }
   }
 }
@@ -204,15 +222,16 @@ void CableComponentUnitConverter::ConvertUnitSystem(
     return;
   }
 
+  // converts unit system for cable components
   if (system_to == units::UnitSystem::kMetric) {
-    // manually converting this parameter because only scaling is needed to
-    // convert to the new unit system
-    component.coefficient_expansion_linear_thermal =
-        component.coefficient_expansion_linear_thermal * 1.8;
+    component.coefficient_expansion_linear_thermal = units::ConvertTemperature(
+      component.coefficient_expansion_linear_thermal,
+      units::TemperatureConversionType::kFahrenheitToCelsius, 1, false, false);
 
     ConvertComponentCoefficientsLoad(
         units::ForceConversionType::kPoundsToNewtons,
         component.coefficients_polynomial_creep);
+
     ConvertComponentCoefficientsLoad(
         units::ForceConversionType::kPoundsToNewtons,
         component.coefficients_polynomial_loadstrain);
@@ -220,24 +239,27 @@ void CableComponentUnitConverter::ConvertUnitSystem(
     component.load_limit_polynomial_creep = units::ConvertForce(
         component.load_limit_polynomial_creep,
         units::ForceConversionType::kPoundsToNewtons);
+
     component.load_limit_polynomial_loadstrain = units::ConvertForce(
         component.load_limit_polynomial_loadstrain,
         units::ForceConversionType::kPoundsToNewtons);
+
     component.modulus_compression_elastic_area = units::ConvertForce(
         component.modulus_compression_elastic_area,
         units::ForceConversionType::kPoundsToNewtons);
+
     component.modulus_tension_elastic_area = units::ConvertForce(
         component.modulus_tension_elastic_area,
         units::ForceConversionType::kPoundsToNewtons);
   } else if (system_to == units::UnitSystem::kImperial) {
-    // manually converting this parameter because only scaling is needed to
-    // convert to the new unit system
-    component.coefficient_expansion_linear_thermal =
-        component.coefficient_expansion_linear_thermal / 1.8;
+    component.coefficient_expansion_linear_thermal = units::ConvertTemperature(
+      component.coefficient_expansion_linear_thermal,
+      units::TemperatureConversionType::kCelsiusToFahrenheit, 1, false, false);
 
     ConvertComponentCoefficientsLoad(
         units::ForceConversionType::kNewtonsToPounds,
         component.coefficients_polynomial_creep);
+
     ConvertComponentCoefficientsLoad(
         units::ForceConversionType::kNewtonsToPounds,
         component.coefficients_polynomial_loadstrain);
@@ -245,12 +267,15 @@ void CableComponentUnitConverter::ConvertUnitSystem(
     component.load_limit_polynomial_creep = units::ConvertForce(
         component.load_limit_polynomial_creep,
         units::ForceConversionType::kNewtonsToPounds);
+
     component.load_limit_polynomial_loadstrain = units::ConvertForce(
         component.load_limit_polynomial_loadstrain,
         units::ForceConversionType::kNewtonsToPounds);
+
     component.modulus_compression_elastic_area = units::ConvertForce(
         component.modulus_compression_elastic_area,
         units::ForceConversionType::kNewtonsToPounds);
+
     component.modulus_tension_elastic_area = units::ConvertForce(
         component.modulus_tension_elastic_area,
         units::ForceConversionType::kNewtonsToPounds);
@@ -266,45 +291,51 @@ void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
     return;
   }
 
+  // converts component parameters from load to stress if applicable
+  // this is unique to cables, and due to industry standard polynomials
+  if (style_to == units::UnitStyle::kDifferent) {
+    ConvertComponentLoadToStress(cable.area_physical,
+                                 cable.component_core);
+    ConvertComponentLoadToStress(cable.area_physical,
+                                 cable.component_shell);
+  }
+
   // converts unit style for cable
   if (system == units::UnitSystem::kMetric) {
-    // converts cable units to consistent unit style
     if (style_to == units::UnitStyle::kConsistent) {
       cable.area_physical = units::ConvertLength(
           cable.area_physical,
-          units::LengthConversionType::kMillimetersToMeters,
-          2);
+          units::LengthConversionType::kMillimetersToMeters, 2);
+
       cable.diameter = units::ConvertLength(
           cable.diameter,
           units::LengthConversionType::kMillimetersToMeters);
 
-    // converts cable units to different unit style
     } else if (style_to == units::UnitStyle::kDifferent) {
       cable.area_physical = units::ConvertLength(
           cable.area_physical,
-          units::LengthConversionType::kMetersToMillimeters,
-          2);
+          units::LengthConversionType::kMetersToMillimeters, 2);
+
       cable.diameter = units::ConvertLength(
           cable.diameter,
           units::LengthConversionType::kMetersToMillimeters);
     }
   } else if (system == units::UnitSystem::kImperial) {
-    // converts cable units to consistent unit style
     if (style_to == units::UnitStyle::kConsistent) {
       cable.area_physical = units::ConvertLength(
           cable.area_physical,
           units::LengthConversionType::kInchesToFeet,
           2);
+
       cable.diameter = units::ConvertLength(
           cable.diameter,
           units::LengthConversionType::kInchesToFeet);
 
-    // converts cable units to different unit style
     } else if (style_to == units::UnitStyle::kDifferent) {
       cable.area_physical = units::ConvertLength(
           cable.area_physical,
-          units::LengthConversionType::kFeetToInches,
-          2);
+          units::LengthConversionType::kFeetToInches, 2);
+
       cable.diameter = units::ConvertLength(
           cable.diameter,
           units::LengthConversionType::kFeetToInches);
@@ -322,17 +353,12 @@ void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
                                                 style_to,
                                                 cable.component_shell);
 
-  // converts component coefficients, limits, and modulus between load/stress
+  // converts component parameters from stress to load if applicable
   // this is unique to cables, and due to industry standard polynomials
   if (style_to == units::UnitStyle::kConsistent) {
     ConvertComponentStressToLoad(cable.area_physical,
                                  cable.component_core);
     ConvertComponentStressToLoad(cable.area_physical,
-                                 cable.component_shell);
-  } else if (style_to == units::UnitStyle::kDifferent) {
-    ConvertComponentLoadToStress(cable.area_physical,
-                                 cable.component_core);
-    ConvertComponentLoadToStress(cable.area_physical,
                                  cable.component_shell);
   }
 }
@@ -349,12 +375,15 @@ void CableUnitConverter::ConvertUnitSystem(const units::UnitSystem& system_from,
     cable.area_physical = units::ConvertLength(
         cable.area_physical,
         units::LengthConversionType::kFeetToMeters, 2);
+
     cable.diameter = units::ConvertLength(
         cable.diameter,
         units::LengthConversionType::kFeetToMeters);
+
     cable.strength_rated = units::ConvertForce(
         cable.strength_rated,
         units::ForceConversionType::kPoundsToNewtons);
+
     cable.temperature_properties_components = units::ConvertTemperature(
         cable.temperature_properties_components,
         units::TemperatureConversionType::kFahrenheitToCelsius);
@@ -369,12 +398,15 @@ void CableUnitConverter::ConvertUnitSystem(const units::UnitSystem& system_from,
     cable.area_physical = units::ConvertLength(
         cable.area_physical,
         units::LengthConversionType::kMetersToFeet, 2);
+
     cable.diameter = units::ConvertLength(
         cable.diameter,
         units::LengthConversionType::kMetersToFeet);
+
     cable.strength_rated = units::ConvertForce(
         cable.strength_rated,
         units::ForceConversionType::kNewtonsToPounds);
+
     cable.temperature_properties_components = units::ConvertTemperature(
         cable.temperature_properties_components,
         units::TemperatureConversionType::kCelsiusToFahrenheit);
