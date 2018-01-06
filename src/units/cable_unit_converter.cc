@@ -224,6 +224,13 @@ void CableComponentUnitConverter::ConvertUnitSystem(
 
   // converts unit system for cable components
   if (system_to == units::UnitSystem::kMetric) {
+    component.capacity_heat = units::ConvertLength(
+      component.capacity_heat,
+      units::LengthConversionType::kFeetToMeters, 1, false);
+    component.capacity_heat = units::ConvertTemperature(
+      component.capacity_heat,
+      units::TemperatureConversionType::kFahrenheitToCelsius, 1, false);
+
     component.coefficient_expansion_linear_thermal = units::ConvertTemperature(
       component.coefficient_expansion_linear_thermal,
       units::TemperatureConversionType::kFahrenheitToCelsius, 1, false, false);
@@ -252,6 +259,13 @@ void CableComponentUnitConverter::ConvertUnitSystem(
         component.modulus_tension_elastic_area,
         units::ForceConversionType::kPoundsToNewtons);
   } else if (system_to == units::UnitSystem::kImperial) {
+    component.capacity_heat = units::ConvertLength(
+      component.capacity_heat,
+      units::LengthConversionType::kMetersToFeet, 1, false);
+    component.capacity_heat = units::ConvertTemperature(
+      component.capacity_heat,
+      units::TemperatureConversionType::kCelsiusToFahrenheit, 1, false);
+
     component.coefficient_expansion_linear_thermal = units::ConvertTemperature(
       component.coefficient_expansion_linear_thermal,
       units::TemperatureConversionType::kCelsiusToFahrenheit, 1, false, false);
@@ -311,6 +325,14 @@ void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
           cable.diameter,
           units::LengthConversionType::kMillimetersToMeters);
 
+      for (auto iter = cable.resistances_ac.begin();
+           iter != cable.resistances_ac.end(); iter++) {
+        Cable::ResistancePoint& point = *iter;
+
+        point.resistance = units::ConvertLength(
+          point.resistance,
+          units::LengthConversionType::kKilometersToMeters, 1, false);
+      }
     } else if (style_to == units::UnitStyle::kDifferent) {
       cable.area_physical = units::ConvertLength(
           cable.area_physical,
@@ -319,6 +341,15 @@ void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
       cable.diameter = units::ConvertLength(
           cable.diameter,
           units::LengthConversionType::kMetersToMillimeters);
+
+      for (auto iter = cable.resistances_ac.begin();
+           iter != cable.resistances_ac.end(); iter++) {
+        Cable::ResistancePoint& point = *iter;
+
+        point.resistance = units::ConvertLength(
+          point.resistance,
+          units::LengthConversionType::kMetersToKilometers, 1, false);
+      }
     }
   } else if (system == units::UnitSystem::kImperial) {
     if (style_to == units::UnitStyle::kConsistent) {
@@ -331,6 +362,15 @@ void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
           cable.diameter,
           units::LengthConversionType::kInchesToFeet);
 
+      for (auto iter = cable.resistances_ac.begin();
+           iter != cable.resistances_ac.end(); iter++) {
+        Cable::ResistancePoint& point = *iter;
+
+        point.resistance = units::ConvertLength(
+          point.resistance,
+          units::LengthConversionType::kMilesToFeet, 1, false);
+      }
+
     } else if (style_to == units::UnitStyle::kDifferent) {
       cable.area_physical = units::ConvertLength(
           cable.area_physical,
@@ -339,6 +379,15 @@ void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
       cable.diameter = units::ConvertLength(
           cable.diameter,
           units::LengthConversionType::kFeetToInches);
+
+      for (auto iter = cable.resistances_ac.begin();
+           iter != cable.resistances_ac.end(); iter++) {
+        Cable::ResistancePoint& point = *iter;
+
+        point.resistance = units::ConvertLength(
+          point.resistance,
+          units::LengthConversionType::kFeetToMiles, 1, false);
+      }
     }
   }
 
@@ -380,6 +429,19 @@ void CableUnitConverter::ConvertUnitSystem(const units::UnitSystem& system_from,
         cable.diameter,
         units::LengthConversionType::kFeetToMeters);
 
+    for (auto iter = cable.resistances_ac.begin();
+         iter != cable.resistances_ac.end(); iter++) {
+      Cable::ResistancePoint& point = *iter;
+
+      point.resistance = units::ConvertLength(
+        point.resistance,
+        units::LengthConversionType::kFeetToMeters, 1, false);
+
+      point.temperature = units::ConvertTemperature(
+        point.temperature,
+        units::TemperatureConversionType::kFahrenheitToCelsius);
+    }
+
     cable.strength_rated = units::ConvertForce(
         cable.strength_rated,
         units::ForceConversionType::kPoundsToNewtons);
@@ -402,6 +464,19 @@ void CableUnitConverter::ConvertUnitSystem(const units::UnitSystem& system_from,
     cable.diameter = units::ConvertLength(
         cable.diameter,
         units::LengthConversionType::kMetersToFeet);
+
+    for (auto iter = cable.resistances_ac.begin();
+         iter != cable.resistances_ac.end(); iter++) {
+      Cable::ResistancePoint& point = *iter;
+
+      point.resistance = units::ConvertLength(
+        point.resistance,
+        units::LengthConversionType::kMetersToFeet, 1, false);
+
+      point.temperature = units::ConvertTemperature(
+        point.temperature,
+        units::TemperatureConversionType::kCelsiusToFahrenheit);
+    }
 
     cable.strength_rated = units::ConvertForce(
         cable.strength_rated,
