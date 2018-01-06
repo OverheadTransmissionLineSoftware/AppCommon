@@ -36,6 +36,9 @@ class CableEditorDialog : public wxDialog {
   /// \brief Initializes any missing cable component polynomial coefficients.
   void InitializeMissingPolynomialCoefficients();
 
+  /// \brief Initializes any missing resistance points.
+  void InitializeMissingResistancePoints();
+
   /// \brief Handles the cancel button event.
   /// \param[in] event
   ///   The event.

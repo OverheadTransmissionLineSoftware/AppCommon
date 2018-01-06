@@ -28,7 +28,10 @@ CableEditorDialog::CableEditorDialog(wxWindow* parent,
   // saves unmodified cable reference, and copies to modified cable
   cable_ = cable;
   cable_modified_ = Cable(*cable);
+
+  // initializes any missing data
   InitializeMissingPolynomialCoefficients();
+  InitializeMissingResistancePoints();
 
   // sets form validators to transfer between controls data and controls
   SetValidators();
@@ -70,6 +73,16 @@ void CableEditorDialog::InitializeMissingPolynomialCoefficients() {
   num_needed = kSizeRequired - coefficients->size();
   for (int i = 0; i < num_needed; i++) {
     coefficients->push_back(0);
+  }
+}
+
+void CableEditorDialog::InitializeMissingResistancePoints() {
+  // need at least 2 resistance points
+  while (cable_modified_.resistances_ac.size() < 2) {
+    Cable::ResistancePoint point;
+    point.resistance = -999999;
+    point.temperature = -999999;
+    cable_modified_.resistances_ac.push_back(point);
   }
 }
 
@@ -121,22 +134,47 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
         SetLabel("[N/m]");
     XRCCTRL(*this, "statictext_strength_rated_units", wxStaticText)->
         SetLabel("[N]");
-    XRCCTRL(*this, "statictext_temperature_properties_units", wxStaticText)->
+    XRCCTRL(*this, "statictext_temperature_reference_units", wxStaticText)->
         SetLabel("[degC]");
+
+    XRCCTRL(*this, "statictext_resistance_1_units", wxStaticText)->
+        SetLabel("[ohm/km, degC]");
+    XRCCTRL(*this, "statictext_resistance_2_units", wxStaticText)->
+        SetLabel("[ohm/km, degC]");
+    XRCCTRL(*this, "statictext_absorptivity_units", wxStaticText)->
+        SetLabel("[ ]");
+    XRCCTRL(*this, "statictext_emissivity_units", wxStaticText)->
+        SetLabel("[ ]");
 
     XRCCTRL(*this, "statictext_shell_coefficient_expansion_thermal_units",
             wxStaticText)->SetLabel("/degC");
+    XRCCTRL(*this, "statictext_shell_modulus_compression_units", wxStaticText)->
+        SetLabel("[MPa]");
     XRCCTRL(*this, "statictext_shell_modulus_tension_units", wxStaticText)->
         SetLabel("[MPa]");
+    XRCCTRL(*this, "statictext_shell_capacity_heat_units", wxStaticText)->
+        SetLabel("[W-s/m-degC]");
     XRCCTRL(*this, "statictext_shell_polynomial_units", wxStaticText)->
         SetLabel("[%, MPa]");
+    XRCCTRL(*this, "statictext_shell_stressstrain_limit_units", wxStaticText)->
+        SetLabel("[MPa]");
+    XRCCTRL(*this, "statictext_shell_creep_limit_units", wxStaticText)->
+        SetLabel("[MPa]");
 
     XRCCTRL(*this, "statictext_core_coefficient_expansion_thermal_units",
             wxStaticText)->SetLabel("/degC");
+    XRCCTRL(*this, "statictext_core_modulus_compression_units", wxStaticText)->
+        SetLabel("[MPa]");
     XRCCTRL(*this, "statictext_core_modulus_tension_units", wxStaticText)->
         SetLabel("[MPa]");
+    XRCCTRL(*this, "statictext_core_capacity_heat_units", wxStaticText)->
+        SetLabel("[W-s/m-degC]");
     XRCCTRL(*this, "statictext_core_polynomial_units", wxStaticText)->
         SetLabel("[%, MPa]");
+    XRCCTRL(*this, "statictext_core_stressstrain_limit_units", wxStaticText)->
+        SetLabel("[MPa]");
+    XRCCTRL(*this, "statictext_core_creep_limit_units", wxStaticText)->
+        SetLabel("[MPa]");
   } else if (units == units::UnitSystem::kImperial) {
     XRCCTRL(*this, "statictext_area_physical_units", wxStaticText)->
         SetLabel("[in^2]");
@@ -146,22 +184,47 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
         SetLabel("[lb/ft]");
     XRCCTRL(*this, "statictext_strength_rated_units", wxStaticText)->
         SetLabel("[lbs]");
-    XRCCTRL(*this, "statictext_temperature_properties_units", wxStaticText)->
+    XRCCTRL(*this, "statictext_temperature_reference_units", wxStaticText)->
         SetLabel("[degF]");
+
+    XRCCTRL(*this, "statictext_resistance_1_units", wxStaticText)->
+        SetLabel("[ohm/mi, degF]");
+    XRCCTRL(*this, "statictext_resistance_2_units", wxStaticText)->
+        SetLabel("[ohm/mi, degF]");
+    XRCCTRL(*this, "statictext_absorptivity_units", wxStaticText)->
+        SetLabel("[ ]");
+    XRCCTRL(*this, "statictext_emissivity_units", wxStaticText)->
+        SetLabel("[ ]");
 
     XRCCTRL(*this, "statictext_shell_coefficient_expansion_thermal_units",
             wxStaticText)->SetLabel("[/degF]");
+    XRCCTRL(*this, "statictext_shell_modulus_compression_units", wxStaticText)->
+        SetLabel("[psi]");
     XRCCTRL(*this, "statictext_shell_modulus_tension_units", wxStaticText)->
         SetLabel("[psi]");
+    XRCCTRL(*this, "statictext_shell_capacity_heat_units", wxStaticText)->
+        SetLabel("[W-s/ft-degF]");
     XRCCTRL(*this, "statictext_shell_polynomial_units", wxStaticText)->
         SetLabel("[%, psi]");
+    XRCCTRL(*this, "statictext_shell_stressstrain_limit_units", wxStaticText)->
+        SetLabel("[psi]");
+    XRCCTRL(*this, "statictext_shell_creep_limit_units", wxStaticText)->
+        SetLabel("[psi]");
 
     XRCCTRL(*this, "statictext_core_coefficient_expansion_thermal_units",
             wxStaticText)->SetLabel("[/degF]");
+    XRCCTRL(*this, "statictext_core_modulus_compression_units", wxStaticText)->
+        SetLabel("[psi]");
     XRCCTRL(*this, "statictext_core_modulus_tension_units", wxStaticText)->
         SetLabel("[psi]");
+    XRCCTRL(*this, "statictext_core_capacity_heat_units", wxStaticText)->
+        SetLabel("[W-s/ft-degF]");
     XRCCTRL(*this, "statictext_core_polynomial_units", wxStaticText)->
         SetLabel("[%, psi]");
+    XRCCTRL(*this, "statictext_core_stressstrain_limit_units", wxStaticText)->
+        SetLabel("[psi]");
+    XRCCTRL(*this, "statictext_core_creep_limit_units", wxStaticText)->
+        SetLabel("[psi]");
   }
 }
 
@@ -209,11 +272,61 @@ void CableEditorDialog::SetValidators() {
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
-  // temperature-properties
+  // temperature-reference
   precision = 0;
   value_num = &cable_modified_.temperature_properties_components;
   style = wxNUM_VAL_DEFAULT;
-  textctrl = XRCCTRL(*this, "textctrl_temperature_properties", wxTextCtrl);
+  textctrl = XRCCTRL(*this, "textctrl_temperature_reference", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // resistance point #1
+  precision = 4;
+  value_num =
+      &(*std::next(cable_modified_.resistances_ac.begin(), 0)).resistance;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_resistance_1_resistance", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  precision = 0;
+  value_num =
+      &(*std::next(cable_modified_.resistances_ac.begin(), 0)).temperature;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_resistance_1_temperature", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // resistance point #2
+  precision = 4;
+  value_num =
+      &(*std::next(cable_modified_.resistances_ac.begin(), 1)).resistance;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_resistance_2_resistance", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  precision = 0;
+  value_num =
+      &(*std::next(cable_modified_.resistances_ac.begin(), 1)).temperature;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_resistance_2_temperature", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // absorptivity
+  precision = 2;
+  value_num = &cable_modified_.absorptivity;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_absorptivity", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // emissivity
+  precision = 2;
+  value_num = &cable_modified_.emissivity;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_emissivity", wxTextCtrl);
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
@@ -227,11 +340,27 @@ void CableEditorDialog::SetValidators() {
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
-  // shell modulus
+  // shell modulus-compression
+  precision = 0;
+  value_num = &cable_modified_.component_shell.modulus_compression_elastic_area;
+  style = wxNUM_VAL_THOUSANDS_SEPARATOR;
+  textctrl = XRCCTRL(*this, "textctrl_shell_modulus_compression", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // shell modulus-tension
   precision = 0;
   value_num = &cable_modified_.component_shell.modulus_tension_elastic_area;
   style = wxNUM_VAL_THOUSANDS_SEPARATOR;
   textctrl = XRCCTRL(*this, "textctrl_shell_modulus_tension", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // shell capacity-heat
+  precision = 1;
+  value_num = &cable_modified_.component_shell.capacity_heat;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_shell_capacity_heat", wxTextCtrl);
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
@@ -325,6 +454,22 @@ void CableEditorDialog::SetValidators() {
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
+  // shell stressstrain-limit
+  precision = 1;
+  value_num = &cable_modified_.component_shell.load_limit_polynomial_loadstrain;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_shell_stressstrain_limit", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // shell creep-limit
+  precision = 1;
+  value_num = &cable_modified_.component_shell.load_limit_polynomial_creep;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_shell_creep_limit", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
   // core coefficient-expansion-thermal
   precision = 7;
   value_num =
@@ -335,12 +480,29 @@ void CableEditorDialog::SetValidators() {
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
-  // core elastic area modulus
+  // core modulus-compression
+  precision = 0;
+  value_num =
+      &cable_modified_.component_core.modulus_compression_elastic_area;
+  style = wxNUM_VAL_THOUSANDS_SEPARATOR;
+  textctrl = XRCCTRL(*this, "textctrl_core_modulus_compression", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // core modulus-tension
   precision = 0;
   value_num =
       &cable_modified_.component_core.modulus_tension_elastic_area;
   style = wxNUM_VAL_THOUSANDS_SEPARATOR;
   textctrl = XRCCTRL(*this, "textctrl_core_modulus_tension", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // core capacity-heat
+  precision = 1;
+  value_num = &cable_modified_.component_core.capacity_heat;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_core_capacity_heat", wxTextCtrl);
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
@@ -431,6 +593,22 @@ void CableEditorDialog::SetValidators() {
       &cable_modified_.component_core.coefficients_polynomial_creep.at(4);
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_creep_a4", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // core stressstrain-limit
+  precision = 1;
+  value_num = &cable_modified_.component_core.load_limit_polynomial_loadstrain;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_core_stressstrain_limit", wxTextCtrl);
+  textctrl->SetValidator(
+      wxFloatingPointValidator<double>(precision, value_num, style));
+
+  // core creep-limit
+  precision = 1;
+  value_num = &cable_modified_.component_core.load_limit_polynomial_creep;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
+  textctrl = XRCCTRL(*this, "textctrl_core_creep_limit", wxTextCtrl);
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 }

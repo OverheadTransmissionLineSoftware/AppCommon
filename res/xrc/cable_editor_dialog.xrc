@@ -36,149 +36,325 @@
         </object>
         <object class="sizeritem">
           <option>0</option>
-          <flag>wxEXPAND</flag>
-          <border>0</border>
-          <object class="wxFlexGridSizer">
-            <rows>6</rows>
-            <cols>3</cols>
-            <vgap>0</vgap>
-            <hgap>0</hgap>
-            <flexibledirection>wxHORIZONTAL</flexibledirection>
-            <growablecols></growablecols>
-            <growablerows></growablerows>
+          <flag>wxEXPAND|wxLEFT|wxRIGHT</flag>
+          <border>5</border>
+          <object class="wxStaticBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <label>Entire Cable - Mechanical</label>
             <object class="sizeritem">
               <option>0</option>
-              <flag>wxLEFT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_area_physical">
-                <label>Physical Area</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag>wxLEFT|wxRIGHT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_area_physical_units">
-                <label>WWW</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag></flag>
+              <flag>wxEXPAND</flag>
               <border>0</border>
-              <object class="wxTextCtrl" name="textctrl_area_physical">
-                <size>75,-1</size>
-                <value></value>
-                <maxlength>0</maxlength>
-                <tooltip>The total area of the cable, including all components.</tooltip>
+              <object class="wxFlexGridSizer">
+                <rows>6</rows>
+                <cols>3</cols>
+                <vgap>0</vgap>
+                <hgap>0</hgap>
+                <flexibledirection>wxHORIZONTAL</flexibledirection>
+                <growablecols></growablecols>
+                <growablerows></growablerows>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_area_physical">
+                    <label>Area</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_area_physical_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_area_physical">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The total area of the cable, including all components.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_diameter">
+                    <label>Diameter</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_diameter_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_diameter">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The nominal outer diameter of the cable.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_weight_unit">
+                    <label>Unit Weight</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_weight_unit_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_weight_unit">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The weight per unit length of the cable.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_strength_rated">
+                    <label>Rated Strength</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_strength_rated_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_strength_rated">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The rated load that should not be exceeded.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_temperature_reference">
+                    <label>Reference Temperature</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_temperature_reference_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_temperature_reference">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The reference temperature of the component mechanical properties.</tooltip>
+                  </object>
+                </object>
               </object>
             </object>
+          </object>
+        </object>
+        <object class="sizeritem">
+          <option>0</option>
+          <flag>wxEXPAND|wxLEFT|wxRIGHT</flag>
+          <border>5</border>
+          <object class="wxStaticBoxSizer">
+            <orient>wxHORIZONTAL</orient>
+            <label>Entire Cable - Thermal</label>
             <object class="sizeritem">
               <option>0</option>
-              <flag>wxLEFT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_diameter">
-                <label>Diameter</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag>wxLEFT|wxRIGHT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_diameter_units">
-                <label>WWW</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag></flag>
+              <flag>wxEXPAND</flag>
               <border>0</border>
-              <object class="wxTextCtrl" name="textctrl_diameter">
-                <size>75,-1</size>
-                <value></value>
-                <maxlength>0</maxlength>
-                <tooltip>The nominal outer diameter of the cable.</tooltip>
+              <object class="wxFlexGridSizer">
+                <rows>2</rows>
+                <cols>4</cols>
+                <vgap>0</vgap>
+                <hgap>0</hgap>
+                <flexibledirection>wxHORIZONTAL</flexibledirection>
+                <growablecols></growablecols>
+                <growablerows></growablerows>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_resistance_1">
+                    <label>Resistance #1</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_resistance_1_units">
+                    <label>WWWWWWWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_resistance_1_resistance">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The first AC resistance.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_resistance_1_temperature">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The reference temperature for the first AC resistance.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_resistance_2">
+                    <label>Resistance #2</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_resistance_2_units">
+                    <label>WWWWWWWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_resistance_2_resistance">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The second AC resistance.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_resistance_2_temperature">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The reference temperature for the second AC resistance.</tooltip>
+                  </object>
+                </object>
               </object>
             </object>
             <object class="sizeritem">
               <option>0</option>
-              <flag>wxLEFT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_weight_unit">
-                <label>Unit Weight</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag>wxLEFT|wxRIGHT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_weight_unit_units">
-                <label>WWW</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag></flag>
+              <flag>wxEXPAND</flag>
               <border>0</border>
-              <object class="wxTextCtrl" name="textctrl_weight_unit">
-                <size>75,-1</size>
-                <value></value>
-                <maxlength>0</maxlength>
-                <tooltip>The weight per unit length of the cable.</tooltip>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag>wxLEFT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_strength_rated">
-                <label>Rated Strength</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag>wxLEFT|wxRIGHT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_strength_rated_units">
-                <label>WWW</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag></flag>
-              <border>0</border>
-              <object class="wxTextCtrl" name="textctrl_strength_rated">
-                <size>75,-1</size>
-                <value></value>
-                <maxlength>0</maxlength>
-                <tooltip>The rated load that should not be exceeded.</tooltip>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag>wxLEFT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_temperature_properties">
-                <label>Properties Temperature</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag>wxLEFT|wxRIGHT</flag>
-              <border>10</border>
-              <object class="wxStaticText" name="statictext_temperature_properties_units">
-                <label>WWW</label>
-              </object>
-            </object>
-            <object class="sizeritem">
-              <option>0</option>
-              <flag></flag>
-              <border>0</border>
-              <object class="wxTextCtrl" name="textctrl_temperature_properties">
-                <size>75,-1</size>
-                <value></value>
-                <maxlength>0</maxlength>
-                <tooltip>The reference temperature of the component properties.</tooltip>
+              <object class="wxFlexGridSizer">
+                <rows>2</rows>
+                <cols>3</cols>
+                <vgap>0</vgap>
+                <hgap>0</hgap>
+                <flexibledirection>wxHORIZONTAL</flexibledirection>
+                <growablecols></growablecols>
+                <growablerows></growablerows>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_absorptivity">
+                    <label>Absorptivity</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_absorptivity_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_absorptivity">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The radiation absorption coefficient.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_emissivity">
+                    <label>Emissivity</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_emissivity_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag></flag>
+                  <border>0</border>
+                  <object class="wxTextCtrl" name="textctrl_emissivity">
+                    <size>75,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The radiation emissivity coefficient.</tooltip>
+                  </object>
+                </object>
               </object>
             </object>
           </object>
@@ -192,10 +368,10 @@
             <label>Shell</label>
             <object class="sizeritem">
               <option>0</option>
-              <flag>wxEXPAND</flag>
+              <flag></flag>
               <border>0</border>
               <object class="wxFlexGridSizer">
-                <rows>2</rows>
+                <rows>4</rows>
                 <cols>3</cols>
                 <vgap>0</vgap>
                 <hgap>0</hgap>
@@ -232,6 +408,33 @@
                   <option>1</option>
                   <flag>wxLEFT</flag>
                   <border>10</border>
+                  <object class="wxStaticText" name="statictext_shell_modulus_compression">
+                    <label>Elastic Compression Modulus</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_shell_modulus_compression_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxTextCtrl" name="textctrl_shell_modulus_compression">
+                    <size>100,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The elastic modulus that defines how the component compresses.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>1</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
                   <object class="wxStaticText" name="statictext_shell_modulus_tension">
                     <label>Elastic Tension Modulus</label>
                   </object>
@@ -255,11 +458,38 @@
                     <tooltip>The elastic modulus that defines how the component elongates when stretched.</tooltip>
                   </object>
                 </object>
+                <object class="sizeritem">
+                  <option>1</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_shell_capacity_heat">
+                    <label>Heat Capacity</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_shell_capacity_heat_units">
+                    <label>WWWWWWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxTextCtrl" name="textctrl_shell_capacity_heat">
+                    <size>100,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The amount of thermal energy the component can store.</tooltip>
+                  </object>
+                </object>
               </object>
             </object>
             <object class="sizeritem">
               <option>0</option>
-              <flag>wxEXPAND</flag>
+              <flag></flag>
               <border>0</border>
               <object class="wxGridSizer">
                 <rows>3</rows>
@@ -452,18 +682,9 @@
                 </object>
               </object>
             </object>
-          </object>
-        </object>
-        <object class="sizeritem">
-          <option>0</option>
-          <flag>wxEXPAND|wxLEFT|wxRIGHT</flag>
-          <border>5</border>
-          <object class="wxStaticBoxSizer">
-            <orient>wxVERTICAL</orient>
-            <label>Core</label>
             <object class="sizeritem">
               <option>0</option>
-              <flag>wxEXPAND</flag>
+              <flag>wxTOP</flag>
               <border>5</border>
               <object class="wxFlexGridSizer">
                 <rows>2</rows>
@@ -476,8 +697,84 @@
                   <option>0</option>
                   <flag>wxLEFT</flag>
                   <border>10</border>
+                  <object class="wxStaticText" name="statictext_shell_stressstrain_limit">
+                    <label>Stress-Strain Limit</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_shell_stressstrain_limit_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxTextCtrl" name="textctrl_shell_stressstrain_limit">
+                    <size>100,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The upper limit for the stress-strain polynomial.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_shell_creep_limit">
+                    <label>Creep Limit</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_shell_creep_limit_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxTextCtrl" name="textctrl_shell_creep_limit">
+                    <size>100,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The upper limit for the creep polynomial.</tooltip>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object class="sizeritem">
+          <option>0</option>
+          <flag>wxEXPAND|wxLEFT|wxRIGHT</flag>
+          <border>5</border>
+          <object class="wxStaticBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <label>Core</label>
+            <object class="sizeritem">
+              <option>0</option>
+              <flag></flag>
+              <border>5</border>
+              <object class="wxFlexGridSizer">
+                <rows>4</rows>
+                <cols>3</cols>
+                <vgap>0</vgap>
+                <hgap>0</hgap>
+                <growablecols></growablecols>
+                <growablerows></growablerows>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
                   <object class="wxStaticText" name="statictext_core_coefficient_expansion_thermal">
-                    <label>Thermal Coefficient</label>
+                    <label>Thermal Expansion</label>
                   </object>
                 </object>
                 <object class="sizeritem">
@@ -497,6 +794,33 @@
                     <value></value>
                     <maxlength>0</maxlength>
                     <tooltip>The linear expansion coefficient that defines how much the component elongates/contracts due to change from reference temperature.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>1</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_core_modulus_compression">
+                    <label>Elastic Compression Modulus</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_core_modulus_compression_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxTextCtrl" name="textctrl_core_modulus_compression">
+                    <size>100,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The elastic modulus that defines how the component compresses.</tooltip>
                   </object>
                 </object>
                 <object class="sizeritem">
@@ -526,11 +850,38 @@
                     <tooltip>The elastic modulus that defines how the component elongates when stretched.</tooltip>
                   </object>
                 </object>
+                <object class="sizeritem">
+                  <option>1</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_core_capacity_heat">
+                    <label>Heat Capacity</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_core_capacity_heat_units">
+                    <label>WWWWWWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxTextCtrl" name="textctrl_core_capacity_heat">
+                    <size>100,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The amount of thermal energy the component can store.</tooltip>
+                  </object>
+                </object>
               </object>
             </object>
             <object class="sizeritem">
               <option>0</option>
-              <flag>wxEXPAND</flag>
+              <flag></flag>
               <border>0</border>
               <object class="wxGridSizer">
                 <rows>3</rows>
@@ -719,6 +1070,73 @@
                     <value></value>
                     <maxlength>0</maxlength>
                     <tooltip>A polynomial coefficient that describes how the component stretches over time.</tooltip>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object class="sizeritem">
+              <option>0</option>
+              <flag>wxTOP</flag>
+              <border>5</border>
+              <object class="wxFlexGridSizer">
+                <rows>2</rows>
+                <cols>3</cols>
+                <vgap>0</vgap>
+                <hgap>0</hgap>
+                <growablecols></growablecols>
+                <growablerows></growablerows>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_core_stressstrain_limit">
+                    <label>Stress-Strain Limit</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_core_stressstrain_limit_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxTextCtrl" name="textctrl_core_stressstrain_limit">
+                    <size>100,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The upper limit for the stress-strain polynomial.</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_core_creep_limit">
+                    <label>Creep Limit</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxStaticText" name="statictext_core_creep_limit_units">
+                    <label>WWW</label>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <option>0</option>
+                  <flag>wxLEFT</flag>
+                  <border>10</border>
+                  <object class="wxTextCtrl" name="textctrl_core_creep_limit">
+                    <size>100,-1</size>
+                    <value></value>
+                    <maxlength>0</maxlength>
+                    <tooltip>The upper limit for the creep polynomial.</tooltip>
                   </object>
                 </object>
               </object>
