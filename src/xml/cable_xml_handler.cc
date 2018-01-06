@@ -26,6 +26,18 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
     node_root->AddAttribute("name", name);
   }
 
+  // creates capacity-heat node and adds to root node
+  title = "capacity_heat";
+  value = component.capacity_heat;
+  content = helper::DoubleToFormattedString(value, 1);
+  if (units == units::UnitSystem::kMetric) {
+    attribute = wxXmlAttribute("units", "W-s/m-degC");
+  } else if (units == units::UnitSystem::kImperial) {
+    attribute = wxXmlAttribute("units", "W-s/ft-degF");
+  }
+  node_element = CreateElementNodeWithContent(title, content, &attribute);
+  node_root->AddChild(node_element);
+
   // creates coefficient-expansion-linear-thermal node and adds to root node
   title = "coefficient_expansion_linear_thermal";
   value = component.coefficient_expansion_linear_thermal;
@@ -38,9 +50,9 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates modulus-tension-elastic-area node and adds to root node
-  title = "modulus_tension_elastic";
-  value = component.modulus_tension_elastic_area;
+  // creates modulus-compression-elastic-area node and adds to root node
+  title = "modulus_compression_elastic";
+  value = component.modulus_compression_elastic_area;
   content = helper::DoubleToFormattedString(value, 0);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "MPa");
@@ -50,9 +62,9 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
-  // creates modulus-compression-elastic-area node and adds to root node
-  title = "modulus_compression_elastic";
-  value = component.modulus_compression_elastic_area;
+  // creates modulus-tension-elastic-area node and adds to root node
+  title = "modulus_tension_elastic";
+  value = component.modulus_tension_elastic_area;
   content = helper::DoubleToFormattedString(value, 0);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "MPa");
@@ -188,7 +200,17 @@ bool CableComponentXmlHandler::ParseNodeV1(const wxXmlNode* root,
     const wxString content = ParseElementNodeWithContent(node);
     double value = -999999;
 
-    if (title == "coefficient_expansion_linear_thermal") {
+    if (title == "capacity_heat") {
+      if (content.ToDouble(&value) == true) {
+        component.capacity_heat = value;
+      } else {
+        message = FileAndLineNumber(filepath, node)
+                  + "Invalid heat capacity.";
+        wxLogError(message);
+        component.capacity_heat = -999999;
+        status = false;
+      }
+    } else if (title == "coefficient_expansion_linear_thermal") {
       if (content.ToDouble(&value) == true) {
         component.coefficient_expansion_linear_thermal = value;
       } else {
@@ -389,6 +411,33 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
 
+  // creates absorptivity node and adds to root node
+  title = "absorptivity";
+  value = cable.absorptivity;
+  content = helper::DoubleToFormattedString(value, 2);
+  attribute = wxXmlAttribute("units", "");
+  node_element = CreateElementNodeWithContent(title, content, &attribute);
+  node_root->AddChild(node_element);
+
+  // creates emissivity node and adds to root node
+  title = "emissivity";
+  value = cable.emissivity;
+  content = helper::DoubleToFormattedString(value, 2);
+  attribute = wxXmlAttribute("units", "");
+  node_element = CreateElementNodeWithContent(title, content, &attribute);
+  node_root->AddChild(node_element);
+
+  // creates resistances-ac node
+  title = "resistances_ac";
+  node_element = new wxXmlNode(wxXML_ELEMENT_NODE, title);
+  for (auto iter = cable.resistances_ac.cbegin();
+       iter != cable.resistances_ac.cend(); iter++) {
+    const Cable::ResistancePoint& point = *iter;
+    wxXmlNode* sub_node = CreateNodeResistancePoint(point, "", units);
+    node_element->AddChild(sub_node);
+  }
+  node_root->AddChild(node_element);
+
   // creates component-shell node and adds to root node
   node_root->AddChild(
       CableComponentXmlHandler::CreateNode(cable.component_shell, "shell",
@@ -434,6 +483,103 @@ bool CableXmlHandler::ParseNode(const wxXmlNode* root,
     wxLogError(message);
     return false;
   }
+}
+
+  wxXmlNode* CableXmlHandler::CreateNodeResistancePoint(
+    const Cable::ResistancePoint& point,
+    const std::string& name,
+    const units::UnitSystem& units) {
+  // variables used to create XML node
+  double value = -999999;
+  std::string title;
+  std::string content;
+  wxXmlAttribute attribute;
+  wxXmlNode* node_root = nullptr;
+  wxXmlNode* node_element = nullptr;
+
+  // creates a node for the root
+  node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "resistance_point");
+
+  if (name != "") {
+    node_root->AddAttribute("name", name);
+  }
+
+  // creates resistance node and adds to root node
+  title = "resistance";
+  value = point.resistance;
+  content = helper::DoubleToFormattedString(value, 4);
+  if (units == units::UnitSystem::kMetric) {
+    attribute = wxXmlAttribute("units", "ohm/km");
+  } else if (units == units::UnitSystem::kImperial) {
+    attribute = wxXmlAttribute("units", "ohm/mi");
+  }
+  node_element = CreateElementNodeWithContent(title, content, &attribute);
+  node_root->AddChild(node_element);
+
+  // creates temperature node and adds to root node
+  title = "temperature";
+  value = point.temperature;
+  content = helper::DoubleToFormattedString(value, 0);
+  if (units == units::UnitSystem::kMetric) {
+    attribute = wxXmlAttribute("units", "deg C");
+  } else if (units == units::UnitSystem::kImperial) {
+    attribute = wxXmlAttribute("units", "deg F");
+  }
+  node_element = CreateElementNodeWithContent(title, content, &attribute);
+  node_root->AddChild(node_element);
+
+  // returns root node
+  return node_root;
+}
+
+ bool CableXmlHandler::ParseNodeResistancePoint(const wxXmlNode* root,
+                                                const std::string& filepath,
+                                                Cable::ResistancePoint& point) {
+  // variables used to parse XML node
+  bool status = true;
+  wxString title;
+  wxString content;
+  double value = -999999;
+
+  wxString message;
+
+  // evaluates each child node
+  const wxXmlNode* node = root->GetChildren();
+  while (node != nullptr) {
+    title = node->GetName();
+    content = ParseElementNodeWithContent(node);
+
+    if (title == "resistance") {
+      if (content.ToDouble(&value) == true) {
+        point.resistance = value;
+      } else {
+        message = FileAndLineNumber(filepath, node)
+                  + "Invalid resistance.";
+        wxLogError(message);
+        point.resistance = -999999;
+        status = false;
+      }
+    } else if (title == "temperature") {
+      if (content.ToDouble(&value) == true) {
+        point.temperature = value;
+      } else {
+        message = FileAndLineNumber(filepath, node)
+                  + "Invalid temperature.";
+        wxLogError(message);
+        point.temperature = -999999;
+        status = false;
+      }
+    } else {
+      message = FileAndLineNumber(filepath, node)
+                + "XML node isn't recognized.";
+      wxLogError(message);
+      status = false;
+    }
+
+    node = node->GetNext();
+  }
+
+  return status;
 }
 
 bool CableXmlHandler::ParseNodeV1(const wxXmlNode* root,
@@ -504,6 +650,43 @@ bool CableXmlHandler::ParseNodeV1(const wxXmlNode* root,
         wxLogError(message);
         cable.weight_unit = -999999;
         status = false;
+      }
+    } else if (title == "absorptivity") {
+      if (content.ToDouble(&value) == true) {
+        cable.absorptivity = value;
+      } else {
+        message = FileAndLineNumber(filepath, node)
+                  + "Invalid absorptivity.";
+        wxLogError(message);
+        cable.absorptivity = -999999;
+        status = false;
+      }
+    } else if (title == "emissivity") {
+      if (content.ToDouble(&value) == true) {
+        cable.emissivity = value;
+      } else {
+        message = FileAndLineNumber(filepath, node)
+                  + "Invalid emissivity.";
+        wxLogError(message);
+        cable.emissivity = -999999;
+        status = false;
+      }
+    } else if (title == "resistances_ac") {
+      // gets resistance point sub-nodes
+      wxXmlNode* sub_node = node->GetChildren();
+      while (sub_node != nullptr) {
+        // parses resistance point node
+        Cable::ResistancePoint point;
+        const bool status_node = ParseNodeResistancePoint(sub_node,
+                                                          filepath, point);
+        if (status_node == true) {
+          // adds to resistance container
+          cable.resistances_ac.push_back(point);
+        } else {
+          status = false;
+        }
+
+        sub_node = sub_node->GetNext();
       }
     } else if (title == "cable_component") {
       // selects cable component type and passes off to cable component parser
