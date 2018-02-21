@@ -7,7 +7,7 @@
 
 wxXmlNode* ColorXmlHandler::CreateNode(
     const wxColour& color,
-    const std::string name) {
+    const std::string& name) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   std::string title;

@@ -5,7 +5,6 @@
 #define OTLS_APPCOMMON_XML_COLORXMLHANDLER_H_
 
 #include <string>
-#include <list>
 
 #include "wx/xml/xml.h"
 
@@ -28,8 +27,9 @@ class ColorXmlHandler : public XmlHandler {
   /// \param[in] name
   ///   The name of the XML node. This will be an attribute for the created
   ///   node. If empty, no attribute will be created.
+  /// \return An XML node for the color.
   static wxXmlNode* CreateNode(const wxColour& color,
-                               const std::string name);
+                               const std::string& name);
 
   /// \brief Parses an XML node and populates a color.
   /// \param[in] root
