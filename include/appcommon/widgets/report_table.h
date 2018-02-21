@@ -95,6 +95,20 @@ class ReportTable : public wxPanel {
   /// \brief Refreshes the listctrl with the data.
   void Refresh();
 
+  /// \brief Gets a header title.
+  /// \param[in] index_column
+  ///   The column index.
+  /// \return The header title.
+  std::string TitleHeader(const int& index_column) const;
+
+  /// \brief Gets a table value.
+  /// \param[in] index_row
+  ///   The row index.
+  /// \param[in] index_column
+  ///   The column index.
+  /// \return The table value.
+  std::string ValueTable(const int& index_row, const int& index_column) const;
+
   /// \brief Gets the data that is displayed.
   const ReportData* data() const;
 

@@ -216,6 +216,38 @@ void ReportTable::Refresh() {
   listctrl_->Thaw();
 }
 
+std::string ReportTable::TitleHeader(const int& index_column) const {
+  // checks column index
+  const int kSize = data_->headers.size();
+  if ((index_column < 0) || (kSize <= index_column)) {
+    return "";
+  }
+
+  // accesses title and returns
+  const ReportColumnHeader& header = *std::next(data_->headers.cbegin(),
+                                                index_column);
+  return header.title;
+}
+
+std::string ReportTable::ValueTable(const int& index_row,
+                                    const int& index_column) const {
+  // checks row index
+  const int kSizeRows = data_->rows.size();
+  if ((index_row < 0) || (kSizeRows <= index_row)) {
+    return "";
+  }
+
+  // checks column index
+  const int kSizeColumns = data_->headers.size();
+  if ((index_column < 0) || (kSizeColumns <= index_column)) {
+    return "";
+  }
+
+  // accesses value and returns
+  const ReportRow& row = *std::next(data_->rows.cbegin(), index_row);
+  return *std::next(row.values.cbegin(), index_column);
+}
+
 const ReportData* ReportTable::data() const {
   return data_;
 }
