@@ -90,7 +90,7 @@ class ReportTable : public wxPanel {
   /// \param[in] index_listctrl
   ///   The listctrl index, which reflects any sorting that is applied.
   /// \return The report row index, which does not reflect any sorting.
-  const long IndexReportRow(const long& index_listctrl);
+  const long IndexReportRow(const long& index_listctrl) const;
 
   /// \brief Refreshes the listctrl with the data.
   void Refresh();

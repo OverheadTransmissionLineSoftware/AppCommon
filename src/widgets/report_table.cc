@@ -120,7 +120,7 @@ ReportTable::ReportTable(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
 ReportTable::~ReportTable() {
 }
 
-const long ReportTable::IndexReportRow(const long& index_listctrl) {
+const long ReportTable::IndexReportRow(const long& index_listctrl) const {
   if (index_listctrl < 0) {
     return -1;
   } else if (listctrl_->GetItemCount() <= index_listctrl) {
