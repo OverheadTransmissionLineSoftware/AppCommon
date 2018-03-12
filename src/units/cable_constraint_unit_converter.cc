@@ -7,7 +7,7 @@ void CableConstraintUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
-    CableConstraint& constraint) {
+    CableConstraint& /**constraint**/) {
   if (style_from == style_to) {
     return;
   }

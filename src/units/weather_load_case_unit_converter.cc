@@ -8,6 +8,10 @@ void WeatherLoadCaseUnitConverter::ConvertUnitStyle(
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
     WeatherLoadCase& weathercase) {
+  if (style_from == style_to) {
+    return;
+  }
+
   if (system == units::UnitSystem::kMetric) {
     if (style_to == units::UnitStyle::kConsistent) {
       weathercase.thickness_ice = units::ConvertLength(
@@ -35,6 +39,10 @@ void WeatherLoadCaseUnitConverter::ConvertUnitSystem(
     const units::UnitSystem& system_from,
     const units::UnitSystem& system_to,
     WeatherLoadCase& weathercase) {
+  if (system_from == system_to) {
+    return;
+  }
+
   if (system_to == units::UnitSystem::kMetric) {
     weathercase.density_ice = units::ConvertForce(
         weathercase.density_ice,

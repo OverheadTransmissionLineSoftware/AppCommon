@@ -24,7 +24,7 @@ PlotAxis::~PlotAxis() {
 }
 
 bool PlotAxis::IsVisible(const float& v) const {
-  return (v >= min_ && v <= max_);
+  return (v >= min_) && (v <= max_);
 }
 
 float PlotAxis::Max() const {

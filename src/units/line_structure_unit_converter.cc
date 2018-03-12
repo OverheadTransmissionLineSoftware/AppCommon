@@ -7,7 +7,7 @@ void LineStructureUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
-    LineStructure& line_structure) {
+    LineStructure& /**line_structure**/) {
   if (style_from == style_to) {
     return;
   }

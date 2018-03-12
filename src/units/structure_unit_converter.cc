@@ -7,7 +7,7 @@ void StructureAttachmentUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
-    StructureAttachment& attachment) {
+    StructureAttachment& /**attachment**/) {
   if (style_from == style_to) {
     return;
   }
@@ -59,7 +59,7 @@ void StructureUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
-    Structure& structure) {
+    Structure& /**structure**/) {
   if (style_from == style_to) {
     return;
   }
