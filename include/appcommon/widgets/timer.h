@@ -1,10 +1,10 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_WIDGETS_TIMER_H_
-#define OTLS_APPCOMMON_WIDGETS_TIMER_H_
+#ifndef APPCOMMON_WIDGETS_TIMER_H_
+#define APPCOMMON_WIDGETS_TIMER_H_
 
-#include <chrono>
+#include <chrono>  // NOLINT
 
 /// \par OVERVIEW
 ///
@@ -45,4 +45,4 @@ class Timer {
   std::chrono::steady_clock::time_point time_start_;
 };
 
-#endif  // OTLS_APPCOMMON_WIDGETS_TIMER_H_
+#endif  // APPCOMMON_WIDGETS_TIMER_H_

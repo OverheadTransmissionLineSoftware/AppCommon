@@ -61,4 +61,4 @@ void SetText(const std::string& text, const int& index) {
   status_bar->SetStatusText(text, index);
 }
 
-}
+}  // namespace status_bar_log

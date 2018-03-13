@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_EDITORS_WEATHERLOADCASEEDITORDIALOG_H_
-#define OTLS_APPCOMMON_EDITORS_WEATHERLOADCASEEDITORDIALOG_H_
+#ifndef APPCOMMON_EDITORS_WEATHER_LOAD_CASE_EDITOR_DIALOG_H_
+#define APPCOMMON_EDITORS_WEATHER_LOAD_CASE_EDITOR_DIALOG_H_
 
 #include "models/base/units.h"
 #include "models/transmissionline/weather_load_case.h"
@@ -69,4 +69,4 @@ class WeatherLoadCaseEditorDialog : public wxDialog {
   DECLARE_EVENT_TABLE()
 };
 
-#endif  // OTLS_APPCOMMON_EDITORS_WEATHERLOADCASEEDITORDIALOG_H_
+#endif  // APPCOMMON_EDITORS_WEATHER_LOAD_CASE_EDITOR_DIALOG_H_

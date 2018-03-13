@@ -1,10 +1,11 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_WIDGETS_REPORTTABLE_H_
-#define OTLS_APPCOMMON_WIDGETS_REPORTTABLE_H_
+#ifndef APPCOMMON_WIDGETS_REPORT_TABLE_H_
+#define APPCOMMON_WIDGETS_REPORT_TABLE_H_
 
 #include <list>
+#include <string>
 
 #include "wx/listctrl.h"
 #include "wx/wx.h"
@@ -147,7 +148,7 @@ class ReportTable : public wxPanel {
   /// \return The sort type that is being applied.
   SortOrderType type_sort() const;
 
-private:
+ private:
   /// \brief Changes the column header sort image.
   /// \param[in] index
   ///   The column index.
@@ -230,4 +231,4 @@ private:
   DECLARE_EVENT_TABLE()
 };
 
-#endif  // OTLS_APPCOMMON_WIDGETS_REPORTTABLE_H_
+#endif  // APPCOMMON_WIDGETS_REPORT_TABLE_H_

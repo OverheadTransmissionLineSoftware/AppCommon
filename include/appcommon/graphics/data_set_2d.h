@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_GRAPHICS_DATASET2D_H_
-#define OTLS_APPCOMMON_GRAPHICS_DATASET2D_H_
+#ifndef APPCOMMON_GRAPHICS_DATA_SET_2D_H_
+#define APPCOMMON_GRAPHICS_DATA_SET_2D_H_
 
 /// \par OVERVIEW
 ///
@@ -49,4 +49,4 @@ class DataSet2d {
   mutable float y_min_;
 };
 
-#endif  // OTLS_APPCOMMON_GRAPHICS_DATASET2D_H_
+#endif  // APPCOMMON_GRAPHICS_DATA_SET_2D_H_

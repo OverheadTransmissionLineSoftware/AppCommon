@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_WIDGETS_STATUSBARLOG_H_
-#define OTLS_APPCOMMON_WIDGETS_STATUSBARLOG_H_
+#ifndef APPCOMMON_WIDGETS_STATUS_BAR_LOG_H_
+#define APPCOMMON_WIDGETS_STATUS_BAR_LOG_H_
 
 #include <string>
 
@@ -38,6 +38,6 @@ void PopText(const int& index);
 /// This will overwrite the current status message in the stack.
 void SetText(const std::string& text, const int& index);
 
-}
+}  // namespace status_bar_log
 
-# endif  // OTLS_APPCOMMON_WIDGETS_STATUSBARLOG_H_
+#endif  // APPCOMMON_WIDGETS_STATUS_BAR_LOG_H_

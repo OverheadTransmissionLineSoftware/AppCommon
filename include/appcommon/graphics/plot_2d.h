@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_GRAPHICS_PLOT2D_H_
-#define OTLS_APPCOMMON_GRAPHICS_PLOT2D_H_
+#ifndef APPCOMMON_GRAPHICS_PLOT_2D_H_
+#define APPCOMMON_GRAPHICS_PLOT_2D_H_
 
 #include <list>
 
@@ -289,4 +289,4 @@ class Plot2d {
   float zoom_factor_fitted_;
 };
 
-#endif  // OTLS_APPCOMMON_GRAPHICS_PLOT2D_H_
+#endif  // APPCOMMON_GRAPHICS_PLOT_2D_H_

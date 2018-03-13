@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_EDITORS_CABLEEDITORDIALOG_H_
-#define OTLS_APPCOMMON_EDITORS_CABLEEDITORDIALOG_H_
+#ifndef APPCOMMON_EDITORS_CABLE_EDITOR_DIALOG_H_
+#define APPCOMMON_EDITORS_CABLE_EDITOR_DIALOG_H_
 
 #include "models/base/units.h"
 #include "models/transmissionline/cable.h"
@@ -30,7 +30,7 @@ class CableEditorDialog : public wxDialog {
                     const units::UnitSystem& units);
 
   /// \brief Destructor.
-  ~CableEditorDialog() {};
+  ~CableEditorDialog();
 
  private:
   /// \brief Initializes any missing cable component polynomial coefficients.
@@ -81,4 +81,4 @@ class CableEditorDialog : public wxDialog {
   DECLARE_EVENT_TABLE()
 };
 
-#endif  // OTLS_APPCOMMON_EDITORS_CABLEEDITORDIALOG_H_
+#endif  // APPCOMMON_EDITORS_CABLE_EDITOR_DIALOG_H_

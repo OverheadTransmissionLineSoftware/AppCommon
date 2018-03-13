@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_XML_XMLHANDLER_H_
-#define OTLS_APPCOMMON_XML_XMLHANDLER_H_
+#ifndef APPCOMMON_XML_XML_HANDLER_H_
+#define APPCOMMON_XML_XML_HANDLER_H_
 
 #include <string>
 
@@ -57,4 +57,4 @@ class XmlHandler {
   static wxString ParseElementNodeWithContent(const wxXmlNode* node);
 };
 
-#endif  // OTLS_APPCOMMON_XML_XMLHANDLER_H_
+#endif  // APPCOMMON_XML_XML_HANDLER_H_

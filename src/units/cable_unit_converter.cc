@@ -4,6 +4,7 @@
 #include "appcommon/units/cable_unit_converter.h"
 
 namespace {
+
 /// \brief Converts the component coefficients load.
 /// \param[in] type
 ///   The type of force conversion.
@@ -97,7 +98,8 @@ void ConvertComponentStressToLoad(
   component.modulus_tension_elastic_area =
       component.modulus_tension_elastic_area * area_virtual;
 }
-}
+
+}  // namespace
 
 
 void CableComponentUnitConverter::ConvertUnitStyle(

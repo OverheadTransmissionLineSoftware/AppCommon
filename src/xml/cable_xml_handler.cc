@@ -532,9 +532,9 @@ bool CableXmlHandler::ParseNode(const wxXmlNode* root,
   return node_root;
 }
 
- bool CableXmlHandler::ParseNodeResistancePoint(const wxXmlNode* root,
-                                                const std::string& filepath,
-                                                Cable::ResistancePoint& point) {
+bool CableXmlHandler::ParseNodeResistancePoint(const wxXmlNode* root,
+                                               const std::string& filepath,
+                                               Cable::ResistancePoint& point) {
   // variables used to parse XML node
   bool status = true;
   wxString title;
@@ -691,13 +691,13 @@ bool CableXmlHandler::ParseNodeV1(const wxXmlNode* root,
     } else if (title == "cable_component") {
       // selects cable component type and passes off to cable component parser
       wxString name_component = node->GetAttribute("name");
-      if (name_component == "shell" ) {
+      if (name_component == "shell") {
         const bool status_node = CableComponentXmlHandler::ParseNode(
             node, filepath, cable.component_shell);
         if (status_node == false) {
           status = false;
         }
-      } else if (name_component == "core" ) {
+      } else if (name_component == "core") {
         const bool status_node = CableComponentXmlHandler::ParseNode(
             node, filepath, cable.component_core);
         if (status_node == false) {

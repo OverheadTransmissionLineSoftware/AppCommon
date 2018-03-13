@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_UNITS_STRUCTUREUNITCONVERTER_H_
-#define OTLS_APPCOMMON_UNITS_STRUCTUREUNITCONVERTER_H_
+#ifndef APPCOMMON_UNITS_STRUCTURE_UNIT_CONVERTER_H_
+#define APPCOMMON_UNITS_STRUCTURE_UNIT_CONVERTER_H_
 
 #include "models/base/units.h"
 #include "models/transmissionline/structure.h"
@@ -80,4 +80,4 @@ class StructureUnitConverter {
                                 Structure& structure);
 };
 
-#endif  // OTLS_APPCOMMON_UNITS_STRUCTUREUNITCONVERTER_H_
+#endif  // APPCOMMON_UNITS_STRUCTURE_UNIT_CONVERTER_H_

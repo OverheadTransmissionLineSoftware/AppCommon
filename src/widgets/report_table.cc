@@ -178,7 +178,7 @@ void ReportTable::Refresh() {
     // adds list item (row) to listctrl
     wxListItem item;
     item.SetId(i);
-    item.SetData((void*)&row);  // C-style cast used to remove const qualifier
+    item.SetData((void*)&row);  // NOLINT C-style cast to remove const qualifier
     item.SetImage(-1);
     listctrl_->InsertItem(item);
 

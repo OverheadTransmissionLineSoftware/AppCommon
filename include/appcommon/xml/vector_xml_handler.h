@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_XML_VECTORXMLHANDLER_H_
-#define OTLS_APPCOMMON_XML_VECTORXMLHANDLER_H_
+#ifndef APPCOMMON_XML_VECTOR_XML_HANDLER_H_
+#define APPCOMMON_XML_VECTOR_XML_HANDLER_H_
 
 #include <string>
 
@@ -159,4 +159,4 @@ class Vector3dXmlHandler : public XmlHandler {
                           Vector3d& vector);
 };
 
-#endif  // OTLS_APPCOMMON_XML_VECTORXMLHANDLER_H_
+#endif  // APPCOMMON_XML_VECTOR_XML_HANDLER_H_

@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_XML_STRUCTUREXMLHANDLER_H_
-#define OTLS_APPCOMMON_XML_STRUCTUREXMLHANDLER_H_
+#ifndef APPCOMMON_XML_STRUCTURE_XML_HANDLER_H_
+#define APPCOMMON_XML_STRUCTURE_XML_HANDLER_H_
 
 #include <string>
 
@@ -142,4 +142,4 @@ class StructureXmlHandler : public XmlHandler {
                           Structure& structure);
 };
 
-#endif  // OTLS_APPCOMMON_XML_STRUCTUREXMLHANDLER_H_
+#endif  // APPCOMMON_XML_STRUCTURE_XML_HANDLER_H_

@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_GRAPHICS_TEXTRENDERER2D_H_
-#define OTLS_APPCOMMON_GRAPHICS_TEXTRENDERER2D_H_
+#ifndef APPCOMMON_GRAPHICS_TEXT_RENDERER_2D_H_
+#define APPCOMMON_GRAPHICS_TEXT_RENDERER_2D_H_
 
 #include "wx/wx.h"
 
@@ -26,8 +26,8 @@ class TextRenderer2d : public Renderer2d {
   ///   The horizontal plot axis.
   /// \param[in] axis_vertical
   ///   The vertical plot axis.
-  virtual void Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
-                    const PlotAxis& axis_vertical) const override;
+  void Draw(wxDC& dc, wxRect rc, const PlotAxis& axis_horizontal,
+            const PlotAxis& axis_vertical) const override;
 
   /// \brief Gets the color of the text.
   /// \return The color of the text.
@@ -44,4 +44,4 @@ class TextRenderer2d : public Renderer2d {
   const wxColour* color_;
 };
 
-#endif  // OTLS_APPCOMMON_GRAPHICS_TEXTRENDERER2D_H_
+#endif  // APPCOMMON_GRAPHICS_TEXT_RENDERER_2D_H_

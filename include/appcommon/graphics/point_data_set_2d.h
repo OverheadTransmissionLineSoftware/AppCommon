@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_GRAPHICS_POINTDATASET2D_H_
-#define OTLS_APPCOMMON_GRAPHICS_POINTDATASET2D_H_
+#ifndef APPCOMMON_GRAPHICS_POINT_DATA_SET_2D_H_
+#define APPCOMMON_GRAPHICS_POINT_DATA_SET_2D_H_
 
 #include <list>
 
@@ -32,19 +32,19 @@ class PointDataSet2d : public DataSet2d {
 
   /// \brief Gets the maximum x value.
   /// \return The maximum x value.
-  virtual float MaxX() const override;
+  float MaxX() const override;
 
   /// \brief Gets the maximum y value.
   /// \return The maximum y value.
-  virtual float MaxY() const override;
+  float MaxY() const override;
 
   /// \brief Gets the minimum x value.
   /// \return The minimum x value.
-  virtual float MinX() const override;
+  float MinX() const override;
 
   /// \brief Gets the minimum y value.
   /// \return The minimum y value.
-  virtual float MinY() const override;
+  float MinY() const override;
 
   /// \brief Gets the data.
   /// \return The data.
@@ -63,4 +63,4 @@ class PointDataSet2d : public DataSet2d {
   mutable bool is_updated_;
 };
 
-#endif  // OTLS_APPCOMMON_GRAPHICS_POINTDATASET2D_H_
+#endif  // APPCOMMON_GRAPHICS_POINT_DATA_SET_2D_H_

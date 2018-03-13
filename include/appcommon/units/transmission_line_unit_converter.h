@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_UNITS_TRANSMISSIONLINEUNITCONVERTER_H_
-#define OTLS_APPCOMMON_UNITS_TRANSMISSIONLINEUNITCONVERTER_H_
+#ifndef APPCOMMON_UNITS_TRANSMISSION_LINE_UNIT_CONVERTER_H_
+#define APPCOMMON_UNITS_TRANSMISSION_LINE_UNIT_CONVERTER_H_
 
 #include "models/base/units.h"
 #include "models/transmissionline/transmission_line.h"
@@ -44,4 +44,4 @@ class TransmissionLineUnitConverter {
                                 TransmissionLine& line);
 };
 
-#endif  // OTLS_APPCOMMON_UNITS_TRANSMISSIONLINEUNITCONVERTER_H_
+#endif  // APPCOMMON_UNITS_TRANSMISSION_LINE_UNIT_CONVERTER_H_

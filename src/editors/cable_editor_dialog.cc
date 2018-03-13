@@ -43,6 +43,9 @@ CableEditorDialog::CableEditorDialog(wxWindow* parent,
   this->Fit();
 }
 
+CableEditorDialog::~CableEditorDialog() {
+}
+
 void CableEditorDialog::InitializeMissingPolynomialCoefficients() {
   // at least 5 coefficients per polynomial
   std::vector<double>* coefficients = nullptr;
@@ -110,7 +113,6 @@ void CableEditorDialog::OnOk(wxCommandEvent &event) {
   // validates cable data
   std::list<ErrorMessage> messages;
   if (cable_modified_.Validate(true, &messages) == true) {
-
     // updates original cable reference based on user form edits
     *cable_ = Cable(cable_modified_);
 

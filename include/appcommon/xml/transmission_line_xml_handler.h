@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_XML_TRANSMISSIONLINEXMLHANDLER_H_
-#define OTLS_APPCOMMON_XML_TRANSMISSIONLINEXMLHANDLER_H_
+#ifndef APPCOMMON_XML_TRANSMISSION_LINE_XML_HANDLER_H_
+#define APPCOMMON_XML_TRANSMISSION_LINE_XML_HANDLER_H_
 
 #include <list>
 #include <string>
@@ -112,4 +112,4 @@ class TransmissionLineXmlHandler : public XmlHandler {
                           TransmissionLine& line);
 };
 
-# endif  // OTLS_APPCOMMON_XML_TRANSMISSIONLINEXMLHANDLER_H_
+#endif  // APPCOMMON_XML_TRANSMISSION_LINE_XML_HANDLER_H_

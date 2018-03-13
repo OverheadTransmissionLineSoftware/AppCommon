@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_WIDGETS_ERRORMESSAGEDIALOG_H_
-#define OTLS_APPCOMMON_WIDGETS_ERRORMESSAGEDIALOG_H_
+#ifndef APPCOMMON_WIDGETS_ERROR_MESSAGE_DIALOG_H_
+#define APPCOMMON_WIDGETS_ERROR_MESSAGE_DIALOG_H_
 
 #include <list>
 
@@ -27,4 +27,4 @@ class ErrorMessageDialog : public wxDialog {
   ~ErrorMessageDialog();
 };
 
-#endif  // OTLS_APPCOMMON_WIDGETS_ERRORMESSAGEDIALOG_H_
+#endif  // APPCOMMON_WIDGETS_ERROR_MESSAGE_DIALOG_H_

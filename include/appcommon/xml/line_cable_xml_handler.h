@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_XML_LINECABLEXMLHANDLER_H_
-#define OTLS_APPCOMMON_XML_LINECABLEXMLHANDLER_H_
+#ifndef APPCOMMON_XML_LINE_CABLE_XML_HANDLER_H_
+#define APPCOMMON_XML_LINE_CABLE_XML_HANDLER_H_
 
 #include <list>
 #include <string>
@@ -108,4 +108,4 @@ class LineCableXmlHandler : public XmlHandler {
                           LineCable& line_cable);
 };
 
-# endif  // OTLS_APPCOMMON_XML_LINECABLEXMLHANDLER_H_
+#endif  // APPCOMMON_XML_LINE_CABLE_XML_HANDLER_H_

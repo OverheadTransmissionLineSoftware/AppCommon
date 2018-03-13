@@ -1,8 +1,8 @@
 // This is free and unencumbered software released into the public domain.
 // For more information, please refer to <http://unlicense.org/>
 
-#ifndef OTLS_APPCOMMON_WIDGETS_LOGPANE_H_
-#define OTLS_APPCOMMON_WIDGETS_LOGPANE_H_
+#ifndef APPCOMMON_WIDGETS_LOG_PANE_H_
+#define APPCOMMON_WIDGETS_LOG_PANE_H_
 
 #include "wx/textctrl.h"
 #include "wx/wx.h"
@@ -59,4 +59,4 @@ class LogPane : public wxPanel {
   LogPaneTextCtrl* textctrl_;
 };
 
-# endif  // OTLS_APPCOMMON_WIDGETS_LOGPANE_H_
+#endif  // APPCOMMON_WIDGETS_LOG_PANE_H_
