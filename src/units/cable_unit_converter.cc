@@ -231,11 +231,11 @@ void CableComponentUnitConverter::ConvertUnitSystem(
       units::LengthConversionType::kFeetToMeters, 1, false);
     component.capacity_heat = units::ConvertTemperature(
       component.capacity_heat,
-      units::TemperatureConversionType::kFahrenheitToCelsius, 1, false, false);
+      units::TemperatureConversionType::kRankineToKelvin, 1, false);
 
     component.coefficient_expansion_linear_thermal = units::ConvertTemperature(
       component.coefficient_expansion_linear_thermal,
-      units::TemperatureConversionType::kFahrenheitToCelsius, 1, false, false);
+      units::TemperatureConversionType::kRankineToKelvin, 1, false);
 
     ConvertComponentCoefficientsLoad(
         units::ForceConversionType::kPoundsToNewtons,
@@ -266,11 +266,11 @@ void CableComponentUnitConverter::ConvertUnitSystem(
       units::LengthConversionType::kMetersToFeet, 1, false);
     component.capacity_heat = units::ConvertTemperature(
       component.capacity_heat,
-      units::TemperatureConversionType::kCelsiusToFahrenheit, 1, false, false);
+      units::TemperatureConversionType::kKelvinToRankine, 1, false);
 
     component.coefficient_expansion_linear_thermal = units::ConvertTemperature(
       component.coefficient_expansion_linear_thermal,
-      units::TemperatureConversionType::kCelsiusToFahrenheit, 1, false, false);
+      units::TemperatureConversionType::kKelvinToRankine, 1, false);
 
     ConvertComponentCoefficientsLoad(
         units::ForceConversionType::kNewtonsToPounds,
