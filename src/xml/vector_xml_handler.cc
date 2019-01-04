@@ -33,7 +33,7 @@ wxXmlNode* Vector2dXmlHandler::CreateNode(
   // creates x node and adds to parent node
   title = "x";
   value = vector.x();
-  content = helper::DoubleToFormattedString(value, precision);
+  content = helper::DoubleToString(value, precision);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);
@@ -41,7 +41,7 @@ wxXmlNode* Vector2dXmlHandler::CreateNode(
   // creates y node and adds to parent node
   title = "y";
   value = vector.y();
-  content = helper::DoubleToFormattedString(value, precision);
+  content = helper::DoubleToString(value, precision);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);
@@ -157,7 +157,7 @@ wxXmlNode* Vector3dXmlHandler::CreateNode(
   // creates x node and adds to parent node
   title = "x";
   value = vector.x();
-  content = helper::DoubleToFormattedString(value, precision);
+  content = helper::DoubleToString(value, precision);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);
@@ -165,7 +165,7 @@ wxXmlNode* Vector3dXmlHandler::CreateNode(
   // creates y node and adds to parent node
   title = "y";
   value = vector.y();
-  content = helper::DoubleToFormattedString(value, precision);
+  content = helper::DoubleToString(value, precision);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);
@@ -173,7 +173,7 @@ wxXmlNode* Vector3dXmlHandler::CreateNode(
   // creates z node and adds to parent node
   title = "z";
   value = vector.z();
-  content = helper::DoubleToFormattedString(value, precision);
+  content = helper::DoubleToString(value, precision);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);

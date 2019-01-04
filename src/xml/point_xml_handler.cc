@@ -17,8 +17,8 @@ wxXmlNode* Point2dDoubleXmlHandler::CreateNode(
 
   // creates a node for the root
   title = "point_2d";
-  content = helper::DoubleToFormattedString(point.x, precision)
-      + "," + helper::DoubleToFormattedString(point.y, precision);
+  content = helper::DoubleToString(point.x, precision)
+      + "," + helper::DoubleToString(point.y, precision);
 
   node_root = CreateElementNodeWithContent(title, content);
 
@@ -124,9 +124,9 @@ wxXmlNode* Point3dDoubleXmlHandler::CreateNode(
 
   // creates a node for the root
   title = "point_3d";
-  content = helper::DoubleToFormattedString(point.x, precision)
-      + "," + helper::DoubleToFormattedString(point.y, precision)
-      + "," + helper::DoubleToFormattedString(point.z, precision);
+  content = helper::DoubleToString(point.x, precision)
+      + "," + helper::DoubleToString(point.y, precision)
+      + "," + helper::DoubleToString(point.z, precision);
 
   node_root = CreateElementNodeWithContent(title, content);
 

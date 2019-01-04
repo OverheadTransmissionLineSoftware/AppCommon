@@ -29,7 +29,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   // creates capacity-heat node and adds to root node
   title = "capacity_heat";
   value = component.capacity_heat;
-  content = helper::DoubleToFormattedString(value, 1);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "W-s/m-degC");
   } else if (units == units::UnitSystem::kImperial) {
@@ -41,7 +41,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   // creates coefficient-expansion-linear-thermal node and adds to root node
   title = "coefficient_expansion_linear_thermal";
   value = component.coefficient_expansion_linear_thermal;
-  content = helper::DoubleToFormattedString(value, 7);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "deg C");
   } else if (units == units::UnitSystem::kImperial) {
@@ -53,7 +53,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   // creates modulus-compression-elastic-area node and adds to root node
   title = "modulus_compression_elastic";
   value = component.modulus_compression_elastic_area;
-  content = helper::DoubleToFormattedString(value, 0);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "MPa");
   } else if (units == units::UnitSystem::kImperial) {
@@ -65,7 +65,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   // creates modulus-tension-elastic-area node and adds to root node
   title = "modulus_tension_elastic";
   value = component.modulus_tension_elastic_area;
-  content = helper::DoubleToFormattedString(value, 0);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "MPa");
   } else if (units == units::UnitSystem::kImperial) {
@@ -91,7 +91,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   for (auto iter = coefficients->cbegin(); iter != coefficients->cend();
        iter++) {
     const double& coefficient = *iter;
-    content = helper::DoubleToFormattedString(coefficient, 1);
+    content = helper::DoubleToString(coefficient, 6);
     wxXmlNode* sub_node = XmlHandler::CreateElementNodeWithContent(
         "coefficient",
         content,
@@ -103,7 +103,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   // creates load-limit-polynomial-loadstrain node and adds to root node
   title = "limit_polynomial_stress-strain";
   value = component.load_limit_polynomial_loadstrain;
-  content = helper::DoubleToFormattedString(value, 1);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "MPa");
   } else if (units == units::UnitSystem::kImperial) {
@@ -129,7 +129,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   for (auto iter = coefficients->cbegin(); iter != coefficients->cend();
        iter++) {
     const double& coefficient = *iter;
-    content = helper::DoubleToFormattedString(coefficient, 1);
+    content = helper::DoubleToString(coefficient, 6);
     wxXmlNode* sub_node = XmlHandler::CreateElementNodeWithContent(
         "coefficient",
         content,
@@ -141,7 +141,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   // creates load-limit-polynomial-creep node and adds to root node
   title = "limit_polynomial_creep";
   value = component.load_limit_polynomial_creep;
-  content = helper::DoubleToFormattedString(value, 1);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "MPa");
   } else if (units == units::UnitSystem::kImperial) {
@@ -354,7 +354,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   // creates area-physical node and adds to root node
   title = "area_physical";
   value = cable.area_physical;
-  content = helper::DoubleToFormattedString(value, 4);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "mm^2");
   } else if (units == units::UnitSystem::kImperial) {
@@ -366,7 +366,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   // creates diameter node and adds to root node
   title = "diameter";
   value = cable.diameter;
-  content = helper::DoubleToFormattedString(value, 3);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "mm");
   } else if (units == units::UnitSystem::kImperial) {
@@ -378,7 +378,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   // creates weight-unit node and adds to root node
   title = "weight_unit";
   value = cable.weight_unit;
-  content = helper::DoubleToFormattedString(value, 3);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "N/m");
   } else if (units == units::UnitSystem::kImperial) {
@@ -390,7 +390,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   // creates strength-rated node and adds to root node
   title = "strength_rated";
   value = cable.strength_rated;
-  content = helper::DoubleToFormattedString(value, 0);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "N");
   } else if (units == units::UnitSystem::kImperial) {
@@ -402,7 +402,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   // creates temperature-component-properties node and adds to root node
   title = "temperature_properties_components";
   value = cable.temperature_properties_components;
-  content = helper::DoubleToFormattedString(value, 0);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "deg C");
   } else if (units == units::UnitSystem::kImperial) {
@@ -414,7 +414,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   // creates absorptivity node and adds to root node
   title = "absorptivity";
   value = cable.absorptivity;
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   attribute = wxXmlAttribute("units", "");
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
@@ -422,7 +422,7 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   // creates emissivity node and adds to root node
   title = "emissivity";
   value = cable.emissivity;
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   attribute = wxXmlAttribute("units", "");
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
@@ -507,7 +507,7 @@ bool CableXmlHandler::ParseNode(const wxXmlNode* root,
   // creates resistance node and adds to root node
   title = "resistance";
   value = point.resistance;
-  content = helper::DoubleToFormattedString(value, 4);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "ohm/km");
   } else if (units == units::UnitSystem::kImperial) {
@@ -519,7 +519,7 @@ bool CableXmlHandler::ParseNode(const wxXmlNode* root,
   // creates temperature node and adds to root node
   title = "temperature";
   value = point.temperature;
-  content = helper::DoubleToFormattedString(value, 0);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "deg C");
   } else if (units == units::UnitSystem::kImperial) {

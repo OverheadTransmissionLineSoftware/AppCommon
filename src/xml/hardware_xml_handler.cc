@@ -44,7 +44,7 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   // creates area-cross-section node and adds to root node
   title = "area_cross_section";
   value = hardware.area_cross_section;
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft^2");
   } else if (units == units::UnitSystem::kMetric) {
@@ -56,7 +56,7 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   // creates length node and adds to root node
   title = "length";
   value = hardware.length;
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (units == units::UnitSystem::kMetric) {
@@ -68,7 +68,7 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   // creates weight node and adds to root node
   title = "weight";
   value = hardware.weight;
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "lbs");
   } else if (units == units::UnitSystem::kMetric) {

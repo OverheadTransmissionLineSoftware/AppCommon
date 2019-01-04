@@ -34,7 +34,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   // creates thickness-ice node and adds to root node
   title = "thickness_ice";
   value = weathercase.thickness_ice;
-  content = helper::DoubleToFormattedString(value, 3);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "cm");
   } else if (units == units::UnitSystem::kImperial) {
@@ -46,7 +46,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   // creates density-ice node and adds to root node
   title = "density_ice";
   value = weathercase.density_ice;
-  content = helper::DoubleToFormattedString(value, 1);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "N/m^3");
   } else if (units == units::UnitSystem::kImperial) {
@@ -58,7 +58,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   // creates pressure-wind node and adds to root node
   title = "pressure_wind";
   value = weathercase.pressure_wind;
-  content = helper::DoubleToFormattedString(value, 1);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "Pa");
   } else if (units == units::UnitSystem::kImperial) {
@@ -70,7 +70,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   // creates temperature-cable node and adds to root node
   title = "temperature_cable";
   value = weathercase.temperature_cable;
-  content = helper::DoubleToFormattedString(value, 0);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "deg C");
   } else if (units == units::UnitSystem::kImperial) {

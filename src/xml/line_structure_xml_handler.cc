@@ -38,7 +38,7 @@ wxXmlNode* LineStructureXmlHandler::CreateNode(
   // creates station node and adds to root node
   title = "station";
   value = line_structure.station();
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (units == units::UnitSystem::kMetric) {
@@ -50,7 +50,7 @@ wxXmlNode* LineStructureXmlHandler::CreateNode(
   // creates offset node and adds to root node
   title = "offset";
   value = line_structure.offset();
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (units == units::UnitSystem::kMetric) {
@@ -62,7 +62,7 @@ wxXmlNode* LineStructureXmlHandler::CreateNode(
   // creates rotation node and adds to root node
   title = "rotation";
   value = line_structure.rotation();
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (units == units::UnitSystem::kMetric) {
@@ -74,7 +74,7 @@ wxXmlNode* LineStructureXmlHandler::CreateNode(
   // creates height adjustment node and adds to root node
   title = "height_adjustment";
   value = line_structure.height_adjustment();
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (units == units::UnitSystem::kMetric) {

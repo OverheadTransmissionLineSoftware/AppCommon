@@ -44,9 +44,9 @@ wxXmlNode* TransmissionLineXmlHandler::CreateNode(
   for (auto iter = points->cbegin(); iter != points->cend();
        iter++) {
     const AlignmentPoint& point = *iter;
-    content = helper::DoubleToFormattedString(point.station, 2)
-              + "," + helper::DoubleToFormattedString(point.elevation, 2)
-              + "," + helper::DoubleToFormattedString(point.rotation, 2);
+    content = helper::DoubleToString(point.station, 6)
+              + "," + helper::DoubleToString(point.elevation, 6)
+              + "," + helper::DoubleToString(point.rotation, 6);
 
     wxXmlNode* sub_node = XmlHandler::CreateElementNodeWithContent(
         "point",

@@ -28,7 +28,7 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
   // creates offset-longitudinal node and adds to root node
   title = "offset_longitudinal";
   value = attachment.offset_longitudinal;
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (units == units::UnitSystem::kMetric) {
@@ -40,7 +40,7 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
   // creates offset-transverse node and adds to root node
   title = "offset_transverse";
   value = attachment.offset_transverse;
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (units == units::UnitSystem::kMetric) {
@@ -52,7 +52,7 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
   // creates offset-vertical-top node and adds to root node
   title = "offset_vertical_top";
   value = attachment.offset_vertical_top;
-  content = helper::DoubleToFormattedString(value, 2);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (units == units::UnitSystem::kMetric) {
@@ -184,7 +184,7 @@ wxXmlNode* StructureXmlHandler::CreateNode(const Structure& structure,
   // creates height node and adds to root node
   title = "height";
   value = structure.height;
-  content = helper::DoubleToFormattedString(value, 4);
+  content = helper::DoubleToString(value, 6);
   if (units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "mm^2");
   } else if (units == units::UnitSystem::kImperial) {
