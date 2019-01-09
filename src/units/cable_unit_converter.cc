@@ -302,6 +302,7 @@ void CableComponentUnitConverter::ConvertUnitSystem(
 void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
                                           const units::UnitStyle& style_from,
                                           const units::UnitStyle& style_to,
+                                          const bool& is_recursive,
                                           Cable& cable) {
   if (style_from == style_to) {
     return;
@@ -393,16 +394,19 @@ void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
     }
   }
 
-  // converts unit style for cable components
-  CableComponentUnitConverter::ConvertUnitStyle(system,
-                                                style_from,
-                                                style_to,
-                                                cable.component_core);
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts unit style for cable components
+    CableComponentUnitConverter::ConvertUnitStyle(system,
+                                                  style_from,
+                                                  style_to,
+                                                  cable.component_core);
 
-  CableComponentUnitConverter::ConvertUnitStyle(system,
-                                                style_from,
-                                                style_to,
-                                                cable.component_shell);
+    CableComponentUnitConverter::ConvertUnitStyle(system,
+                                                  style_from,
+                                                  style_to,
+                                                  cable.component_shell);
+  }
 
   // converts component parameters from stress to load if applicable
   // this is unique to cables, and due to industry standard polynomials
@@ -416,6 +420,7 @@ void CableUnitConverter::ConvertUnitStyle(const units::UnitSystem& system,
 
 void CableUnitConverter::ConvertUnitSystem(const units::UnitSystem& system_from,
                                            const units::UnitSystem& system_to,
+                                           const bool& is_recursive,
                                            Cable& cable) {
   if (system_from == system_to) {
     return;
@@ -496,9 +501,12 @@ void CableUnitConverter::ConvertUnitSystem(const units::UnitSystem& system_from,
         units::LengthConversionType::kMetersToFeet, 1, false);
   }
 
-  // converts unit system for cable components
-  CableComponentUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                 cable.component_core);
-  CableComponentUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                 cable.component_shell);
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts unit system for cable components
+    CableComponentUnitConverter::ConvertUnitSystem(system_from, system_to,
+                                                   cable.component_core);
+    CableComponentUnitConverter::ConvertUnitSystem(system_from, system_to,
+                                                   cable.component_shell);
+  }
 }

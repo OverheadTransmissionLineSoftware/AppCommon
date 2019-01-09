@@ -11,6 +11,12 @@
 ///
 /// This class converts a cable constraint between unit systems as well as unit
 /// styles.
+///
+/// \par DATA OWNERSHIP
+///
+/// Only member variables that are owned (i.e. responsibility for allocating or
+/// releasing memory) will be converted. Pointers are a typical example where
+/// the data is referenced but not owned.
 class CableConstraintUnitConverter {
  public:
   /// \brief Changes between unit styles.

@@ -9,17 +9,21 @@ void LineCableUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
+    const bool& is_recursive,
     LineCable& line_cable) {
   if (style_from == style_to) {
     return;
   }
 
   if (system == units::UnitSystem::kImperial) {
-    CableConstraint constraint = line_cable.constraint();
-    CableConstraintUnitConverter::ConvertUnitStyle(system, style_from, style_to,
-                                                   constraint);
-    line_cable.set_constraint(constraint);
+    // nothing to do
   } else if (system == units::UnitSystem::kMetric) {
+    // nothing to do
+  }
+
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts constraint
     CableConstraint constraint = line_cable.constraint();
     CableConstraintUnitConverter::ConvertUnitStyle(system, style_from, style_to,
                                                    constraint);
@@ -30,18 +34,13 @@ void LineCableUnitConverter::ConvertUnitStyle(
 void LineCableUnitConverter::ConvertUnitSystem(
     const units::UnitSystem& system_from,
     const units::UnitSystem& system_to,
+    const bool& is_recursive,
     LineCable& line_cable) {
   if (system_from == system_to) {
     return;
   }
 
   if (system_to == units::UnitSystem::kMetric) {
-    // converts constraint
-    CableConstraint constraint = line_cable.constraint();
-    CableConstraintUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                    constraint);
-    line_cable.set_constraint(constraint);
-
     // converts ruling span attachment spacing
     Vector3d spacing = line_cable.spacing_attachments_ruling_span();
     spacing.set_x(units::ConvertLength(
@@ -56,12 +55,6 @@ void LineCableUnitConverter::ConvertUnitSystem(
     line_cable.set_spacing_attachments_ruling_span(spacing);
 
   } else if (system_to == units::UnitSystem::kImperial) {
-    // converts constraint
-    CableConstraint constraint = line_cable.constraint();
-    CableConstraintUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                    constraint);
-    line_cable.set_constraint(constraint);
-
     // converts ruling span attachment spacing
     Vector3d spacing = line_cable.spacing_attachments_ruling_span();
     spacing.set_x(units::ConvertLength(
@@ -74,5 +67,15 @@ void LineCableUnitConverter::ConvertUnitSystem(
         spacing.z(),
         units::LengthConversionType::kMetersToFeet));
     line_cable.set_spacing_attachments_ruling_span(spacing);
+  }
+
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts constraint
+    CableConstraint constraint = line_cable.constraint();
+    CableConstraintUnitConverter::ConvertUnitSystem(system_from,
+                                                    system_to,
+                                                    constraint);
+    line_cable.set_constraint(constraint);
   }
 }

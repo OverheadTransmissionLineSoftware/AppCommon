@@ -90,11 +90,15 @@ void StructureUnitConverter::ConvertUnitSystem(
         units::LengthConversionType::kMetersToFeet);
   }
 
-  // converts unit system for attachments
-  for (auto iter = structure.attachments.begin();
-       iter != structure.attachments.end(); iter++) {
-    StructureAttachment& attachment = *iter;
-    StructureAttachmentUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                        attachment);
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts unit system for attachments
+    for (auto iter = structure.attachments.begin();
+         iter != structure.attachments.end(); iter++) {
+      StructureAttachment& attachment = *iter;
+      StructureAttachmentUnitConverter::ConvertUnitSystem(system_from,
+                                                          system_to,
+                                                          attachment);
+    }
   }
 }

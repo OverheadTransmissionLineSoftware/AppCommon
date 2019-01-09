@@ -11,6 +11,18 @@
 ///
 /// This class converts a line cable between unit systems as well as unit
 /// styles.
+///
+/// \par DATA OWNERSHIP
+///
+/// Only member variables that are owned (i.e. responsibility for allocating or
+/// releasing memory) will be converted. Pointers are a typical example where
+/// the data is referenced but not owned.
+///
+/// \par RECURSION
+///
+/// This class supports optionally invoking member variable converters,
+/// depending on whether the entire set of data needs converted or just a
+/// portion of it.
 class LineCableUnitConverter {
  public:
   /// \brief Changes between unit styles.
@@ -20,6 +32,8 @@ class LineCableUnitConverter {
   ///   The unit style to convert from.
   /// \param[in] style_to
   ///   The unit style to convert to.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] line_cable
   ///   The line cable to be converted.
   /// The 'different' style units are as follows:
@@ -31,6 +45,7 @@ class LineCableUnitConverter {
   static void ConvertUnitStyle(const units::UnitSystem& system,
                                const units::UnitStyle& style_from,
                                const units::UnitStyle& style_to,
+                               const bool& is_recursive,
                                LineCable& line_cable);
 
   /// \brief Changes between unit systems.
@@ -39,6 +54,8 @@ class LineCableUnitConverter {
   /// \param[in] system_to
   ///   The unit system to convert to. These will also be in consistent style
   ///   units.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] line_cable
   ///   The line_cable to be converted.
   /// The following variables are not owned, and will be skipped:
@@ -49,6 +66,7 @@ class LineCableUnitConverter {
   /// style.
   static void ConvertUnitSystem(const units::UnitSystem& system_from,
                                 const units::UnitSystem& system_to,
+                                const bool& is_recursive,
                                 LineCable& line_cable);
 };
 
