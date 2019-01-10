@@ -55,6 +55,12 @@ class XmlHandler {
   /// If no text node is present, an empty string is returned. This helps
   /// avoid runtime parsing errors.
   static wxString ParseElementNodeWithContent(const wxXmlNode* node);
+
+  /// \brief Gets the XML node version.
+  /// \param[in] root
+  ///   The XML root node.
+  /// \return The version. If no version is found, -1 is returned.
+  static int Version(const wxXmlNode* root);
 };
 
 #endif  // APPCOMMON_XML_XML_HANDLER_H_

@@ -44,3 +44,20 @@ wxString XmlHandler::ParseElementNodeWithContent(const wxXmlNode* node) {
 
   return content;
 }
+
+int XmlHandler::Version(const wxXmlNode* root) {
+  wxString str;
+
+  // gets string from xml root
+  if (root->GetAttribute("version", &str) == false) {
+    return -1;
+  }
+
+  // converts to integer
+  long int version;
+  if (str.ToLong(&version) == true) {
+    return version;
+  } else {
+    return -1;
+  }
+}

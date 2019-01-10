@@ -79,16 +79,16 @@ bool StructureAttachmentXmlHandler::ParseNode(const wxXmlNode* root,
   }
 
   // gets version attribute
-  wxString version;
-  if (root->GetAttribute("version", &version) == false) {
+  int version = Version(root);
+  if (version == -1) {
     message = FileAndLineNumber(filepath, root) +
-              " Version attribute is missing. Aborting node parse.";
+              " Version attribute is missing or invalid. Aborting node parse.";
     wxLogError(message);
     return false;
   }
 
   // sends to proper parsing function
-  if (version == "1") {
+  if (version == 1) {
     return ParseNodeV1(root, filepath, attachment);
   } else {
     message = FileAndLineNumber(filepath, root) +
@@ -224,16 +224,16 @@ bool StructureXmlHandler::ParseNode(const wxXmlNode* root,
   }
 
   // gets version attribute
-  wxString version;
-  if (root->GetAttribute("version", &version) == false) {
+  int version = Version(root);
+  if (version == -1) {
     message = FileAndLineNumber(filepath, root) +
-              " Version attribute is missing. Aborting node parse.";
+              " Version attribute is missing or invalid. Aborting node parse.";
     wxLogError(message);
     return false;
   }
 
   // sends to proper parsing function
-  if (version == "1") {
+  if (version == 1) {
     return StructureXmlHandler::ParseNodeV1(root, filepath, structure);
   } else {
     message = FileAndLineNumber(filepath, root) +
