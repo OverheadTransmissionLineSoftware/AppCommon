@@ -3,35 +3,40 @@
 
 #include "appcommon/units/weather_load_case_unit_converter.h"
 
-void WeatherLoadCaseUnitConverter::ConvertUnitStyle(
+#include "wx/wx.h"
+
+bool WeatherLoadCaseUnitConverter::ConvertUnitStyleToConsistent(
+    const int& version,
     const units::UnitSystem& system,
-    const units::UnitStyle& style_from,
-    const units::UnitStyle& style_to,
     WeatherLoadCase& weathercase) {
-  if (style_from == style_to) {
-    return;
+  bool status = true;
+
+  // sends to proper converter function
+  if (version == 0) {
+    // points to latest converter version
+    ConvertUnitStyleToConsistentV1(system, weathercase);
+  } else if (version == 1) {
+    ConvertUnitStyleToConsistentV1(system, weathercase);
+  } else {
+    wxString message = " Invalid version number. Aborting conversion.";
+    wxLogError(message);
+    status = false;
   }
 
+  return status;
+}
+
+void WeatherLoadCaseUnitConverter::ConvertUnitStyleToDifferent(
+    const units::UnitSystem& system,
+    WeatherLoadCase& weathercase) {
   if (system == units::UnitSystem::kMetric) {
-    if (style_to == units::UnitStyle::kConsistent) {
-      weathercase.thickness_ice = units::ConvertLength(
-          weathercase.thickness_ice,
-          units::LengthConversionType::kCentimetersToMeters);
-    } else if (style_to == units::UnitStyle::kDifferent) {
-      weathercase.thickness_ice = units::ConvertLength(
-          weathercase.thickness_ice,
-          units::LengthConversionType::kMetersToCentimeters);
-    }
+    weathercase.thickness_ice = units::ConvertLength(
+        weathercase.thickness_ice,
+        units::LengthConversionType::kMetersToCentimeters);
   } else if (system == units::UnitSystem::kImperial) {
-    if (style_to == units::UnitStyle::kConsistent) {
-      weathercase.thickness_ice = units::ConvertLength(
-          weathercase.thickness_ice,
-          units::LengthConversionType::kInchesToFeet);
-    } else if (style_to == units::UnitStyle::kDifferent) {
-      weathercase.thickness_ice = units::ConvertLength(
-          weathercase.thickness_ice,
-          units::LengthConversionType::kFeetToInches);
-    }
+    weathercase.thickness_ice = units::ConvertLength(
+        weathercase.thickness_ice,
+        units::LengthConversionType::kFeetToInches);
   }
 }
 
@@ -81,5 +86,19 @@ void WeatherLoadCaseUnitConverter::ConvertUnitSystem(
     weathercase.thickness_ice = units::ConvertLength(
         weathercase.thickness_ice,
         units::LengthConversionType::kMetersToFeet);
+  }
+}
+
+void WeatherLoadCaseUnitConverter::ConvertUnitStyleToConsistentV1(
+    const units::UnitSystem& system,
+    WeatherLoadCase& weathercase) {
+  if (system == units::UnitSystem::kMetric) {
+    weathercase.thickness_ice = units::ConvertLength(
+        weathercase.thickness_ice,
+        units::LengthConversionType::kCentimetersToMeters);
+  } else if (system == units::UnitSystem::kImperial) {
+    weathercase.thickness_ice = units::ConvertLength(
+        weathercase.thickness_ice,
+        units::LengthConversionType::kInchesToFeet);
   }
 }

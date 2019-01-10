@@ -17,15 +17,35 @@
 /// Only member variables that are owned (i.e. responsibility for allocating or
 /// releasing memory) will be converted. Pointers are a typical example where
 /// the data is referenced but not owned.
+///
+/// \par VERSIONS
+///
+/// Versions are needed when converting to the 'consistent' unit style. The
+/// the starter 'different' style units can change over time, and versions
+/// allow the converter to align with a specific xml node if needed.
+///
+/// When converting to the 'different' unit style the latest converter version
+/// is used.
 class LineStructureUnitConverter {
  public:
-  /// \brief Changes between unit styles.
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] version
+  ///   The version. 0 (zero) indicates the latest version.
   /// \param[in] system
   ///   The unit system.
-  /// \param[in] style_from
-  ///   The unit style to convert from.
-  /// \param[in] style_to
-  ///   The unit style to convert to.
+  /// \param[in,out] line_structure
+  ///   The line structure to be converted.
+  /// \return The success status.
+  /// The following variables are not owned, and will be skipped:
+  ///  - hardwares
+  ///  - structure
+  static bool ConvertUnitStyleToConsistent(const int& version,
+                                           const units::UnitSystem& system,
+                                           LineStructure& line_structure);
+
+  /// \brief Converts to 'different' unit style.
+  /// \param[in] system
+  ///   The unit system.
   /// \param[in,out] line_structure
   ///   The line structure to be converted.
   /// The 'different' style units are as follows:
@@ -36,17 +56,14 @@ class LineStructureUnitConverter {
   /// The following variables are not owned, and will be skipped:
   ///  - hardwares
   ///  - structure
-  static void ConvertUnitStyle(const units::UnitSystem& system,
-                               const units::UnitStyle& style_from,
-                               const units::UnitStyle& style_to,
-                               LineStructure& line_structure);
+  static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
+                                          LineStructure& line_structure);
 
   /// \brief Changes between unit systems.
   /// \param[in] system_from
-  ///   The unit system to convert from. These must be consistent style units.
+  ///   The unit system to convert from.
   /// \param[in] system_to
-  ///   The unit system to convert to. These will also be in consistent style
-  ///   units.
+  ///   The unit system to convert to.
   /// \param[in,out] line_structure
   ///   The line structure to be converted.
   /// The following variables are not owned, and will be skipped:
@@ -57,6 +74,18 @@ class LineStructureUnitConverter {
   static void ConvertUnitSystem(const units::UnitSystem& system_from,
                                 const units::UnitSystem& system_to,
                                 LineStructure& line_structure);
+
+ private:
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in,out] line_structure
+  ///   The line structure to be converted.
+  /// The following variables are not owned, and will be skipped:
+  ///  - hardwares
+  ///  - structure
+  static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             LineStructure& line_structure);
 };
 
 #endif  // APPCOMMON_UNITS_LINE_STRUCTURE_UNIT_CONVERTER_H_

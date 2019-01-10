@@ -23,15 +23,42 @@
 /// This class supports optionally invoking member variable converters,
 /// depending on whether the entire set of data needs converted or just a
 /// portion of it.
+///
+/// \par VERSIONS
+///
+/// Versions are needed when converting to the 'consistent' unit style. The
+/// the starter 'different' style units can change over time, and versions
+/// allow the converter to align with a specific xml node if needed. The version
+/// will not apply to any member variable converters, as those xml node versions
+/// may be different. If the recursive flag is used, the latest version of all
+/// member variable converters is used.
+///
+/// When converting to the 'different' unit style the latest converter version
+/// is used.
 class LineCableUnitConverter {
  public:
-  /// \brief Changes between unit styles.
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] version
+  ///   The version. 0 (zero) indicates the latest version.
   /// \param[in] system
   ///   The unit system.
-  /// \param[in] style_from
-  ///   The unit style to convert from.
-  /// \param[in] style_to
-  ///   The unit style to convert to.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
+  /// \param[in,out] line_cable
+  ///   The line cable to be converted.
+  /// \return The success status.
+  /// The following variables are not owned, and will be skipped:
+  ///  - cable
+  ///  - weathercase_stretch_creep
+  ///  - weathercase_stretch_load
+  static bool ConvertUnitStyleToConsistent(const int& version,
+                                           const units::UnitSystem& system,
+                                           const bool& is_recursive,
+                                           LineCable& line_cable);
+
+  /// \brief Converts to 'different' unit style.
+  /// \param[in] system
+  ///   The unit system.
   /// \param[in] is_recursive
   ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] line_cable
@@ -42,18 +69,15 @@ class LineCableUnitConverter {
   ///  - cable
   ///  - weathercase_stretch_creep
   ///  - weathercase_stretch_load
-  static void ConvertUnitStyle(const units::UnitSystem& system,
-                               const units::UnitStyle& style_from,
-                               const units::UnitStyle& style_to,
-                               const bool& is_recursive,
-                               LineCable& line_cable);
+  static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
+                                          const bool& is_recursive,
+                                          LineCable& line_cable);
 
-  /// \brief Changes between unit systems.
+  /// \brief Converts between unit systems.
   /// \param[in] system_from
-  ///   The unit system to convert from. These must be consistent style units.
+  ///   The unit system to convert from.
   /// \param[in] system_to
-  ///   The unit system to convert to. These will also be in consistent style
-  ///   units.
+  ///   The unit system to convert to.
   /// \param[in] is_recursive
   ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] line_cable
@@ -68,6 +92,18 @@ class LineCableUnitConverter {
                                 const units::UnitSystem& system_to,
                                 const bool& is_recursive,
                                 LineCable& line_cable);
+
+ private:
+  /// \brief Converts to 'consistent' unit style using version 1.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
+  /// \param[in,out] line_cable
+  ///   The line_cable to be converted.
+  static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             const bool& is_recursive,
+                                             LineCable& line_cable);
 };
 
 #endif  // APPCOMMON_UNITS_LINE_CABLE_UNIT_CONVERTER_H_

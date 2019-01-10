@@ -12,6 +12,15 @@
 /// This class converts a cable component between unit systems as well as unit
 /// styles.
 ///
+/// \par VERSIONS
+///
+/// Versions are needed when converting to the 'consistent' unit style. The
+/// the starter 'different' style units can change over time, and versions
+/// allow the converter to align with a specific xml node if needed.
+///
+/// When converting to the 'different' unit style the latest converter version
+/// is used.
+///
 /// \par STRESS VS. LOAD
 ///
 /// This class uses stress when converted to 'different' unit style, and load
@@ -20,13 +29,21 @@
 /// Models libraries requires the values be defined in terms of load.
 class CableComponentUnitConverter {
  public:
-  /// \brief Changes between unit styles.
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] version
+  ///   The version. 0 (zero) indicates the latest version.
   /// \param[in] system
   ///   The unit system.
-  /// \param[in] style_from
-  ///   The unit style to convert from.
-  /// \param[in] style_to
-  ///   The unit style to convert to.
+  /// \param[in,out] component
+  ///   The component to be converted.
+  /// \return The success status.
+  static bool ConvertUnitStyleToConsistent(const int& version,
+                                           const units::UnitSystem& system,
+                                           CableComponent& component);
+
+  /// \brief Converts to 'different' unit style.
+  /// \param[in] system
+  ///   The unit system.
   /// \param[in,out] component
   ///   The component to be converted.
   /// The 'different' style units are as follows:
@@ -37,10 +54,8 @@ class CableComponentUnitConverter {
   ///  - load_limit_polynomial_loadstrain = [MPa or psi]
   ///  - modulus_compression_elastic_area = [MPa or psi]
   ///  - modulus_tension_elastic_area = [MPa of psi]
-  static void ConvertUnitStyle(const units::UnitSystem& system,
-                               const units::UnitStyle& style_from,
-                               const units::UnitStyle& style_to,
-                               CableComponent& component);
+  static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
+                                          CableComponent& component);
 
   /// \brief Changes between unit systems.
   /// \param[in] system_from
@@ -54,7 +69,17 @@ class CableComponentUnitConverter {
   static void ConvertUnitSystem(const units::UnitSystem& system_from,
                                 const units::UnitSystem& system_to,
                                 CableComponent& component);
+
+ private:
+  /// \brief Converts to 'consistent' unit style using version 1.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in,out] component
+  ///   The component to be converted.
+  static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             CableComponent& component);
 };
+
 
 /// \par OVERVIEW
 ///
@@ -65,15 +90,38 @@ class CableComponentUnitConverter {
 /// This class supports optionally invoking member variable converters,
 /// depending on whether the entire set of data needs converted or just a
 /// portion of it.
+///
+/// \par VERSIONS
+///
+/// Versions are needed when converting to the 'consistent' unit style. The
+/// the starter 'different' style units can change over time, and versions
+/// allow the converter to align with a specific xml node if needed. The version
+/// will not apply to any member variable converters, as those xml node versions
+/// may be different. If the recursive flag is used, the latest version of all
+/// member variable converters is used.
+///
+/// When converting to the 'different' unit style the latest converter version
+/// is used.
 class CableUnitConverter {
  public:
-  /// \brief Changes between unit styles.
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] version
+  ///   The version. 0 (zero) indicates the latest version.
   /// \param[in] system
   ///   The unit system.
-  /// \param[in] style_from
-  ///   The unit style to convert from.
-  /// \param[in] style_to
-  ///   The unit style to convert to.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
+  /// \param[in,out] cable
+  ///   The cable to be converted.
+  /// \return The success status.
+  static bool ConvertUnitStyleToConsistent(const int& version,
+                                           const units::UnitSystem& system,
+                                           const bool& is_recursive,
+                                           Cable& cable);
+
+  /// \brief Converts to 'different' unit style.
+  /// \param[in] system
+  ///   The unit system.
   /// \param[in] is_recursive
   ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] cable
@@ -84,18 +132,15 @@ class CableUnitConverter {
   ///  - strength_rated = [N or lbs]
   ///  - temperature_properties_components = [degC or degF]
   ///  - weight_unit = [N/m or lbs/ft]
-  static void ConvertUnitStyle(const units::UnitSystem& system,
-                               const units::UnitStyle& style_from,
-                               const units::UnitStyle& style_to,
-                               const bool& is_recursive,
-                               Cable& cable);
+  static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
+                                          const bool& is_recursive,
+                                          Cable& cable);
 
   /// \brief Changes between unit systems.
   /// \param[in] system_from
-  ///   The unit system to convert from. These must be consistent style units.
+  ///   The unit system to convert from.
   /// \param[in] system_to
-  ///   The unit system to convert to. These will also be in consistent style
-  ///   units.
+  ///   The unit system to convert to.
   /// \param[in] is_recursive
   ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] cable
@@ -105,6 +150,18 @@ class CableUnitConverter {
                                 const units::UnitSystem& system_to,
                                 const bool& is_recursive,
                                 Cable& cable);
+
+ private:
+  /// \brief Converts to 'consistent' unit style using version 1.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
+  /// \param[in,out] cable
+  ///   The cable to be converted.
+  static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             const bool& is_recursive,
+                                             Cable& cable);
 };
 
 #endif  // APPCOMMON_UNITS_CABLE_UNIT_CONVERTER_H_

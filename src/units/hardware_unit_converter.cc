@@ -3,15 +3,32 @@
 
 #include "appcommon/units/hardware_unit_converter.h"
 
-void HardwareUnitConverter::ConvertUnitStyle(
+#include "wx/wx.h"
+
+bool HardwareUnitConverter::ConvertUnitStyleToConsistent(
+    const int& version,
     const units::UnitSystem& system,
-    const units::UnitStyle& style_from,
-    const units::UnitStyle& style_to,
-    Hardware& /**hardware**/) {
-  if (style_from == style_to) {
-    return;
+    Hardware& hardware) {
+  bool status = true;
+
+  // sends to proper converter function
+  if (version == 0) {
+    // points to latest converter version
+    ConvertUnitStyleToConsistentV1(system, hardware);
+  } else if (version == 1) {
+    ConvertUnitStyleToConsistentV1(system, hardware);
+  } else {
+    wxString message = " Invalid version number. Aborting conversion.";
+    wxLogError(message);
+    status = false;
   }
 
+  return status;
+}
+
+void HardwareUnitConverter::ConvertUnitStyleToDifferent(
+    const units::UnitSystem& system,
+    Hardware& /**hardware**/) {
   if (system == units::UnitSystem::kImperial) {
     // nothing to do - unit styles match
   } else if (system == units::UnitSystem::kMetric) {
@@ -53,5 +70,15 @@ void HardwareUnitConverter::ConvertUnitSystem(
     hardware.weight = units::ConvertForce(
         hardware.weight,
         units::ForceConversionType::kNewtonsToPounds);
+  }
+}
+
+void HardwareUnitConverter::ConvertUnitStyleToConsistentV1(
+    const units::UnitSystem& system,
+    Hardware& /**hardware**/) {
+  if (system == units::UnitSystem::kImperial) {
+    // nothing to do - unit styles match
+  } else if (system == units::UnitSystem::kMetric) {
+    // nothing to do - unit styles match
   }
 }

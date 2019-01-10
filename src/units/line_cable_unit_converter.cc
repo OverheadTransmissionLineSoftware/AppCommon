@@ -3,18 +3,36 @@
 
 #include "appcommon/units/line_cable_unit_converter.h"
 
+#include "wx/wx.h"
+
 #include "appcommon/units/cable_constraint_unit_converter.h"
 
-void LineCableUnitConverter::ConvertUnitStyle(
+bool LineCableUnitConverter::ConvertUnitStyleToConsistent(
+    const int& version,
     const units::UnitSystem& system,
-    const units::UnitStyle& style_from,
-    const units::UnitStyle& style_to,
     const bool& is_recursive,
     LineCable& line_cable) {
-  if (style_from == style_to) {
-    return;
+  bool status = true;
+
+  // sends to proper converter function
+  if (version == 0) {
+    // points to latest converter version
+    ConvertUnitStyleToConsistentV1(system, is_recursive, line_cable);
+  } else if (version == 1) {
+    ConvertUnitStyleToConsistentV1(system, is_recursive, line_cable);
+  } else {
+    wxString message = " Invalid version number. Aborting conversion.";
+    wxLogError(message);
+    status = false;
   }
 
+  return status;
+}
+
+void LineCableUnitConverter::ConvertUnitStyleToDifferent(
+    const units::UnitSystem& system,
+    const bool& is_recursive,
+    LineCable& line_cable) {
   if (system == units::UnitSystem::kImperial) {
     // nothing to do
   } else if (system == units::UnitSystem::kMetric) {
@@ -25,8 +43,9 @@ void LineCableUnitConverter::ConvertUnitStyle(
   if (is_recursive == true) {
     // converts constraint
     CableConstraint constraint = line_cable.constraint();
-    CableConstraintUnitConverter::ConvertUnitStyle(system, style_from, style_to,
-                                                   constraint);
+    CableConstraintUnitConverter::ConvertUnitStyleToDifferent(
+        system,
+        constraint);
     line_cable.set_constraint(constraint);
   }
 }
@@ -76,6 +95,28 @@ void LineCableUnitConverter::ConvertUnitSystem(
     CableConstraintUnitConverter::ConvertUnitSystem(system_from,
                                                     system_to,
                                                     constraint);
+    line_cable.set_constraint(constraint);
+  }
+}
+
+void LineCableUnitConverter::ConvertUnitStyleToConsistentV1(
+    const units::UnitSystem& system,
+    const bool& is_recursive,
+    LineCable& line_cable) {
+  if (system == units::UnitSystem::kImperial) {
+    // nothing to do
+  } else if (system == units::UnitSystem::kMetric) {
+    // nothing to do
+  }
+
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts constraint
+    CableConstraint constraint = line_cable.constraint();
+    CableConstraintUnitConverter::ConvertUnitStyleToConsistent(
+        0,
+        system,
+        constraint);
     line_cable.set_constraint(constraint);
   }
 }

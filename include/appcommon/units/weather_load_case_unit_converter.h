@@ -11,15 +11,32 @@
 ///
 /// This class converts a weather case between unit systems as well as unit
 /// styles.
+///
+/// \par VERSIONS
+///
+/// Versions are needed when converting to the 'consistent' unit style. The
+/// the starter 'different' style units can change over time, and versions
+/// allow the converter to align with a specific xml node if needed.
+///
+/// When converting to the 'different' unit style the latest converter version
+/// is used.
 class WeatherLoadCaseUnitConverter {
  public:
-  /// \brief Changes the weather case between unit styles.
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] version
+  ///   The version. 0 (zero) indicates the latest version.
   /// \param[in] system
   ///   The unit system.
-  /// \param[in] style_from
-  ///   The unit style to convert from.
-  /// \param[in] style_to
-  ///   The unit style to convert to.
+  /// \param[in,out] weathercase
+  ///   The weather case to be converted.
+  /// \return The success status.
+  static bool ConvertUnitStyleToConsistent(const int& version,
+                                           const units::UnitSystem& system,
+                                           WeatherLoadCase& weathercase);
+
+  /// \brief Converts to 'different' unit style.
+  /// \param[in] system
+  ///   The unit system.
   /// \param[in,out] weathercase
   ///   The weather case to be converted.
   /// The 'different' style units are as follows:
@@ -27,10 +44,8 @@ class WeatherLoadCaseUnitConverter {
   ///  - pressure_wind = [Pa or lb/ft^2]
   ///  - temperature_cable = [degC or deg F]
   ///  - thickness_ice = [cm or in]
-  static void ConvertUnitStyle(const units::UnitSystem& system,
-                               const units::UnitStyle& style_from,
-                               const units::UnitStyle& style_to,
-                               WeatherLoadCase& weathercase);
+  static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
+                                          WeatherLoadCase& weathercase);
 
   /// \brief Changes the weather case between unit systems.
   /// \param[in] system_from
@@ -44,6 +59,15 @@ class WeatherLoadCaseUnitConverter {
   static void ConvertUnitSystem(const units::UnitSystem& system_from,
                                 const units::UnitSystem& system_to,
                                 WeatherLoadCase& weathercase);
+
+ private:
+  /// \brief Converts to 'consistent' unit style using version 1.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in,out] weathercase
+  ///   The weather case to be converted.
+  static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             WeatherLoadCase& weathercase);
 };
 
 #endif  // APPCOMMON_UNITS_WEATHER_LOAD_CASE_UNIT_CONVERTER_H_

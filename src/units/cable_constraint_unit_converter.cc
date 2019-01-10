@@ -3,15 +3,32 @@
 
 #include "appcommon/units/cable_constraint_unit_converter.h"
 
-void CableConstraintUnitConverter::ConvertUnitStyle(
+#include "wx/wx.h"
+
+bool CableConstraintUnitConverter::ConvertUnitStyleToConsistent(
+    const int& version,
     const units::UnitSystem& system,
-    const units::UnitStyle& style_from,
-    const units::UnitStyle& style_to,
-    CableConstraint& /**constraint**/) {
-  if (style_from == style_to) {
-    return;
+    CableConstraint& constraint) {
+  bool status = true;
+
+  // sends to proper converter function
+  if (version == 0) {
+    // points to latest converter version
+    ConvertUnitStyleToConsistentV1(system, constraint);
+  } else if (version == 1) {
+    ConvertUnitStyleToConsistentV1(system, constraint);
+  } else {
+    wxString message = " Invalid version number. Aborting conversion.";
+    wxLogError(message);
+    status = false;
   }
 
+  return status;
+}
+
+void CableConstraintUnitConverter::ConvertUnitStyleToDifferent(
+    const units::UnitSystem& system,
+    CableConstraint& /**constraint**/) {
   if (system == units::UnitSystem::kImperial) {
     // nothing to do - unit styles match
   } else if (system == units::UnitSystem::kMetric) {
@@ -96,5 +113,15 @@ void CableConstraintUnitConverter::ConvertUnitSystem(
           constraint.limit,
           units::ForceConversionType::kNewtonsToPounds);
     }
+  }
+}
+
+void CableConstraintUnitConverter::ConvertUnitStyleToConsistentV1(
+    const units::UnitSystem& system,
+    CableConstraint& /**constraint**/) {
+  if (system == units::UnitSystem::kImperial) {
+    // nothing to do - unit styles match
+  } else if (system == units::UnitSystem::kMetric) {
+    // nothing to do - unit styles match
   }
 }

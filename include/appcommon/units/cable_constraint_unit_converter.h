@@ -17,15 +17,34 @@
 /// Only member variables that are owned (i.e. responsibility for allocating or
 /// releasing memory) will be converted. Pointers are a typical example where
 /// the data is referenced but not owned.
+///
+/// \par VERSIONS
+///
+/// Versions are needed when converting to the 'consistent' unit style. The
+/// the starter 'different' style units can change over time, and versions
+/// allow the converter to align with a specific xml node if needed.
+///
+/// When converting to the 'different' unit style the latest converter version
+/// is used.
 class CableConstraintUnitConverter {
  public:
-  /// \brief Changes between unit styles.
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] version
+  ///   The version. 0 (zero) indicates the latest version.
   /// \param[in] system
   ///   The unit system.
-  /// \param[in] style_from
-  ///   The unit style to convert from.
-  /// \param[in] style_to
-  ///   The unit style to convert to.
+  /// \param[in,out] constraint
+  ///   The constraint to be converted.
+  /// \return The success status.
+  /// The following variables are not owned, and will be skipped:
+  ///  - case_weather
+  static bool ConvertUnitStyleToConsistent(const int& version,
+                                           const units::UnitSystem& system,
+                                           CableConstraint& constraint);
+
+  /// \brief Converts to 'different' unit style.
+  /// \param[in] system
+  ///   The unit system.
   /// \param[in,out] constraint
   ///   The constraint to be converted.
   /// The 'different' style units are as follows:
@@ -35,10 +54,8 @@ class CableConstraintUnitConverter {
   ///  - limit (kSupport Tension) = [N or lb]
   /// The following variables are not owned, and will be skipped:
   ///  - case_weather
-  static void ConvertUnitStyle(const units::UnitSystem& system,
-                               const units::UnitStyle& style_from,
-                               const units::UnitStyle& style_to,
-                               CableConstraint& constraint);
+  static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
+                                          CableConstraint& constraint);
 
   /// \brief Changes between unit systems.
   /// \param[in] system_from
@@ -55,6 +72,17 @@ class CableConstraintUnitConverter {
   static void ConvertUnitSystem(const units::UnitSystem& system_from,
                                 const units::UnitSystem& system_to,
                                 CableConstraint& constraint);
+
+ private:
+  /// \brief Converts to 'consistent' unit style using version 1.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in,out] constraint
+  ///   The constraint to be converted.
+  /// The following variables are not owned, and will be skipped:
+  ///  - case_weather
+  static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             CableConstraint& constraint);
 };
 
 #endif  // APPCOMMON_UNITS_CABLE_CONSTRAINT_UNIT_CONVERTER_H_

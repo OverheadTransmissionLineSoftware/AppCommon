@@ -3,15 +3,32 @@
 
 #include "appcommon/units/structure_unit_converter.h"
 
-void StructureAttachmentUnitConverter::ConvertUnitStyle(
+#include "wx/wx.h"
+
+bool StructureAttachmentUnitConverter::ConvertUnitStyleToConsistent(
+    const int& version,
     const units::UnitSystem& system,
-    const units::UnitStyle& style_from,
-    const units::UnitStyle& style_to,
-    StructureAttachment& /**attachment**/) {
-  if (style_from == style_to) {
-    return;
+    StructureAttachment& attachment) {
+  bool status = true;
+
+  // sends to proper converter function
+  if (version == 0) {
+    // points to latest converter version
+    ConvertUnitStyleToConsistentV1(system, attachment);
+  } else if (version == 1) {
+    ConvertUnitStyleToConsistentV1(system, attachment);
+  } else {
+    wxString message = " Invalid version number. Aborting conversion.";
+    wxLogError(message);
+    status = false;
   }
 
+  return status;
+}
+
+void StructureAttachmentUnitConverter::ConvertUnitStyleToDifferent(
+    const units::UnitSystem& system,
+    StructureAttachment& /**attachment**/) {
   if (system == units::UnitSystem::kImperial) {
     // nothing to do - unit styles match
   } else if (system == units::UnitSystem::kMetric) {
@@ -54,17 +71,43 @@ void StructureAttachmentUnitConverter::ConvertUnitSystem(
   }
 }
 
-
-void StructureUnitConverter::ConvertUnitStyle(
+void StructureAttachmentUnitConverter::ConvertUnitStyleToConsistentV1(
     const units::UnitSystem& system,
-    const units::UnitStyle& style_from,
-    const units::UnitStyle& style_to,
+    StructureAttachment& /**attachment**/) {
+  if (system == units::UnitSystem::kImperial) {
+    // nothing to do - unit styles match
+  } else if (system == units::UnitSystem::kMetric) {
+    // nothing to do - unit styles match
+  }
+}
+
+
+bool StructureUnitConverter::ConvertUnitStyleToConsistent(
+    const int& version,
+    const units::UnitSystem& system,
     const bool& is_recursive,
-    Structure& /**structure**/) {
-  if (style_from == style_to) {
-    return;
+    Structure& structure) {
+  bool status = true;
+
+  // sends to proper converter function
+  if (version == 0) {
+    // points to latest converter version
+    ConvertUnitStyleToConsistentV1(system, is_recursive, structure);
+  } else if (version == 1) {
+    ConvertUnitStyleToConsistentV1(system, is_recursive, structure);
+  } else {
+    wxString message = " Invalid version number. Aborting conversion.";
+    wxLogError(message);
+    status = false;
   }
 
+  return status;
+}
+
+void StructureUnitConverter::ConvertUnitStyleToDifferent(
+    const units::UnitSystem& system,
+    const bool& is_recursive,
+    Structure& structure) {
   if (system == units::UnitSystem::kImperial) {
     // nothing to do - unit styles match
   } else if (system == units::UnitSystem::kMetric) {
@@ -73,14 +116,13 @@ void StructureUnitConverter::ConvertUnitStyle(
 
   // triggers member variable converters
   if (is_recursive == true) {
-    // converts unit style for attachments
+    // converts attachments
     for (auto iter = structure.attachments.begin();
          iter != structure.attachments.end(); iter++) {
       StructureAttachment& attachment = *iter;
-      StructureAttachmentUnitConverter::ConvertUnitStyle(system,
-                                                         style_from,
-                                                         style_to,
-                                                         attachment);
+      StructureAttachmentUnitConverter::ConvertUnitStyleToDifferent(
+          system,
+          attachment);
     }
   }
 }
@@ -114,6 +156,30 @@ void StructureUnitConverter::ConvertUnitSystem(
       StructureAttachmentUnitConverter::ConvertUnitSystem(system_from,
                                                           system_to,
                                                           attachment);
+    }
+  }
+}
+
+void StructureUnitConverter::ConvertUnitStyleToConsistentV1(
+    const units::UnitSystem& system,
+    const bool& is_recursive,
+    Structure& structure) {
+  if (system == units::UnitSystem::kImperial) {
+    // nothing to do - unit styles match
+  } else if (system == units::UnitSystem::kMetric) {
+    // nothing to do - unit styles match
+  }
+
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts attachments
+    for (auto iter = structure.attachments.begin();
+         iter != structure.attachments.end(); iter++) {
+      StructureAttachment& attachment = *iter;
+      StructureAttachmentUnitConverter::ConvertUnitStyleToConsistent(
+          0,
+          system,
+          attachment);
     }
   }
 }

@@ -11,25 +11,40 @@
 ///
 /// This class converts a structure attachment between unit systems as well as
 /// unit styles.
+///
+/// \par VERSIONS
+///
+/// Versions are needed when converting to the 'consistent' unit style. The
+/// the starter 'different' style units can change over time, and versions
+/// allow the converter to align with a specific xml node if needed.
+///
+/// When converting to the 'different' unit style the latest converter version
+/// is used.
 class StructureAttachmentUnitConverter {
  public:
-  /// \brief Changes between unit styles.
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] version
+  ///   The version. 0 (zero) indicates the latest version.
   /// \param[in] system
   ///   The unit system.
-  /// \param[in] style_from
-  ///   The unit style to convert from.
-  /// \param[in] style_to
-  ///   The unit style to convert to.
+  /// \param[in,out] attachment
+  ///   The attachment to be converted.
+  /// \return The success status.
+  static bool ConvertUnitStyleToConsistent(const int& version,
+                                           const units::UnitSystem& system,
+                                           StructureAttachment& attachment);
+
+  /// \brief Converts to 'different' unit style.
+  /// \param[in] system
+  ///   The unit system.
   /// \param[in,out] attachment
   ///   The attachment to be converted.
   /// The 'different' style units are as follows:
   ///  - offset_longitudinal = [m or ft]
   ///  - offset_transverse = [m or ft]
   ///  - offset_vertical_top = [m or ft]
-  static void ConvertUnitStyle(const units::UnitSystem& system,
-                               const units::UnitStyle& style_from,
-                               const units::UnitStyle& style_to,
-                               StructureAttachment& attachment);
+  static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
+                                          StructureAttachment& attachment);
 
   /// \brief Changes between unit systems.
   /// \param[in] system_from
@@ -43,6 +58,15 @@ class StructureAttachmentUnitConverter {
   static void ConvertUnitSystem(const units::UnitSystem& system_from,
                                 const units::UnitSystem& system_to,
                                 StructureAttachment& attachment);
+
+ private:
+  /// \brief Converts to 'consistent' unit style using version 1.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in,out] attachment
+  ///   The attachment to be converted.
+  static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             StructureAttachment& attachment);
 };
 
 /// \par OVERVIEW
@@ -54,26 +78,47 @@ class StructureAttachmentUnitConverter {
 /// This class supports optionally invoking member variable converters,
 /// depending on whether the entire set of data needs converted or just a
 /// portion of it.
+///
+/// \par VERSIONS
+///
+/// Versions are needed when converting to the 'consistent' unit style. The
+/// the starter 'different' style units can change over time, and versions
+/// allow the converter to align with a specific xml node if needed. The version
+/// will not apply to any member variable converters, as those xml node versions
+/// may be different. If the recursive flag is used, the latest version of all
+/// member variable converters is used.
+///
+/// When converting to the 'different' unit style the latest converter version
+/// is used.
 class StructureUnitConverter {
  public:
-  /// \brief Changes between unit styles.
+  /// \brief Converts to 'consistent' unit style.
+  /// \param[in] version
+  ///   The version. 0 (zero) indicates the latest version.
   /// \param[in] system
   ///   The unit system.
-  /// \param[in] style_from
-  ///   The unit style to convert from.
-  /// \param[in] style_to
-  ///   The unit style to convert to.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
+  /// \param[in,out] structure
+  ///   The structure to be converted.
+  /// \return The success status.
+  static bool ConvertUnitStyleToConsistent(const int& version,
+                                           const units::UnitSystem& system,
+                                           const bool& is_recursive,
+                                           Structure& structure);
+
+  /// \brief Converts to 'different' unit style.
+  /// \param[in] system
+  ///   The unit system.
   /// \param[in] is_recursive
   ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] structure
   ///   The structure to be converted.
   /// The 'different' style units are as follows:
   ///  - height = [m or ft]
-  static void ConvertUnitStyle(const units::UnitSystem& system,
-                               const units::UnitStyle& style_from,
-                               const units::UnitStyle& style_to,
-                               const bool& is_recursive,
-                               Structure& structure);
+  static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
+                                          const bool& is_recursive,
+                                          Structure& structure);
 
   /// \brief Changes between unit systems.
   /// \param[in] system_from
@@ -90,6 +135,18 @@ class StructureUnitConverter {
                                 const units::UnitSystem& system_to,
                                 const bool& is_recursive,
                                 Structure& structure);
+
+ private:
+  /// \brief Converts to 'consistent' unit style using version 1.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
+  /// \param[in,out] structure
+  ///   The structure to be converted.
+  static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             const bool& is_recursive,
+                                             Structure& structure);
 };
 
 #endif  // APPCOMMON_UNITS_STRUCTURE_UNIT_CONVERTER_H_
