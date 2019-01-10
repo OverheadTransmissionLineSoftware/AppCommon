@@ -27,12 +27,6 @@
 /// systems.
 class Vector2dXmlHandler : public XmlHandler {
  public:
-  /// \brief Constructor.
-  Vector2dXmlHandler();
-
-  /// \brief Destructor.
-  ~Vector2dXmlHandler();
-
   /// \brief Creates an XML node for a Vector2d.
   /// \param[in] vector
   ///   The vector.
@@ -101,12 +95,6 @@ class Vector2dXmlHandler : public XmlHandler {
 /// systems.
 class Vector3dXmlHandler : public XmlHandler {
  public:
-  /// \brief Constructor.
-  Vector3dXmlHandler();
-
-  /// \brief Destructor.
-  ~Vector3dXmlHandler();
-
   /// \brief Creates an XML node for a Vector3d.
   /// \param[in] vector
   ///   The vector.

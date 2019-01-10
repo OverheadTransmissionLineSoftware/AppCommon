@@ -5,12 +5,6 @@
 
 #include "models/base/helper.h"
 
-Vector2dXmlHandler::Vector2dXmlHandler() {
-}
-
-Vector2dXmlHandler::~Vector2dXmlHandler() {
-}
-
 wxXmlNode* Vector2dXmlHandler::CreateNode(
     const Vector2d& vector,
     const std::string& name,
@@ -129,11 +123,6 @@ bool Vector2dXmlHandler::ParseNodeV1(const wxXmlNode* root,
   return status;
 }
 
-Vector3dXmlHandler::Vector3dXmlHandler() {
-}
-
-Vector3dXmlHandler::~Vector3dXmlHandler() {
-}
 
 wxXmlNode* Vector3dXmlHandler::CreateNode(
     const Vector3d& vector,
