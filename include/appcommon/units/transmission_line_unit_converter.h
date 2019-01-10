@@ -20,6 +20,8 @@ class TransmissionLineUnitConverter {
   ///   The unit style to convert from.
   /// \param[in] style_to
   ///   The unit style to convert to.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] line
   ///   The transmission line to be converted.
   /// The 'different' style units are as follows:
@@ -27,6 +29,7 @@ class TransmissionLineUnitConverter {
   static void ConvertUnitStyle(const units::UnitSystem& system,
                                const units::UnitStyle& style_from,
                                const units::UnitStyle& style_to,
+                               const bool& is_recursive,
                                TransmissionLine& line);
 
   /// \brief Changes between unit systems.
@@ -35,12 +38,15 @@ class TransmissionLineUnitConverter {
   /// \param[in] system_to
   ///   The unit system to convert to. These will also be in consistent style
   ///   units.
+  /// \param[in] is_recursive
+  ///   An indicator that determines if member variable converters are invoked.
   /// \param[in,out] line
   ///   The transmission line to be converted.
   /// This function requires that the line cable be in a 'consistent' unit
   /// style.
   static void ConvertUnitSystem(const units::UnitSystem& system_from,
                                 const units::UnitSystem& system_to,
+                                const bool& is_recursive,
                                 TransmissionLine& line);
 };
 

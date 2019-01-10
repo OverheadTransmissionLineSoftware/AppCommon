@@ -7,7 +7,6 @@ void LineStructureUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
-    const bool& /**is_recursive**/,
     LineStructure& /**line_structure**/) {
   if (style_from == style_to) {
     return;
@@ -23,7 +22,6 @@ void LineStructureUnitConverter::ConvertUnitStyle(
 void LineStructureUnitConverter::ConvertUnitSystem(
     const units::UnitSystem& system_from,
     const units::UnitSystem& system_to,
-    const bool& /**is_recursive**/,
     LineStructure& line_structure) {
   if (system_from == system_to) {
     return;

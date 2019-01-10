@@ -17,12 +17,6 @@
 /// Only member variables that are owned (i.e. responsibility for allocating or
 /// releasing memory) will be converted. Pointers are a typical example where
 /// the data is referenced but not owned.
-///
-/// \par RECURSION
-///
-/// This class supports optionally invoking member variable converters,
-/// depending on whether the entire set of data needs converted or just a
-/// portion of it.
 class LineStructureUnitConverter {
  public:
   /// \brief Changes between unit styles.
@@ -45,7 +39,6 @@ class LineStructureUnitConverter {
   static void ConvertUnitStyle(const units::UnitSystem& system,
                                const units::UnitStyle& style_from,
                                const units::UnitStyle& style_to,
-                               const bool& is_recursive,
                                LineStructure& line_structure);
 
   /// \brief Changes between unit systems.
@@ -63,7 +56,6 @@ class LineStructureUnitConverter {
   /// style.
   static void ConvertUnitSystem(const units::UnitSystem& system_from,
                                 const units::UnitSystem& system_to,
-                                const bool& is_recursive,
                                 LineStructure& line_structure);
 };
 

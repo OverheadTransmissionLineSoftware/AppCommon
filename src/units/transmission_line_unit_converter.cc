@@ -11,6 +11,7 @@ void TransmissionLineUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
+    const bool& is_recursive,
     TransmissionLine& line) {
   if (style_from == style_to) {
     return;
@@ -21,29 +22,39 @@ void TransmissionLineUnitConverter::ConvertUnitStyle(
 
   // alignment always uses consistent units - no unit style change required
 
-  // modifies line structures
-  index = 0;
-  const int kSizeLineStructures = line.line_structures()->size();
-  while (index < kSizeLineStructures) {
-    LineStructure line_structure = *std::next(line.line_structures()->cbegin(),
-                                              index);
-    LineStructureUnitConverter::ConvertUnitStyle(system, style_from, style_to,
-                                                 line_structure);
-    line.ModifyLineStructure(index, line_structure);
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts line structures
+    index = 0;
+    const int kSizeLineStructures = line.line_structures()->size();
+    while (index < kSizeLineStructures) {
+      LineStructure line_structure =
+          *std::next(line.line_structures()->cbegin(), index);
+      LineStructureUnitConverter::ConvertUnitStyle(
+            system,
+            style_from,
+            style_to,
+            line_structure);
+      line.ModifyLineStructure(index, line_structure);
 
-    index++;
-  }
+      index++;
+    }
 
-  // modifies line cables
-  index = 0;
-  const int kSizeLineCables = line.line_cables()->size();
-  while (index < kSizeLineCables) {
-    LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
-    LineCableUnitConverter::ConvertUnitStyle(system, style_from, style_to,
-                                             line_cable);
-    line.ModifyLineCable(index, line_cable);
+    // converts line cables
+    index = 0;
+    const int kSizeLineCables = line.line_cables()->size();
+    while (index < kSizeLineCables) {
+      LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
+      LineCableUnitConverter::ConvertUnitStyle(
+          system,
+          style_from,
+          style_to,
+          is_recursive,
+          line_cable);
+      line.ModifyLineCable(index, line_cable);
 
-    index++;
+      index++;
+    }
   }
 }
 
@@ -64,30 +75,37 @@ void TransmissionLineUnitConverter::ConvertUnitSystem(
     // the unit conversions ordered such that the line structures remain on the
     // alignment and don't get deleted
 
-    // modifies line cables
-    index = 0;
-    const int kSizeLineCables = line.line_cables()->size();
-    while (index < kSizeLineCables) {
-      LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
-      LineCableUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                line_cable);
-      line.ModifyLineCable(index, line_cable);
+    // triggers member variable converters
+    if (is_recursive == true) {
+      // converts line cables
+      index = 0;
+      const int kSizeLineCables = line.line_cables()->size();
+      while (index < kSizeLineCables) {
+        LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
+        LineCableUnitConverter::ConvertUnitSystem(
+            system_from,
+            system_to,
+            is_recursive,
+            line_cable);
+        line.ModifyLineCable(index, line_cable);
 
-      index++;
-    }
+        index++;
+      }
 
-    // modifies line structures
-    index = 0;
-    const int kSizeLineStructures = line.line_structures()->size();
-    while (index < kSizeLineStructures) {
-      LineStructure line_structure = *std::next(
-          line.line_structures()->cbegin(),
-          index);
-      LineStructureUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                    line_structure);
-      line.ModifyLineStructure(index, line_structure);
+      // converts line structures
+      index = 0;
+      const int kSizeLineStructures = line.line_structures()->size();
+      while (index < kSizeLineStructures) {
+        LineStructure line_structure =
+            *std::next(line.line_structures()->cbegin(), index);
+        LineStructureUnitConverter::ConvertUnitSystem(
+            system_from,
+            system_to,
+            line_structure);
+        line.ModifyLineStructure(index, line_structure);
 
-      index++;
+        index++;
+      }
     }
 
     // modifies alignment points
@@ -132,28 +150,37 @@ void TransmissionLineUnitConverter::ConvertUnitSystem(
       index--;
     }
 
-    // modifies line structures
-    index = line.line_structures()->size() - 1;
-    while (0 <= index) {
-      LineStructure line_structure = *std::next(
-          line.line_structures()->cbegin(),
-          index);
-      LineStructureUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                    line_structure);
-      line.ModifyLineStructure(index, line_structure);
+    // triggers member variable converters
+    if (is_recursive == true) {
+      // converts line structures
+      index = 0;
+      const int kSizeLineStructures = line.line_structures()->size();
+      while (index < kSizeLineStructures) {
+        LineStructure line_structure =
+            *std::next(line.line_structures()->cbegin(), index);
+        LineStructureUnitConverter::ConvertUnitSystem(
+            system_from,
+            system_to,
+            line_structure);
+        line.ModifyLineStructure(index, line_structure);
 
-      index--;
-    }
+        index++;
+      }
 
-    // modifies line cables
-    index = line.line_cables()->size() - 1;
-    while (0 <= index) {
-      LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
-      LineCableUnitConverter::ConvertUnitSystem(system_from, system_to,
-                                                line_cable);
-      line.ModifyLineCable(index, line_cable);
+      // converts line cables
+      index = 0;
+      const int kSizeLineCables = line.line_cables()->size();
+      while (index < kSizeLineCables) {
+        LineCable line_cable = *std::next(line.line_cables()->cbegin(), index);
+        LineCableUnitConverter::ConvertUnitSystem(
+            system_from,
+            system_to,
+            is_recursive,
+            line_cable);
+        line.ModifyLineCable(index, line_cable);
 
-      index--;
+        index++;
+      }
     }
   }
 }

@@ -59,6 +59,7 @@ void StructureUnitConverter::ConvertUnitStyle(
     const units::UnitSystem& system,
     const units::UnitStyle& style_from,
     const units::UnitStyle& style_to,
+    const bool& is_recursive,
     Structure& /**structure**/) {
   if (style_from == style_to) {
     return;
@@ -69,11 +70,25 @@ void StructureUnitConverter::ConvertUnitStyle(
   } else if (system == units::UnitSystem::kMetric) {
     // nothing to do - unit styles match
   }
+
+  // triggers member variable converters
+  if (is_recursive == true) {
+    // converts unit style for attachments
+    for (auto iter = structure.attachments.begin();
+         iter != structure.attachments.end(); iter++) {
+      StructureAttachment& attachment = *iter;
+      StructureAttachmentUnitConverter::ConvertUnitStyle(system,
+                                                         style_from,
+                                                         style_to,
+                                                         attachment);
+    }
+  }
 }
 
 void StructureUnitConverter::ConvertUnitSystem(
     const units::UnitSystem& system_from,
     const units::UnitSystem& system_to,
+    const bool& is_recursive,
     Structure& structure) {
   if (system_from == system_to) {
     return;
