@@ -58,8 +58,8 @@ bool Vector2dXmlHandler::ParseNode(const wxXmlNode* root,
   }
 
   // gets version attribute
-  int version = Version(root);
-  if (version == -1) {
+  const int kVersion = Version(root);
+  if (kVersion == -1) {
     message = FileAndLineNumber(filepath, root) +
               " Version attribute is missing or invalid. Aborting node parse.";
     wxLogError(message);
@@ -67,7 +67,7 @@ bool Vector2dXmlHandler::ParseNode(const wxXmlNode* root,
   }
 
   // sends to proper parsing function
-  if (version == 1) {
+  if (kVersion == 1) {
     return ParseNodeV1(root, filepath, vector);
   } else {
     message = FileAndLineNumber(filepath, root) +

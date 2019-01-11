@@ -79,8 +79,8 @@ bool StructureAttachmentXmlHandler::ParseNode(const wxXmlNode* root,
   }
 
   // gets version attribute
-  int version = Version(root);
-  if (version == -1) {
+  const int kVersion = Version(root);
+  if (kVersion == -1) {
     message = FileAndLineNumber(filepath, root) +
               " Version attribute is missing or invalid. Aborting node parse.";
     wxLogError(message);
@@ -88,7 +88,7 @@ bool StructureAttachmentXmlHandler::ParseNode(const wxXmlNode* root,
   }
 
   // sends to proper parsing function
-  if (version == 1) {
+  if (kVersion == 1) {
     return ParseNodeV1(root, filepath, attachment);
   } else {
     message = FileAndLineNumber(filepath, root) +
@@ -224,8 +224,8 @@ bool StructureXmlHandler::ParseNode(const wxXmlNode* root,
   }
 
   // gets version attribute
-  int version = Version(root);
-  if (version == -1) {
+  const int kVersion = Version(root);
+  if (kVersion == -1) {
     message = FileAndLineNumber(filepath, root) +
               " Version attribute is missing or invalid. Aborting node parse.";
     wxLogError(message);
@@ -233,7 +233,7 @@ bool StructureXmlHandler::ParseNode(const wxXmlNode* root,
   }
 
   // sends to proper parsing function
-  if (version == 1) {
+  if (kVersion == 1) {
     return StructureXmlHandler::ParseNodeV1(root, filepath, structure);
   } else {
     message = FileAndLineNumber(filepath, root) +

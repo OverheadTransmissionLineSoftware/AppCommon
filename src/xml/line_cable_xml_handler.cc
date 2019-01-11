@@ -130,8 +130,8 @@ bool LineCableXmlHandler::ParseNode(
   }
 
   // gets version attribute
-  int version = Version(root);
-  if (version == -1) {
+  const int kVersion = Version(root);
+  if (kVersion == -1) {
     message = FileAndLineNumber(filepath, root) +
               " Version attribute is missing or invalid. Aborting node parse.";
     wxLogError(message);
@@ -139,7 +139,7 @@ bool LineCableXmlHandler::ParseNode(
   }
 
   // sends to proper parsing function
-  if (version == 1) {
+  if (kVersion == 1) {
     return ParseNodeV1(root, filepath, cables, line_structures, weathercases,
                        line_cable);
   } else {
