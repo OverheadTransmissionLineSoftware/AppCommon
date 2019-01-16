@@ -3,6 +3,7 @@
 
 #include "appcommon/xml/hardware_xml_handler.h"
 
+#include "appcommon/units/hardware_unit_converter.h"
 #include "models/base/helper.h"
 
 wxXmlNode* HardwareXmlHandler::CreateNode(
@@ -84,6 +85,8 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
 bool HardwareXmlHandler::ParseNode(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     Hardware& hardware) {
   wxString message;
 
@@ -106,7 +109,7 @@ bool HardwareXmlHandler::ParseNode(
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return ParseNodeV1(root, filepath, hardware);
+    return ParseNodeV1(root, filepath, units, convert, hardware);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -118,6 +121,8 @@ bool HardwareXmlHandler::ParseNode(
 bool HardwareXmlHandler::ParseNodeV1(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     Hardware& hardware) {
   bool status = true;
   wxString message;
@@ -180,6 +185,11 @@ bool HardwareXmlHandler::ParseNodeV1(
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    HardwareUnitConverter::ConvertUnitStyleToConsistent(1, units, hardware);
   }
 
   return status;

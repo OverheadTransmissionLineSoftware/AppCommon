@@ -22,6 +22,13 @@
 /// This class can parse all versions of the XML node. However, new nodes will
 /// only be generated with the most recent version.
 ///
+/// \par UNIT CONVERSIONS
+///
+/// This class can optionally convert the unit style to 'consistent' when
+/// parsing. The conversion will occur after the xml node has been parsed. The
+/// respective unit converter class will perform the conversion using the
+/// converter version that matches the xml node version.
+///
 /// \par UNIT ATTRIBUTES
 ///
 /// This class supports attributing the child XML nodes for various unit
@@ -47,6 +54,10 @@ class WeatherLoadCaseXmlHandler : public XmlHandler {
   /// \param[in] filepath
   ///   The filepath that the xml node was loaded from. This is for logging
   ///   purposes only and can be left blank.
+  /// \param[in] units
+  ///   The unit system. If no conversion is being done this will be ignored.
+  /// \param[in] convert
+  ///   A flag that determines if the unit style is converted to 'consistent'.
   /// \param[out] weathercase
   ///   The weathercase that is populated.
   /// \return The status of the xml node parse. If any errors are encountered
@@ -56,6 +67,8 @@ class WeatherLoadCaseXmlHandler : public XmlHandler {
   /// property to an invalid state (if applicable).
   static bool ParseNode(const wxXmlNode* root,
                         const std::string& filepath,
+                        const units::UnitSystem& units,
+                        const bool& convert,
                         WeatherLoadCase& weathercase);
 
  private:
@@ -65,6 +78,10 @@ class WeatherLoadCaseXmlHandler : public XmlHandler {
   /// \param[in] filepath
   ///   The filepath that the xml node was loaded from. This is for logging
   ///   purposes only and can be left blank.
+  /// \param[in] units
+  ///   The unit system. If no conversion is being done this will be ignored.
+  /// \param[in] convert
+  ///   A flag that determines if the unit style is converted to 'consistent'.
   /// \param[out] weathercase
   ///   The weathercase that is populated.
   /// \return The status of the xml node parse. If any errors are encountered
@@ -74,6 +91,8 @@ class WeatherLoadCaseXmlHandler : public XmlHandler {
   /// property to an invalid state (if applicable).
   static bool ParseNodeV1(const wxXmlNode* root,
                           const std::string& filepath,
+                          const units::UnitSystem& units,
+                          const bool& convert,
                           WeatherLoadCase& weathercase);
 };
 

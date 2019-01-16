@@ -3,6 +3,7 @@
 
 #include "appcommon/xml/cable_xml_handler.h"
 
+#include "appcommon/units/cable_unit_converter.h"
 #include "models/base/helper.h"
 
 wxXmlNode* CableComponentXmlHandler::CreateNode(
@@ -156,6 +157,8 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
 
 bool CableComponentXmlHandler::ParseNode(const wxXmlNode* root,
                                          const std::string& filepath,
+                                         const units::UnitSystem& units,
+                                         const bool& convert,
                                          CableComponent& component) {
   wxString message;
 
@@ -178,7 +181,7 @@ bool CableComponentXmlHandler::ParseNode(const wxXmlNode* root,
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return ParseNodeV1(root, filepath, component);
+    return ParseNodeV1(root, filepath, units, convert, component);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -189,6 +192,8 @@ bool CableComponentXmlHandler::ParseNode(const wxXmlNode* root,
 
 bool CableComponentXmlHandler::ParseNodeV1(const wxXmlNode* root,
                                            const std::string& filepath,
+                                           const units::UnitSystem& units,
+                                           const bool& convert,
                                            CableComponent& component) {
   bool status = true;
   wxString message;
@@ -320,6 +325,12 @@ bool CableComponentXmlHandler::ParseNodeV1(const wxXmlNode* root,
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    CableComponentUnitConverter::ConvertUnitStyleToConsistent(1, units,
+                                                              component);
   }
 
   return status;
@@ -454,6 +465,8 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
 
 bool CableXmlHandler::ParseNode(const wxXmlNode* root,
                                 const std::string& filepath,
+                                const units::UnitSystem& units,
+                                const bool& convert,
                                 Cable& cable) {
   wxString message;
 
@@ -476,7 +489,7 @@ bool CableXmlHandler::ParseNode(const wxXmlNode* root,
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return CableXmlHandler::ParseNodeV1(root, filepath, cable);
+    return CableXmlHandler::ParseNodeV1(root, filepath, units, convert, cable);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -584,6 +597,8 @@ bool CableXmlHandler::ParseNodeResistancePoint(const wxXmlNode* root,
 
 bool CableXmlHandler::ParseNodeV1(const wxXmlNode* root,
                                   const std::string& filepath,
+                                  const units::UnitSystem& units,
+                                  const bool& convert,
                                   Cable& cable) {
   // variables used to parse XML node
   bool status = true;
@@ -693,13 +708,13 @@ bool CableXmlHandler::ParseNodeV1(const wxXmlNode* root,
       wxString name_component = node->GetAttribute("name");
       if (name_component == "shell") {
         const bool status_node = CableComponentXmlHandler::ParseNode(
-            node, filepath, cable.component_shell);
+            node, filepath, units, convert, cable.component_shell);
         if (status_node == false) {
           status = false;
         }
       } else if (name_component == "core") {
         const bool status_node = CableComponentXmlHandler::ParseNode(
-            node, filepath, cable.component_core);
+            node, filepath, units, convert, cable.component_core);
         if (status_node == false) {
           status = false;
         }
@@ -717,6 +732,11 @@ bool CableXmlHandler::ParseNodeV1(const wxXmlNode* root,
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    CableUnitConverter::ConvertUnitStyleToConsistent(1, units, false, cable);
   }
 
   return status;

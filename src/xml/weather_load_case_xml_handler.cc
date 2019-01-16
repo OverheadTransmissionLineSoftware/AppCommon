@@ -5,6 +5,8 @@
 
 #include "models/base/helper.h"
 
+#include "appcommon/units/weather_load_case_unit_converter.h"
+
 wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
     const WeatherLoadCase& weathercase,
     const std::string& name,
@@ -85,6 +87,8 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
 
 bool WeatherLoadCaseXmlHandler::ParseNode(const wxXmlNode* root,
                                           const std::string& filepath,
+                                          const units::UnitSystem& units,
+                                          const bool& convert,
                                           WeatherLoadCase& weathercase) {
   wxString message;
 
@@ -107,7 +111,7 @@ bool WeatherLoadCaseXmlHandler::ParseNode(const wxXmlNode* root,
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return ParseNodeV1(root, filepath, weathercase);
+    return ParseNodeV1(root, filepath, units, convert, weathercase);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -118,6 +122,8 @@ bool WeatherLoadCaseXmlHandler::ParseNode(const wxXmlNode* root,
 
 bool WeatherLoadCaseXmlHandler::ParseNodeV1(const wxXmlNode* root,
                                             const std::string& filepath,
+                                            const units::UnitSystem& units,
+                                            const bool& convert,
                                             WeatherLoadCase& weathercase) {
   bool status = true;
   wxString message;
@@ -179,6 +185,14 @@ bool WeatherLoadCaseXmlHandler::ParseNodeV1(const wxXmlNode* root,
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    WeatherLoadCaseUnitConverter::ConvertUnitStyleToConsistent(
+        1,
+        units,
+        weathercase);
   }
 
   return status;

@@ -5,6 +5,7 @@
 
 #include "models/base/helper.h"
 
+#include "appcommon/units/cable_constraint_unit_converter.h"
 #include "appcommon/xml/weather_load_case_xml_handler.h"
 
 wxXmlNode* CableConstraintXmlHandler::CreateNode(
@@ -125,6 +126,8 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
 bool CableConstraintXmlHandler::ParseNode(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     const std::list<const WeatherLoadCase*>* weathercases,
     CableConstraint& constraint) {
   wxString message;
@@ -148,7 +151,8 @@ bool CableConstraintXmlHandler::ParseNode(
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return ParseNodeV1(root, filepath, weathercases, constraint);
+    return ParseNodeV1(root, filepath, units, convert, weathercases,
+                       constraint);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -160,6 +164,8 @@ bool CableConstraintXmlHandler::ParseNode(
 bool CableConstraintXmlHandler::ParseNodeV1(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     const std::list<const WeatherLoadCase*>* weathercases,
     CableConstraint& constraint) {
   bool status = true;
@@ -240,6 +246,12 @@ bool CableConstraintXmlHandler::ParseNodeV1(
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    CableConstraintUnitConverter::ConvertUnitStyleToConsistent(1, units,
+                                                               constraint);
   }
 
   return status;

@@ -5,6 +5,8 @@
 
 #include "models/base/helper.h"
 
+#include "appcommon/units/line_structure_unit_converter.h"
+
 wxXmlNode* LineStructureXmlHandler::CreateNode(
     const LineStructure& line_structure,
     const std::string& name,
@@ -107,6 +109,8 @@ wxXmlNode* LineStructureXmlHandler::CreateNode(
 bool LineStructureXmlHandler::ParseNode(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     const std::list<const Structure*>* structures,
     const std::list<const Hardware*>* hardwares,
     LineStructure& line_structure) {
@@ -131,7 +135,8 @@ bool LineStructureXmlHandler::ParseNode(
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return ParseNodeV1(root, filepath, structures, hardwares, line_structure);
+    return ParseNodeV1(root, filepath, units, convert, structures, hardwares,
+                       line_structure);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -143,6 +148,8 @@ bool LineStructureXmlHandler::ParseNode(
 bool LineStructureXmlHandler::ParseNodeV1(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     const std::list<const Structure*>* structures,
     const std::list<const Hardware*>* hardwares,
     LineStructure& line_structure) {
@@ -246,6 +253,12 @@ bool LineStructureXmlHandler::ParseNodeV1(
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    LineStructureUnitConverter::ConvertUnitStyleToConsistent(1, units,
+                                                             line_structure);
   }
 
   return status;

@@ -3,6 +3,7 @@
 
 #include "appcommon/xml/transmission_line_xml_handler.h"
 
+#include "appcommon/units/transmission_line_unit_converter.h"
 #include "appcommon/xml/line_cable_xml_handler.h"
 #include "appcommon/xml/line_structure_xml_handler.h"
 #include "models/base/helper.h"
@@ -98,6 +99,8 @@ wxXmlNode* TransmissionLineXmlHandler::CreateNode(
 bool TransmissionLineXmlHandler::ParseNode(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     const std::list<const Structure*>* structures,
     const std::list<const Hardware*>* hardwares,
     const std::list<const Cable*>* cables,
@@ -124,8 +127,8 @@ bool TransmissionLineXmlHandler::ParseNode(
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return ParseNodeV1(root, filepath, structures, hardwares, cables,
-                       weathercases, line);
+    return ParseNodeV1(root, filepath, units, convert, structures, hardwares,
+                       cables, weathercases, line);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -137,6 +140,8 @@ bool TransmissionLineXmlHandler::ParseNode(
 bool TransmissionLineXmlHandler::ParseNodeV1(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     const std::list<const Structure*>* structures,
     const std::list<const Hardware*>* hardwares,
     const std::list<const Cable*>* cables,
@@ -229,7 +234,8 @@ bool TransmissionLineXmlHandler::ParseNodeV1(
         // creates a new line structure
         LineStructure line_structure;
         const bool status_node = LineStructureXmlHandler::ParseNode(
-            sub_node, filepath, structures, hardwares, line_structure);
+            sub_node, filepath, units, convert, structures, hardwares,
+            line_structure);
         if (status_node == false) {
           status = false;
         }
@@ -259,8 +265,8 @@ bool TransmissionLineXmlHandler::ParseNodeV1(
         // creates a new line structure
         LineCable line_cable;
         const bool status_node = LineCableXmlHandler::ParseNode(
-            sub_node, filepath, cables, &const_line_structures, weathercases,
-            line_cable);
+            sub_node, filepath, units, convert, cables, &const_line_structures,
+            weathercases, line_cable);
         if (status_node == false) {
           status = false;
         }
@@ -283,6 +289,12 @@ bool TransmissionLineXmlHandler::ParseNodeV1(
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    TransmissionLineUnitConverter::ConvertUnitStyleToConsistent(1, units, false,
+                                                                line);
   }
 
   return status;

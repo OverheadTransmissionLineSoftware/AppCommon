@@ -5,6 +5,8 @@
 
 #include "models/base/helper.h"
 
+#include "appcommon/units/structure_unit_converter.h"
+
 wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
     const StructureAttachment& attachment,
     const std::string& name,
@@ -67,6 +69,8 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
 
 bool StructureAttachmentXmlHandler::ParseNode(const wxXmlNode* root,
                                               const std::string& filepath,
+                                              const units::UnitSystem& units,
+                                              const bool& convert,
                                               StructureAttachment& attachment) {
   wxString message;
 
@@ -89,7 +93,7 @@ bool StructureAttachmentXmlHandler::ParseNode(const wxXmlNode* root,
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return ParseNodeV1(root, filepath, attachment);
+    return ParseNodeV1(root, filepath, units, convert, attachment);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -101,6 +105,8 @@ bool StructureAttachmentXmlHandler::ParseNode(const wxXmlNode* root,
 bool StructureAttachmentXmlHandler::ParseNodeV1(
     const wxXmlNode* root,
     const std::string& filepath,
+    const units::UnitSystem& units,
+    const bool& convert,
     StructureAttachment& attachment) {
   bool status = true;
   wxString message;
@@ -150,6 +156,12 @@ bool StructureAttachmentXmlHandler::ParseNodeV1(
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    StructureAttachmentUnitConverter::ConvertUnitStyleToConsistent(1, units,
+                                                                   attachment);
   }
 
   return status;
@@ -212,6 +224,8 @@ wxXmlNode* StructureXmlHandler::CreateNode(const Structure& structure,
 
 bool StructureXmlHandler::ParseNode(const wxXmlNode* root,
                                     const std::string& filepath,
+                                    const units::UnitSystem& units,
+                                    const bool& convert,
                                     Structure& structure) {
   wxString message;
 
@@ -234,7 +248,8 @@ bool StructureXmlHandler::ParseNode(const wxXmlNode* root,
 
   // sends to proper parsing function
   if (kVersion == 1) {
-    return StructureXmlHandler::ParseNodeV1(root, filepath, structure);
+    return StructureXmlHandler::ParseNodeV1(root, filepath, units, convert,
+                                            structure);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -245,6 +260,8 @@ bool StructureXmlHandler::ParseNode(const wxXmlNode* root,
 
 bool StructureXmlHandler::ParseNodeV1(const wxXmlNode* root,
                                       const std::string& filepath,
+                                      const units::UnitSystem& units,
+                                      const bool& convert,
                                       Structure& structure) {
   // variables used to parse XML node
   bool status = true;
@@ -281,7 +298,7 @@ bool StructureXmlHandler::ParseNodeV1(const wxXmlNode* root,
         // creates a new attachment
         StructureAttachment attachment;
         const bool status_node = StructureAttachmentXmlHandler::ParseNode(
-            sub_node, filepath, attachment);
+            sub_node, filepath, units, convert, attachment);
         if (status_node == false) {
           status = false;
         }
@@ -299,6 +316,12 @@ bool StructureXmlHandler::ParseNodeV1(const wxXmlNode* root,
     }
 
     node = node->GetNext();
+  }
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    StructureUnitConverter::ConvertUnitStyleToConsistent(1, units, false,
+                                                         structure);
   }
 
   return status;

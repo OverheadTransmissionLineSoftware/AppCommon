@@ -23,6 +23,13 @@
 /// This class can parse all versions of the XML node. However, new nodes will
 /// only be generated with the most recent version.
 ///
+/// \par UNIT CONVERSIONS
+///
+/// This class can optionally convert the unit style to 'consistent' when
+/// parsing. The conversion will occur after the xml node has been parsed. The
+/// respective unit converter class will perform the conversion using the
+/// converter version that matches the xml node version.
+///
 /// \par UNIT ATTRIBUTES
 ///
 /// This class supports attributing the child XML nodes for various unit
@@ -48,6 +55,10 @@ class LineStructureXmlHandler : public XmlHandler {
   /// \param[in] filepath
   ///   The filepath that the xml node was loaded from. This is for logging
   ///   purposes only and can be left blank.
+  /// \param[in] units
+  ///   The unit system. If no conversion is being done this will be ignored.
+  /// \param[in] convert
+  ///   A flag that determines if the unit style is converted to 'consistent'.
   /// \param[in] structures
   ///   A list of structures that is matched against a structure name. If
   ///   found, a pointer will be set to the matching structures.
@@ -63,6 +74,8 @@ class LineStructureXmlHandler : public XmlHandler {
   /// property to an invalid state (if applicable).
   static bool ParseNode(const wxXmlNode* root,
                         const std::string& filepath,
+                        const units::UnitSystem& units,
+                        const bool& convert,
                         const std::list<const Structure*>* structures,
                         const std::list<const Hardware*>* hardwares,
                         LineStructure& line_structure);
@@ -74,6 +87,10 @@ class LineStructureXmlHandler : public XmlHandler {
   /// \param[in] filepath
   ///   The filepath that the xml node was loaded from. This is for logging
   ///   purposes only and can be left blank.
+  /// \param[in] units
+  ///   The unit system. If no conversion is being done this will be ignored.
+  /// \param[in] convert
+  ///   A flag that determines if the unit style is converted to 'consistent'.
   /// \param[in] structures
   ///   A list of structures that is matched against a structure name. If
   ///   found, a pointer will be set to the matching structures.
@@ -89,6 +106,8 @@ class LineStructureXmlHandler : public XmlHandler {
   /// property to an invalid state (if applicable).
   static bool ParseNodeV1(const wxXmlNode* root,
                           const std::string& filepath,
+                          const units::UnitSystem& units,
+                          const bool& convert,
                           const std::list<const Structure*>* structures,
                           const std::list<const Hardware*>* hardwares,
                           LineStructure& line_structure);
