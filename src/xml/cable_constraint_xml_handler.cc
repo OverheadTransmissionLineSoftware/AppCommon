@@ -11,7 +11,8 @@
 wxXmlNode* CableConstraintXmlHandler::CreateNode(
     const CableConstraint& constraint,
     const std::string name,
-    const units::UnitSystem& units) {
+    const units::UnitSystem& system_units,
+    const units::UnitStyle& /**style_units**/) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   wxXmlNode* node_element = nullptr;
@@ -40,10 +41,10 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
     attribute = wxXmlAttribute("type", "CatenaryConstant");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
 
-    if (units == units::UnitSystem::kMetric) {
+    if (system_units == units::UnitSystem::kMetric) {
       attribute = wxXmlAttribute("units", "N/m");
       node_element->AddAttribute(&attribute);
-    } else if (units == units::UnitSystem::kImperial) {
+    } else if (system_units == units::UnitSystem::kImperial) {
       attribute = wxXmlAttribute("units", "lbs/ft");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
     }
@@ -52,10 +53,10 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
     attribute = wxXmlAttribute("type", "HorizontalTension");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
 
-    if (units == units::UnitSystem::kMetric) {
+    if (system_units == units::UnitSystem::kMetric) {
       attribute = wxXmlAttribute("units", "N");
       node_element->AddAttribute(&attribute);
-    } else if (units == units::UnitSystem::kImperial) {
+    } else if (system_units == units::UnitSystem::kImperial) {
       attribute = wxXmlAttribute("units", "lbs");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
     }
@@ -63,10 +64,10 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
     attribute = wxXmlAttribute("type", "Length");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
 
-    if (units == units::UnitSystem::kMetric) {
+    if (system_units == units::UnitSystem::kMetric) {
       attribute = wxXmlAttribute("units", "m");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
-    } else if (units == units::UnitSystem::kImperial) {
+    } else if (system_units == units::UnitSystem::kImperial) {
       attribute = wxXmlAttribute("units", "ft");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
     }
@@ -74,10 +75,10 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
     attribute = wxXmlAttribute("type", "Sag");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
 
-    if (units == units::UnitSystem::kMetric) {
+    if (system_units == units::UnitSystem::kMetric) {
       attribute = wxXmlAttribute("units", "m");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
-    } else if (units == units::UnitSystem::kImperial) {
+    } else if (system_units == units::UnitSystem::kImperial) {
       attribute = wxXmlAttribute("units", "ft");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
     }
@@ -86,10 +87,10 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
     attribute = wxXmlAttribute("type", "SupportTension");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
 
-    if (units == units::UnitSystem::kMetric) {
+    if (system_units == units::UnitSystem::kMetric) {
       attribute = wxXmlAttribute("units", "N");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
-    } else if (units == units::UnitSystem::kImperial) {
+    } else if (system_units == units::UnitSystem::kImperial) {
       attribute = wxXmlAttribute("units", "lbs");
       node_element->AddAttribute(attribute.GetName(), attribute.GetValue());
     }

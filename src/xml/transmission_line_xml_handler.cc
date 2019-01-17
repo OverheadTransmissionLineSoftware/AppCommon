@@ -11,7 +11,8 @@
 wxXmlNode* TransmissionLineXmlHandler::CreateNode(
     const TransmissionLine& line,
     const std::string& name,
-    const units::UnitSystem& units) {
+    const units::UnitSystem& system_units,
+    const units::UnitStyle& style_units) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   wxXmlNode* node_element = nullptr;
@@ -33,9 +34,9 @@ wxXmlNode* TransmissionLineXmlHandler::CreateNode(
   node_element->AddAttribute("format", "station,elevation,rotation");
 
   // creates alignment point nodes and adds to alignment node
-  if (units == units::UnitSystem::kMetric) {
+  if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "m,m,deg");
-  } else if (units == units::UnitSystem::kImperial) {
+  } else if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft,ft,deg");
   } else {
     attribute = wxXmlAttribute();
@@ -65,8 +66,8 @@ wxXmlNode* TransmissionLineXmlHandler::CreateNode(
   for (auto iter = line_structures->cbegin(); iter != line_structures->cend();
        iter++) {
     const LineStructure& line_structure = *iter;
-    wxXmlNode* sub_node = LineStructureXmlHandler::CreateNode(line_structure,
-                                                              "", units);
+    wxXmlNode* sub_node = LineStructureXmlHandler::CreateNode(
+        line_structure, "", system_units, style_units);
     node_element->AddChild(sub_node);
   }
   node_root->AddChild(node_element);
@@ -87,7 +88,7 @@ wxXmlNode* TransmissionLineXmlHandler::CreateNode(
        iter++) {
     const LineCable& line_cable = *iter;
     wxXmlNode* sub_node = LineCableXmlHandler::CreateNode(
-        line_cable, "", units, &const_line_structures);
+        line_cable, "", system_units, style_units, &const_line_structures);
     node_element->AddChild(sub_node);
   }
   node_root->AddChild(node_element);

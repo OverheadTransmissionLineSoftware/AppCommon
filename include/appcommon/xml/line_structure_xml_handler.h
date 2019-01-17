@@ -33,7 +33,7 @@
 /// \par UNIT ATTRIBUTES
 ///
 /// This class supports attributing the child XML nodes for various unit
-/// systems.
+/// systems and styles.
 class LineStructureXmlHandler : public XmlHandler {
  public:
   /// \brief Creates an XML node for a line structure.
@@ -42,12 +42,15 @@ class LineStructureXmlHandler : public XmlHandler {
   /// \param[in] name
   ///   The name of the XML node. This will be an attribute for the created
   ///   node. If empty, no attribute will be created.
-  /// \param[in] units
+  /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
+  /// \param[in] system_style
+  ///   The unit style, which is used for attributing child XML nodes.
   /// \return An XML node for the line structure.
   static wxXmlNode* CreateNode(const LineStructure& line_structure,
                                const std::string& name,
-                               const units::UnitSystem& units);
+                               const units::UnitSystem& system_units,
+                               const units::UnitStyle& style_units);
 
   /// \brief Parses an XML node and populates a line structure.
   /// \param[in] root

@@ -10,7 +10,8 @@
 wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
     const StructureAttachment& attachment,
     const std::string& name,
-    const units::UnitSystem& units) {
+    const units::UnitSystem& system_units,
+    const units::UnitStyle& /**style_units**/) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   wxXmlNode* node_element = nullptr;
@@ -31,9 +32,9 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
   title = "offset_longitudinal";
   value = attachment.offset_longitudinal;
   content = helper::DoubleToString(value, 6);
-  if (units == units::UnitSystem::kImperial) {
+  if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
-  } else if (units == units::UnitSystem::kMetric) {
+  } else if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "m");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -43,9 +44,9 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
   title = "offset_transverse";
   value = attachment.offset_transverse;
   content = helper::DoubleToString(value, 6);
-  if (units == units::UnitSystem::kImperial) {
+  if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
-  } else if (units == units::UnitSystem::kMetric) {
+  } else if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "m");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -55,9 +56,9 @@ wxXmlNode* StructureAttachmentXmlHandler::CreateNode(
   title = "offset_vertical_top";
   value = attachment.offset_vertical_top;
   content = helper::DoubleToString(value, 6);
-  if (units == units::UnitSystem::kImperial) {
+  if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
-  } else if (units == units::UnitSystem::kMetric) {
+  } else if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "m");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -168,9 +169,11 @@ bool StructureAttachmentXmlHandler::ParseNodeV1(
 }
 
 
-wxXmlNode* StructureXmlHandler::CreateNode(const Structure& structure,
-                                           const std::string& name,
-                                           const units::UnitSystem& units) {
+wxXmlNode* StructureXmlHandler::CreateNode(
+    const Structure& structure,
+    const std::string& name,
+    const units::UnitSystem& system_units,
+    const units::UnitStyle& style_units) {
   // variables used to create XML node
   double value = -999999;
   std::string title;
@@ -197,9 +200,9 @@ wxXmlNode* StructureXmlHandler::CreateNode(const Structure& structure,
   title = "height";
   value = structure.height;
   content = helper::DoubleToString(value, 6);
-  if (units == units::UnitSystem::kMetric) {
+  if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "mm^2");
-  } else if (units == units::UnitSystem::kImperial) {
+  } else if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "in^2");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -212,9 +215,11 @@ wxXmlNode* StructureXmlHandler::CreateNode(const Structure& structure,
   for (auto iter = structure.attachments.cbegin();
        iter != structure.attachments.cend(); iter++) {
     const StructureAttachment& attachment = *iter;
-    wxXmlNode* sub_node = StructureAttachmentXmlHandler::CreateNode(attachment,
-                                                                    "",
-                                                                    units);
+    wxXmlNode* sub_node = StructureAttachmentXmlHandler::CreateNode(
+        attachment,
+        "",
+        system_units,
+        style_units);
     node_element->AddChild(sub_node);
   }
   node_root->AddChild(node_element);

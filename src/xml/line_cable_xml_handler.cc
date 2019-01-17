@@ -11,7 +11,8 @@
 wxXmlNode* LineCableXmlHandler::CreateNode(
     const LineCable& line_cable,
     const std::string& name,
-    const units::UnitSystem& units,
+    const units::UnitSystem& system_units,
+    const units::UnitStyle& style_units,
     const std::list<const LineStructure*>* line_structures) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
@@ -40,14 +41,14 @@ wxXmlNode* LineCableXmlHandler::CreateNode(
 
   // creates constraint node and adds to root node
   node_element = CableConstraintXmlHandler::CreateNode(
-      line_cable.constraint(), "", units);
+      line_cable.constraint(), "", system_units, style_units);
   node_root->AddChild(node_element);
 
   // creates spacing-attachments-ruling-span node and adds to root node
   title = "spacing_attachments_ruling_span";
-  if (units == units::UnitSystem::kImperial) {
+  if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
-  } else if (units == units::UnitSystem::kMetric) {
+  } else if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "m");
   }
   node_element = Vector3dXmlHandler::CreateNode(

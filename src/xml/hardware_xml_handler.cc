@@ -9,7 +9,8 @@
 wxXmlNode* HardwareXmlHandler::CreateNode(
     const Hardware& hardware,
     const std::string& name,
-    const units::UnitSystem& units) {
+    const units::UnitSystem& system_units,
+    const units::UnitStyle& /**style_units**/) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   wxXmlNode* node_element = nullptr;
@@ -46,9 +47,9 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   title = "area_cross_section";
   value = hardware.area_cross_section;
   content = helper::DoubleToString(value, 6);
-  if (units == units::UnitSystem::kImperial) {
+  if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft^2");
-  } else if (units == units::UnitSystem::kMetric) {
+  } else if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "m^2");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -58,9 +59,9 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   title = "length";
   value = hardware.length;
   content = helper::DoubleToString(value, 6);
-  if (units == units::UnitSystem::kImperial) {
+  if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
-  } else if (units == units::UnitSystem::kMetric) {
+  } else if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "m");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -70,9 +71,9 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   title = "weight";
   value = hardware.weight;
   content = helper::DoubleToString(value, 6);
-  if (units == units::UnitSystem::kImperial) {
+  if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "lbs");
-  } else if (units == units::UnitSystem::kMetric) {
+  } else if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "N");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);

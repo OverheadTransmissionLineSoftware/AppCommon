@@ -32,7 +32,7 @@
 /// \par UNIT ATTRIBUTES
 ///
 /// This class supports attributing the child XML nodes for various unit
-/// systems.
+/// systems and styles.
 class CableComponentXmlHandler : public XmlHandler {
  public:
   /// \brief Creates an XML node for a cable component.
@@ -41,12 +41,15 @@ class CableComponentXmlHandler : public XmlHandler {
   /// \param[in] name
   ///   The name of the XML node. This will be an attribute for the created
   ///   node. If empty, no attribute will be created.
-  /// \param[in] units
+  /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
+  /// \param[in] system_style
+  ///   The unit style, which is used for attributing child XML nodes.
   /// \return An XML node for the cable component.
   static wxXmlNode* CreateNode(const CableComponent& component,
                                const std::string& name,
-                               const units::UnitSystem& units);
+                               const units::UnitSystem& system_units,
+                               const units::UnitStyle& style_units);
 
   /// \brief Parses an XML node and populates a cable component.
   /// \param[in] root
@@ -117,7 +120,7 @@ class CableComponentXmlHandler : public XmlHandler {
 /// \par UNIT ATTRIBUTES
 ///
 /// This class supports attributing the child XML nodes for various unit
-/// systems.
+/// systems and styles.
 class CableXmlHandler : public XmlHandler {
  public:
   /// \brief Creates an XML node for a cable struct.
@@ -126,12 +129,15 @@ class CableXmlHandler : public XmlHandler {
   /// \param[in] name
   ///   The name of the XML node. This will be an attribute for the created
   ///   node. If empty, no attribute will be created.
-  /// \param[in] units
+  /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
+  /// \param[in] system_style
+  ///   The unit style, which is used for attributing child XML nodes.
   /// \return An XML node for the cable.
   static wxXmlNode* CreateNode(const Cable& cable,
                                const std::string& name,
-                               const units::UnitSystem& units);
+                               const units::UnitSystem& system_units,
+                               const units::UnitStyle& style_units);
 
   /// \brief Parses an XML node and populates a cable struct.
   /// \param[in] root
@@ -163,13 +169,16 @@ class CableXmlHandler : public XmlHandler {
   /// \param[in] name
   ///   The name of the XML node. This will be an attribute for the created
   ///   node. If empty, no attribute will be created.
-  /// \param[in] units
+  /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
+  /// \param[in] system_style
+  ///   The unit style, which is used for attributing child XML nodes.
   /// \return An XML node for the cable.
   static wxXmlNode* CreateNodeResistancePoint(
     const Cable::ResistancePoint& point,
     const std::string& name,
-    const units::UnitSystem& units);
+    const units::UnitSystem& system_units,
+    const units::UnitStyle& style_units);
 
   /// \brief Parses an XML node and populates a resistance point struct.
   /// \param[in] root

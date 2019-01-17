@@ -33,7 +33,7 @@
 /// \par UNIT ATTRIBUTES
 ///
 /// This class supports attributing the child XML nodes for various unit
-/// systems.
+/// systems and styles.
 class LineCableXmlHandler : public XmlHandler {
  public:
   /// \brief Creates an XML node for a linecable.
@@ -42,15 +42,18 @@ class LineCableXmlHandler : public XmlHandler {
   /// \param[in] name
   ///   The name of the XML node. This will be an attribute for the created
   ///   node. If empty, no attribute will be created.
-  /// \param[in] units
+  /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
+  /// \param[in] system_style
+  ///   The unit style, which is used for attributing child XML nodes.
   /// \param[in] line_structures
   ///   A list of line structures that is matched against for connections.
   /// \return An XML node for the line cable.
   static wxXmlNode* CreateNode(
       const LineCable& line_cable,
       const std::string& name,
-      const units::UnitSystem& units,
+      const units::UnitSystem& system_units,
+      const units::UnitStyle& style_units,
       const std::list<const LineStructure*>* line_structures);
 
   /// \brief Parses an XML node and populates a line cable.
