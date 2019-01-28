@@ -22,7 +22,7 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
 
   // creates a node for the root
   node_root = new wxXmlNode(wxXML_ELEMENT_NODE, "cable_component");
-  node_root->AddAttribute("version", "1");
+  node_root->AddAttribute("version", "2");
 
   if (name != "") {
     node_root->AddAttribute("name", name);
@@ -45,9 +45,9 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   value = component.coefficient_expansion_linear_thermal;
   content = helper::DoubleToString(value, 6);
   if (system_units == units::UnitSystem::kMetric) {
-    attribute = wxXmlAttribute("units", "/deg C");
+    attribute = wxXmlAttribute("units", "/100degC");
   } else if (system_units == units::UnitSystem::kImperial) {
-    attribute = wxXmlAttribute("units", "/deg F");
+    attribute = wxXmlAttribute("units", "/100degF");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
@@ -60,13 +60,13 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "N");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "MPa");
+      attribute = wxXmlAttribute("units", "MPa/100");
     }
   } else if (system_units == units::UnitSystem::kImperial) {
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "lbs");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "lbs/in^2");
+      attribute = wxXmlAttribute("units", "lbs/in^2/100");
     }
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -80,13 +80,13 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "N");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "MPa");
+      attribute = wxXmlAttribute("units", "MPa/100");
     }
   } else if (system_units == units::UnitSystem::kImperial) {
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "lbs");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "lbs/in^2");
+      attribute = wxXmlAttribute("units", "lbs/in^2/100");
     }
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -101,13 +101,13 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "N");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "MPa");
+      attribute = wxXmlAttribute("units", "MPa/100");
     }
   } else if (system_units == units::UnitSystem::kImperial) {
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "lbs");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "lbs/in^2");
+      attribute = wxXmlAttribute("units", "lbs/in^2/100");
     }
   } else {
     attribute = wxXmlAttribute();
@@ -134,13 +134,13 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "N");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "MPa");
+      attribute = wxXmlAttribute("units", "MPa/100");
     }
   } else if (system_units == units::UnitSystem::kImperial) {
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "lbs");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "lbs/in^2");
+      attribute = wxXmlAttribute("units", "lbs/in^2/100");
     }
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -155,13 +155,13 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "N");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "MPa");
+      attribute = wxXmlAttribute("units", "MPa/100");
     }
   } else if (system_units == units::UnitSystem::kImperial) {
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "lbs");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "lbs/in^2");
+      attribute = wxXmlAttribute("units", "lbs/in^2/100");
     }
   } else {
     attribute = wxXmlAttribute();
@@ -188,13 +188,13 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "N");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "MPa");
+      attribute = wxXmlAttribute("units", "MPa/100");
     }
   } else if (system_units == units::UnitSystem::kImperial) {
     if (style_units == units::UnitStyle::kConsistent) {
       attribute = wxXmlAttribute("units", "lbs");
     } else if (style_units == units::UnitStyle::kDifferent) {
-      attribute = wxXmlAttribute("units", "lbs/in^2");
+      attribute = wxXmlAttribute("units", "lbs/in^2/100");
     }
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
@@ -231,6 +231,8 @@ bool CableComponentXmlHandler::ParseNode(const wxXmlNode* root,
   // sends to proper parsing function
   if (kVersion == 1) {
     return ParseNodeV1(root, filepath, units, convert, component);
+  } else if (kVersion == 2) {
+    return ParseNodeV2(root, filepath, units, convert, component);
   } else {
     message = FileAndLineNumber(filepath, root) +
               " Invalid version number. Aborting node parse.";
@@ -379,6 +381,23 @@ bool CableComponentXmlHandler::ParseNodeV1(const wxXmlNode* root,
   // converts unit style to 'consistent' if needed
   if (convert == true) {
     CableComponentUnitConverter::ConvertUnitStyleToConsistent(1, units,
+                                                              component);
+  }
+
+  return status;
+}
+
+bool CableComponentXmlHandler::ParseNodeV2(const wxXmlNode* root,
+                                           const std::string& filepath,
+                                           const units::UnitSystem& units,
+                                           const bool& convert,
+                                           CableComponent& component) {
+  // parsing is the same as version 1
+  const bool status = ParseNodeV1(root, filepath, units, false, component);
+
+  // converts unit style to 'consistent' if needed
+  if (convert == true) {
+    CableComponentUnitConverter::ConvertUnitStyleToConsistent(2, units,
                                                               component);
   }
 

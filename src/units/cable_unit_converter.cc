@@ -7,7 +7,7 @@
 
 namespace {
 
-/// \brief Converts the component coefficients load.
+/// \brief Converts the component load coefficients.
 /// \param[in] type
 ///   The type of force conversion.
 /// \param[in,out] coefficients
@@ -16,14 +16,13 @@ void ConvertComponentCoefficientsLoad(
     const units::ForceConversionType& type,
     std::vector<double>& coefficients) {
   // converts stress coefficients
-  for (auto iter = coefficients.begin();
-       iter != coefficients.end(); iter ++) {
+  for (auto iter = coefficients.begin(); iter != coefficients.end(); iter ++) {
     double& coefficient = *iter;
     coefficient = units::ConvertForce(coefficient, type);
   }
 }
 
-/// \brief Converts the component coefficients stress.
+/// \brief Converts the component stress coefficients.
 /// \param[in] type
 ///   The type of stress conversion.
 /// \param[in,out] coefficients
@@ -32,8 +31,7 @@ void ConvertComponentCoefficientsStress(
     const units::StressConversionType& type,
     std::vector<double>& coefficients) {
   // converts stress coefficients
-  for (auto iter = coefficients.begin();
-       iter != coefficients.end(); iter ++) {
+  for (auto iter = coefficients.begin(); iter != coefficients.end(); iter ++) {
     double& coefficient = *iter;
     coefficient = units::ConvertStress(coefficient, type);
   }
@@ -113,9 +111,11 @@ bool CableComponentUnitConverter::ConvertUnitStyleToConsistent(
   // sends to proper converter function
   if (version == 0) {
     // points to latest converter version
-    ConvertUnitStyleToConsistentV1(system, component);
+    ConvertUnitStyleToConsistentV2(system, component);
   } else if (version == 1) {
     ConvertUnitStyleToConsistentV1(system, component);
+  } else if (version == 2) {
+    ConvertUnitStyleToConsistentV2(system, component);
   } else {
     wxString message = " Invalid version number. Aborting conversion.";
     wxLogError(message);
@@ -129,9 +129,12 @@ void CableComponentUnitConverter::ConvertUnitStyleToDifferent(
     const units::UnitSystem& system,
     CableComponent& component) {
   if (system == units::UnitSystem::kMetric) {
+    component.coefficient_expansion_linear_thermal *= 100;
+
     ConvertComponentCoefficientsStress(
         units::StressConversionType::kPascalToMegaPascal,
         component.coefficients_polynomial_creep);
+
     ConvertComponentCoefficientsStress(
         units::StressConversionType::kPascalToMegaPascal,
         component.coefficients_polynomial_loadstrain);
@@ -139,19 +142,25 @@ void CableComponentUnitConverter::ConvertUnitStyleToDifferent(
     component.load_limit_polynomial_creep = units::ConvertStress(
         component.load_limit_polynomial_creep,
         units::StressConversionType::kPascalToMegaPascal);
+    component.load_limit_polynomial_creep /= 100;
 
     component.load_limit_polynomial_loadstrain = units::ConvertStress(
         component.load_limit_polynomial_loadstrain,
         units::StressConversionType::kPascalToMegaPascal);
+    component.load_limit_polynomial_loadstrain /= 100;
 
     component.modulus_compression_elastic_area = units::ConvertStress(
         component.modulus_compression_elastic_area,
         units::StressConversionType::kPascalToMegaPascal);
+    component.modulus_compression_elastic_area /= 100;
 
     component.modulus_tension_elastic_area = units::ConvertStress(
         component.modulus_tension_elastic_area,
         units::StressConversionType::kPascalToMegaPascal);
+    component.modulus_tension_elastic_area /= 100;
   } else if (system == units::UnitSystem::kImperial) {
+    component.coefficient_expansion_linear_thermal *= 100;
+
     ConvertComponentCoefficientsStress(
         units::StressConversionType::kPsfToPsi,
         component.coefficients_polynomial_creep);
@@ -163,18 +172,22 @@ void CableComponentUnitConverter::ConvertUnitStyleToDifferent(
     component.load_limit_polynomial_creep = units::ConvertStress(
         component.load_limit_polynomial_creep,
         units::StressConversionType::kPsfToPsi);
+    component.load_limit_polynomial_creep /= 100;
 
     component.load_limit_polynomial_loadstrain = units::ConvertStress(
         component.load_limit_polynomial_loadstrain,
         units::StressConversionType::kPsfToPsi);
+    component.load_limit_polynomial_loadstrain /= 100;
 
     component.modulus_compression_elastic_area = units::ConvertStress(
         component.modulus_compression_elastic_area,
         units::StressConversionType::kPsfToPsi);
+    component.modulus_compression_elastic_area /= 100;
 
     component.modulus_tension_elastic_area = units::ConvertStress(
         component.modulus_tension_elastic_area,
         units::StressConversionType::kPsfToPsi);
+    component.modulus_tension_elastic_area /= 100;
   }
 }
 
@@ -308,6 +321,73 @@ void CableComponentUnitConverter::ConvertUnitStyleToConsistentV1(
         component.modulus_compression_elastic_area,
         units::StressConversionType::kPsiToPsf);
 
+    component.modulus_tension_elastic_area = units::ConvertStress(
+        component.modulus_tension_elastic_area,
+        units::StressConversionType::kPsiToPsf);
+  }
+}
+
+void CableComponentUnitConverter::ConvertUnitStyleToConsistentV2(
+    const units::UnitSystem& system,
+    CableComponent& component) {
+  // converts based on unit system
+  if (system == units::UnitSystem::kMetric) {
+    component.coefficient_expansion_linear_thermal /= 100;
+
+    ConvertComponentCoefficientsStress(
+        units::StressConversionType::kMegaPascalToPascal,
+        component.coefficients_polynomial_creep);
+
+    ConvertComponentCoefficientsStress(
+        units::StressConversionType::kMegaPascalToPascal,
+        component.coefficients_polynomial_loadstrain);
+
+    component.load_limit_polynomial_creep *= 100;
+    component.load_limit_polynomial_creep = units::ConvertStress(
+        component.load_limit_polynomial_creep,
+        units::StressConversionType::kMegaPascalToPascal);
+
+    component.load_limit_polynomial_loadstrain *= 100;
+    component.load_limit_polynomial_loadstrain = units::ConvertStress(
+        component.load_limit_polynomial_loadstrain,
+        units::StressConversionType::kMegaPascalToPascal);
+
+    component.modulus_compression_elastic_area *= 100;
+    component.modulus_compression_elastic_area = units::ConvertStress(
+        component.modulus_compression_elastic_area,
+        units::StressConversionType::kMegaPascalToPascal);
+
+    component.modulus_tension_elastic_area *= 100;
+    component.modulus_tension_elastic_area = units::ConvertStress(
+        component.modulus_tension_elastic_area,
+        units::StressConversionType::kMegaPascalToPascal);
+  } else if (system == units::UnitSystem::kImperial) {
+    component.coefficient_expansion_linear_thermal /= 100;
+
+    ConvertComponentCoefficientsStress(
+        units::StressConversionType::kPsiToPsf,
+        component.coefficients_polynomial_creep);
+
+    ConvertComponentCoefficientsStress(
+        units::StressConversionType::kPsiToPsf,
+        component.coefficients_polynomial_loadstrain);
+
+    component.load_limit_polynomial_creep *= 100;
+    component.load_limit_polynomial_creep = units::ConvertStress(
+        component.load_limit_polynomial_creep,
+        units::StressConversionType::kPsiToPsf);
+
+    component.load_limit_polynomial_loadstrain *= 100;
+    component.load_limit_polynomial_loadstrain = units::ConvertStress(
+        component.load_limit_polynomial_loadstrain,
+        units::StressConversionType::kPsiToPsf);
+
+    component.modulus_compression_elastic_area *= 100;
+    component.modulus_compression_elastic_area = units::ConvertStress(
+        component.modulus_compression_elastic_area,
+        units::StressConversionType::kPsiToPsf);
+
+    component.modulus_tension_elastic_area *= 100;
     component.modulus_tension_elastic_area = units::ConvertStress(
         component.modulus_tension_elastic_area,
         units::StressConversionType::kPsiToPsf);

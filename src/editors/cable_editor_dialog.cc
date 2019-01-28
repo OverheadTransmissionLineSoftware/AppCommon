@@ -149,34 +149,34 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
         SetLabel("[ ]");
 
     XRCCTRL(*this, "statictext_shell_coefficient_expansion_thermal_units",
-            wxStaticText)->SetLabel("/degC");
+            wxStaticText)->SetLabel("/100degC");
     XRCCTRL(*this, "statictext_shell_modulus_compression_units", wxStaticText)->
-        SetLabel("[MPa]");
+        SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_shell_modulus_tension_units", wxStaticText)->
-        SetLabel("[MPa]");
+        SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_shell_capacity_heat_units", wxStaticText)->
         SetLabel("[W-s/m-degC]");
     XRCCTRL(*this, "statictext_shell_polynomial_units", wxStaticText)->
         SetLabel("[%, MPa]");
     XRCCTRL(*this, "statictext_shell_stressstrain_limit_units", wxStaticText)->
-        SetLabel("[MPa]");
+        SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_shell_creep_limit_units", wxStaticText)->
-        SetLabel("[MPa]");
+        SetLabel("[MPa/100]");
 
     XRCCTRL(*this, "statictext_core_coefficient_expansion_thermal_units",
-            wxStaticText)->SetLabel("/degC");
+            wxStaticText)->SetLabel("/100degC");
     XRCCTRL(*this, "statictext_core_modulus_compression_units", wxStaticText)->
-        SetLabel("[MPa]");
+        SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_core_modulus_tension_units", wxStaticText)->
-        SetLabel("[MPa]");
+        SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_core_capacity_heat_units", wxStaticText)->
         SetLabel("[W-s/m-degC]");
     XRCCTRL(*this, "statictext_core_polynomial_units", wxStaticText)->
         SetLabel("[%, MPa]");
     XRCCTRL(*this, "statictext_core_stressstrain_limit_units", wxStaticText)->
-        SetLabel("[MPa]");
+        SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_core_creep_limit_units", wxStaticText)->
-        SetLabel("[MPa]");
+        SetLabel("[MPa/100]");
   } else if (units == units::UnitSystem::kImperial) {
     XRCCTRL(*this, "statictext_area_physical_units", wxStaticText)->
         SetLabel("[in^2]");
@@ -199,34 +199,34 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
         SetLabel("[ ]");
 
     XRCCTRL(*this, "statictext_shell_coefficient_expansion_thermal_units",
-            wxStaticText)->SetLabel("[/degF]");
+            wxStaticText)->SetLabel("[/100degF]");
     XRCCTRL(*this, "statictext_shell_modulus_compression_units", wxStaticText)->
-        SetLabel("[psi]");
+        SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_shell_modulus_tension_units", wxStaticText)->
-        SetLabel("[psi]");
+        SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_shell_capacity_heat_units", wxStaticText)->
         SetLabel("[W-s/ft-degF]");
     XRCCTRL(*this, "statictext_shell_polynomial_units", wxStaticText)->
         SetLabel("[%, psi]");
     XRCCTRL(*this, "statictext_shell_stressstrain_limit_units", wxStaticText)->
-        SetLabel("[psi]");
+        SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_shell_creep_limit_units", wxStaticText)->
-        SetLabel("[psi]");
+        SetLabel("[psi/100]");
 
     XRCCTRL(*this, "statictext_core_coefficient_expansion_thermal_units",
-            wxStaticText)->SetLabel("[/degF]");
+            wxStaticText)->SetLabel("[/100degF]");
     XRCCTRL(*this, "statictext_core_modulus_compression_units", wxStaticText)->
-        SetLabel("[psi]");
+        SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_core_modulus_tension_units", wxStaticText)->
-        SetLabel("[psi]");
+        SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_core_capacity_heat_units", wxStaticText)->
         SetLabel("[W-s/ft-degF]");
     XRCCTRL(*this, "statictext_core_polynomial_units", wxStaticText)->
         SetLabel("[%, psi]");
     XRCCTRL(*this, "statictext_core_stressstrain_limit_units", wxStaticText)->
-        SetLabel("[psi]");
+        SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_core_creep_limit_units", wxStaticText)->
-        SetLabel("[psi]");
+        SetLabel("[psi/100]");
   }
 }
 

@@ -706,7 +706,7 @@
                   <flag>wxLEFT</flag>
                   <border>10</border>
                   <object class="wxStaticText" name="statictext_shell_stressstrain_limit_units">
-                    <label>WWW</label>
+                    <label>WWWW</label>
                   </object>
                 </object>
                 <object class="sizeritem">
@@ -733,7 +733,7 @@
                   <flag>wxLEFT</flag>
                   <border>10</border>
                   <object class="wxStaticText" name="statictext_shell_creep_limit_units">
-                    <label>WWW</label>
+                    <label>WWWW</label>
                   </object>
                 </object>
                 <object class="sizeritem">
@@ -1098,7 +1098,7 @@
                   <flag>wxLEFT</flag>
                   <border>10</border>
                   <object class="wxStaticText" name="statictext_core_stressstrain_limit_units">
-                    <label>WWW</label>
+                    <label>WWWW</label>
                   </object>
                 </object>
                 <object class="sizeritem">
@@ -1125,7 +1125,7 @@
                   <flag>wxLEFT</flag>
                   <border>10</border>
                   <object class="wxStaticText" name="statictext_core_creep_limit_units">
-                    <label>WWW</label>
+                    <label>WWWW</label>
                   </object>
                 </object>
                 <object class="sizeritem">

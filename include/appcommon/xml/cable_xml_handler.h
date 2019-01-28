@@ -97,6 +97,29 @@ class CableComponentXmlHandler : public XmlHandler {
                           const units::UnitSystem& units,
                           const bool& convert,
                           CableComponent& component);
+
+  /// \brief Parses a version 2 XML node and populates a cable component.
+  /// \param[in] root
+  ///   The XML root node for the cable component.
+  /// \param[in] filepath
+  ///   The filepath that the xml node was loaded from. This is for logging
+  ///   purposes only and can be left blank.
+  /// \param[in] units
+  ///   The unit system. If no conversion is being done this will be ignored.
+  /// \param[in] convert
+  ///   A flag that determines if the unit style is converted to 'consistent'.
+  /// \param[out] component
+  ///   The cable component that is populated.
+  /// \return The status of the xml node parse. If any errors are encountered
+  ///   false is returned.
+  /// All errors are logged to the active application log target. Critical
+  /// errors cause the parsing to abort. Non-critical errors set the object
+  /// property to an invalid state (if applicable).
+  static bool ParseNodeV2(const wxXmlNode* root,
+                          const std::string& filepath,
+                          const units::UnitSystem& units,
+                          const bool& convert,
+                          CableComponent& component);
 };
 
 

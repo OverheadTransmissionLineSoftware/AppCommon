@@ -47,13 +47,13 @@ class CableComponentUnitConverter {
   /// \param[in,out] component
   ///   The component to be converted.
   /// The 'different' style units are as follows:
-  ///  - coefficient_expansion_linear_thermal = [/degC or /degF]
-  ///  - coefficients_polynomial_creep = [MPa or psi]
-  ///  - coefficients_polynomial_loadstrain = [MPa or psi]
-  ///  - load_limit_polynomial_creep = [MPa or psi]
-  ///  - load_limit_polynomial_loadstrain = [MPa or psi]
-  ///  - modulus_compression_elastic_area = [MPa or psi]
-  ///  - modulus_tension_elastic_area = [MPa of psi]
+  ///  - coefficient_expansion_linear_thermal = [/100degC or /100degF]
+  ///  - coefficients_polynomial_creep = [MPa/100 or psi/100]
+  ///  - coefficients_polynomial_loadstrain = [MPa/100 or psi/100]
+  ///  - load_limit_polynomial_creep = [MPa/100 or psi/100]
+  ///  - load_limit_polynomial_loadstrain = [MPa/100 or psi/100]
+  ///  - modulus_compression_elastic_area = [MPa/100 or psi/100]
+  ///  - modulus_tension_elastic_area = [MPa/100 or psi/100]
   static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
                                           CableComponent& component);
 
@@ -77,6 +77,14 @@ class CableComponentUnitConverter {
   /// \param[in,out] component
   ///   The component to be converted.
   static void ConvertUnitStyleToConsistentV1(const units::UnitSystem& system,
+                                             CableComponent& component);
+
+  /// \brief Converts to 'consistent' unit style using version 2.
+  /// \param[in] system
+  ///   The unit system.
+  /// \param[in,out] component
+  ///   The component to be converted.
+  static void ConvertUnitStyleToConsistentV2(const units::UnitSystem& system,
                                              CableComponent& component);
 };
 
