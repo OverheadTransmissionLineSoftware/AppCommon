@@ -32,11 +32,16 @@ class Point2dDoubleXmlHandler : public XmlHandler {
   ///   The attribute that will be created for the node.
   /// \param[in] precision
   ///   The rounding precision for the components.
+  /// \param[in] is_fixed_decimal
+  ///   A flag that indicates if the precision is to apply to decimal digits
+  ///   only. Enabling this will set the number of decimal digits equal to the
+  ///   precision.
   /// \return An XML node for the point.
   static wxXmlNode* CreateNode(const Point2d<double>& point,
                                const std::string& name,
                                const wxXmlAttribute& attribute_components,
-                               const int& precision);
+                               const int& precision,
+                               const bool& is_fixed_decimal = false);
 
   /// \brief Parses an XML node and populates a point.
   /// \param[in] root
@@ -96,11 +101,16 @@ class Point3dDoubleXmlHandler : public XmlHandler {
   ///   The attribute that will be created for the node.
   /// \param[in] precision
   ///   The rounding precision for the components.
+  /// \param[in] is_fixed_decimal
+  ///   A flag that indicates if the precision is to apply to decimal digits
+  ///   only. Enabling this will set the number of decimal digits equal to the
+  ///   precision.
   /// \return An XML node for the point.
   static wxXmlNode* CreateNode(const Point3d<double>& point,
                                const std::string& name,
                                const wxXmlAttribute& attribute_components,
-                               const int& precision);
+                               const int& precision,
+                               const bool& is_fixed_decimal = false);
 
   /// \brief Parses an XML node and populates a point.
   /// \param[in] root

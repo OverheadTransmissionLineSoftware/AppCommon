@@ -37,11 +37,16 @@ class Vector2dXmlHandler : public XmlHandler {
   ///   The attribute that will be created for all vector components.
   /// \param[in] precision
   ///   The rounding precision for the vector components.
+  /// \param[in] is_fixed_decimal
+  ///   A flag that indicates if the precision is to apply to decimal digits
+  ///   only. Enabling this will set the number of decimal digits equal to the
+  ///   precision.
   /// \return An XML node for the vector.
   static wxXmlNode* CreateNode(const Vector2d& vector,
                                const std::string& name,
                                const wxXmlAttribute& attribute_components,
-                               const int& precision);
+                               const int& precision,
+                               const bool& is_fixed_decimal = false);
 
   /// \brief Parses an XML node and populates a vector.
   /// \param[in] root
@@ -105,11 +110,16 @@ class Vector3dXmlHandler : public XmlHandler {
   ///   The attribute that will be created for all vector components.
   /// \param[in] precision
   ///   The rounding precision for the vector components.
+  /// \param[in] is_fixed_decimal
+  ///   A flag that indicates if the precision is to apply to decimal digits
+  ///   only. Enabling this will set the number of decimal digits equal to the
+  ///   precision.
   /// \return An XML node for the vector.
   static wxXmlNode* CreateNode(const Vector3d& vector,
                                const std::string& name,
                                const wxXmlAttribute& attribute_components,
-                               const int& precision);
+                               const int& precision,
+                               const bool& is_fixed_decimal = false);
 
   /// \brief Parses an XML node and populates a vector.
   /// \param[in] root

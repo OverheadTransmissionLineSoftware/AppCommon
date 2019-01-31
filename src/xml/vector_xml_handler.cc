@@ -9,7 +9,8 @@ wxXmlNode* Vector2dXmlHandler::CreateNode(
     const Vector2d& vector,
     const std::string& name,
     const wxXmlAttribute& attribute_components,
-    const int& precision) {
+    const int& precision,
+    const bool& is_fixed_decimal) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   wxXmlNode* node_element = nullptr;
@@ -27,7 +28,7 @@ wxXmlNode* Vector2dXmlHandler::CreateNode(
   // creates x node and adds to parent node
   title = "x";
   value = vector.x();
-  content = helper::DoubleToString(value, precision);
+  content = helper::DoubleToString(value, precision, is_fixed_decimal);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);
@@ -35,7 +36,7 @@ wxXmlNode* Vector2dXmlHandler::CreateNode(
   // creates y node and adds to parent node
   title = "y";
   value = vector.y();
-  content = helper::DoubleToString(value, precision);
+  content = helper::DoubleToString(value, precision, is_fixed_decimal);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);
@@ -128,7 +129,8 @@ wxXmlNode* Vector3dXmlHandler::CreateNode(
     const Vector3d& vector,
     const std::string& name,
     const wxXmlAttribute& attribute_components,
-    const int& precision) {
+    const int& precision,
+    const bool& is_fixed_decimal) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   wxXmlNode* node_element = nullptr;
@@ -146,7 +148,7 @@ wxXmlNode* Vector3dXmlHandler::CreateNode(
   // creates x node and adds to parent node
   title = "x";
   value = vector.x();
-  content = helper::DoubleToString(value, precision);
+  content = helper::DoubleToString(value, precision, is_fixed_decimal);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);
@@ -154,7 +156,7 @@ wxXmlNode* Vector3dXmlHandler::CreateNode(
   // creates y node and adds to parent node
   title = "y";
   value = vector.y();
-  content = helper::DoubleToString(value, precision);
+  content = helper::DoubleToString(value, precision, is_fixed_decimal);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);
@@ -162,7 +164,7 @@ wxXmlNode* Vector3dXmlHandler::CreateNode(
   // creates z node and adds to parent node
   title = "z";
   value = vector.z();
-  content = helper::DoubleToString(value, precision);
+  content = helper::DoubleToString(value, precision, is_fixed_decimal);
   node_element = CreateElementNodeWithContent(title, content,
                                               &attribute_components);
   node_root->AddChild(node_element);

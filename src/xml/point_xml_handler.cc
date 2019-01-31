@@ -9,7 +9,8 @@ wxXmlNode* Point2dDoubleXmlHandler::CreateNode(
     const Point2d<double>& point,
     const std::string& name,
     const wxXmlAttribute& attribute_components,
-    const int& precision) {
+    const int& precision,
+    const bool& is_fixed_decimal) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   std::string title;
@@ -17,8 +18,8 @@ wxXmlNode* Point2dDoubleXmlHandler::CreateNode(
 
   // creates a node for the root
   title = "point_2d";
-  content = helper::DoubleToString(point.x, precision)
-      + "," + helper::DoubleToString(point.y, precision);
+  content = helper::DoubleToString(point.x, precision, is_fixed_decimal)
+      + "," + helper::DoubleToString(point.y, precision, is_fixed_decimal);
 
   node_root = CreateElementNodeWithContent(title, content);
 
@@ -116,7 +117,8 @@ wxXmlNode* Point3dDoubleXmlHandler::CreateNode(
     const Point3d<double>& point,
     const std::string& name,
     const wxXmlAttribute& attribute_components,
-    const int& precision) {
+    const int& precision,
+    const bool& is_fixed_decimal) {
   // variables used to create XML node
   wxXmlNode* node_root = nullptr;
   std::string title;
@@ -124,9 +126,9 @@ wxXmlNode* Point3dDoubleXmlHandler::CreateNode(
 
   // creates a node for the root
   title = "point_3d";
-  content = helper::DoubleToString(point.x, precision)
-      + "," + helper::DoubleToString(point.y, precision)
-      + "," + helper::DoubleToString(point.z, precision);
+  content = helper::DoubleToString(point.x, precision, is_fixed_decimal)
+      + "," + helper::DoubleToString(point.y, precision, is_fixed_decimal)
+      + "," + helper::DoubleToString(point.z, precision, is_fixed_decimal);
 
   node_root = CreateElementNodeWithContent(title, content);
 
