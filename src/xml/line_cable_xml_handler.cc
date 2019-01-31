@@ -52,7 +52,7 @@ wxXmlNode* LineCableXmlHandler::CreateNode(
     attribute = wxXmlAttribute("units", "m");
   }
   node_element = Vector3dXmlHandler::CreateNode(
-      line_cable.spacing_attachments_ruling_span(), title, attribute, 6);
+      line_cable.spacing_attachments_ruling_span(), title, attribute, 3, true);
   node_root->AddChild(node_element);
 
   // creates weathercase-stretch-creep node and adds to root node

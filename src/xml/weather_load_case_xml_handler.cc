@@ -81,7 +81,7 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   // creates temperature-cable node and adds to root node
   title = "temperature_cable";
   value = weathercase.temperature_cable;
-  content = helper::DoubleToString(value, 6);
+  content = helper::DoubleToString(value, 2, true);
   if (system_units == units::UnitSystem::kMetric) {
     attribute = wxXmlAttribute("units", "deg C");
   } else if (system_units == units::UnitSystem::kImperial) {

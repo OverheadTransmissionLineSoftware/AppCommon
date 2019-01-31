@@ -267,7 +267,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // strength-rated
-  precision = 0;
+  precision = 1;
   value_num = &cable_modified_.strength_rated;
   style = wxNUM_VAL_DEFAULT;
   textctrl = XRCCTRL(*this, "textctrl_strength_rated", wxTextCtrl);
@@ -275,7 +275,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // temperature-reference
-  precision = 0;
+  precision = 1;
   value_num = &cable_modified_.temperature_properties_components;
   style = wxNUM_VAL_DEFAULT;
   textctrl = XRCCTRL(*this, "textctrl_temperature_reference", wxTextCtrl);
@@ -291,7 +291,7 @@ void CableEditorDialog::SetValidators() {
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
-  precision = 0;
+  precision = 1;
   value_num =
       &(*std::next(cable_modified_.resistances_ac.begin(), 0)).temperature;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
@@ -308,7 +308,7 @@ void CableEditorDialog::SetValidators() {
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));
 
-  precision = 0;
+  precision = 1;
   value_num =
       &(*std::next(cable_modified_.resistances_ac.begin(), 1)).temperature;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
@@ -333,7 +333,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // shell coefficient-expansion-thermal
-  precision = 7;
+  precision = 6;
   value_num =
       &cable_modified_.component_shell.coefficient_expansion_linear_thermal;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
@@ -343,7 +343,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // shell modulus-compression
-  precision = 0;
+  precision = 1;
   value_num = &cable_modified_.component_shell.modulus_compression_elastic_area;
   style = wxNUM_VAL_THOUSANDS_SEPARATOR;
   textctrl = XRCCTRL(*this, "textctrl_shell_modulus_compression", wxTextCtrl);
@@ -351,7 +351,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // shell modulus-tension
-  precision = 0;
+  precision = 1;
   value_num = &cable_modified_.component_shell.modulus_tension_elastic_area;
   style = wxNUM_VAL_THOUSANDS_SEPARATOR;
   textctrl = XRCCTRL(*this, "textctrl_shell_modulus_tension", wxTextCtrl);
@@ -457,7 +457,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // shell stressstrain-limit
-  precision = 1;
+  precision = 3;
   value_num = &cable_modified_.component_shell.load_limit_polynomial_loadstrain;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_stressstrain_limit", wxTextCtrl);
@@ -465,7 +465,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // shell creep-limit
-  precision = 1;
+  precision = 3;
   value_num = &cable_modified_.component_shell.load_limit_polynomial_creep;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_shell_creep_limit", wxTextCtrl);
@@ -473,7 +473,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // core coefficient-expansion-thermal
-  precision = 7;
+  precision = 6;
   value_num =
       &cable_modified_.component_core.coefficient_expansion_linear_thermal;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
@@ -483,7 +483,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // core modulus-compression
-  precision = 0;
+  precision = 1;
   value_num =
       &cable_modified_.component_core.modulus_compression_elastic_area;
   style = wxNUM_VAL_THOUSANDS_SEPARATOR;
@@ -492,7 +492,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // core modulus-tension
-  precision = 0;
+  precision = 1;
   value_num =
       &cable_modified_.component_core.modulus_tension_elastic_area;
   style = wxNUM_VAL_THOUSANDS_SEPARATOR;
@@ -599,7 +599,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // core stressstrain-limit
-  precision = 1;
+  precision = 3;
   value_num = &cable_modified_.component_core.load_limit_polynomial_loadstrain;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_stressstrain_limit", wxTextCtrl);
@@ -607,7 +607,7 @@ void CableEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // core creep-limit
-  precision = 1;
+  precision = 3;
   value_num = &cable_modified_.component_core.load_limit_polynomial_creep;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_core_creep_limit", wxTextCtrl);

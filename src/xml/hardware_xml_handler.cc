@@ -58,7 +58,7 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   // creates length node and adds to root node
   title = "length";
   value = hardware.length;
-  content = helper::DoubleToString(value, 6);
+  content = helper::DoubleToString(value, 3, true);
   if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "ft");
   } else if (system_units == units::UnitSystem::kMetric) {
@@ -70,7 +70,7 @@ wxXmlNode* HardwareXmlHandler::CreateNode(
   // creates weight node and adds to root node
   title = "weight";
   value = hardware.weight;
-  content = helper::DoubleToString(value, 6);
+  content = helper::DoubleToString(value, 3, true);
   if (system_units == units::UnitSystem::kImperial) {
     attribute = wxXmlAttribute("units", "lbs");
   } else if (system_units == units::UnitSystem::kMetric) {

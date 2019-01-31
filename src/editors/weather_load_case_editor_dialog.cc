@@ -123,7 +123,7 @@ void WeatherLoadCaseEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // density-ice
-  precision = 1;
+  precision = 2;
   value_num = &weathercase_modified_.density_ice;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_density_ice", wxTextCtrl);
@@ -131,7 +131,7 @@ void WeatherLoadCaseEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // pressure-wind
-  precision = 1;
+  precision = 2;
   value_num = &weathercase_modified_.pressure_wind;
   style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_pressure_wind", wxTextCtrl);
@@ -139,9 +139,9 @@ void WeatherLoadCaseEditorDialog::SetValidators() {
       wxFloatingPointValidator<double>(precision, value_num, style));
 
   // temperature-cable
-  precision = 0;
+  precision = 1;
   value_num = &weathercase_modified_.temperature_cable;
-  style = wxNUM_VAL_DEFAULT;
+  style = wxNUM_VAL_NO_TRAILING_ZEROES;
   textctrl = XRCCTRL(*this, "textctrl_temperature_cable", wxTextCtrl);
   textctrl->SetValidator(
       wxFloatingPointValidator<double>(precision, value_num, style));

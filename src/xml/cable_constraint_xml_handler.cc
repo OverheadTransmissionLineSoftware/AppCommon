@@ -32,7 +32,7 @@ wxXmlNode* CableConstraintXmlHandler::CreateNode(
   // creates limit node and adds to root node
   title = "limit";
   value = constraint.limit;
-  content = helper::DoubleToString(value, 6);
+  content = helper::DoubleToString(value, 3, true);
   node_element = CreateElementNodeWithContent(title, content);
   node_root->AddChild(node_element);
 
