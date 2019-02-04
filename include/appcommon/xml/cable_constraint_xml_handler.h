@@ -108,6 +108,34 @@ class CableConstraintXmlHandler : public XmlHandler {
                           const bool& convert,
                           const std::list<const WeatherLoadCase*>* weathercases,
                           CableConstraint& constraint);
+
+  /// \brief Parses a version 2 XML node and populates a cable constraint.
+  /// \param[in] root
+  ///   The XML root node for the cable constraint.
+  /// \param[in] filepath
+  ///   The filepath that the xml node was loaded from. This is for logging
+  ///   purposes only and can be left blank.
+  /// \param[in] units
+  ///   The unit system. If no conversion is being done this will be ignored.
+  /// \param[in] convert
+  ///   A flag that determines if the unit style is converted to 'consistent'.
+  /// \param[in] weathercases
+  ///   A list of weathercases that is matched against a weathercase
+  ///   description. If found, a pointer will be set to a matching
+  ///   weathercase.
+  /// \param[out] constraint
+  ///   The cable constraint that is populated.
+  /// \return The status of the xml node parse. If any errors are encountered
+  ///   false is returned.
+  /// All errors are logged to the active application log target. Critical
+  /// errors cause the parsing to abort. Non-critical errors set the object
+  /// property to an invalid state (if applicable).
+  static bool ParseNodeV2(const wxXmlNode* root,
+                          const std::string& filepath,
+                          const units::UnitSystem& units,
+                          const bool& convert,
+                          const std::list<const WeatherLoadCase*>* weathercases,
+                          CableConstraint& constraint);
 };
 
 #endif  // APPCOMMON_XML_CABLE_CONSTRAINT_XML_HANDLER_H_
