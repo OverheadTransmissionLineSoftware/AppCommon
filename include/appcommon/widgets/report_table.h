@@ -9,6 +9,7 @@
 
 #include "wx/listctrl.h"
 #include "wx/wx.h"
+#include "wx/xml/xml.h"
 
 /// \par OVERVIEW
 ///
@@ -79,6 +80,11 @@ enum class SortOrderType {
 /// This class supports several copy to clipboard commands. All of the data is
 /// taken from the listctrl itself, so it will reflect the sorted order (if
 /// any).
+///
+/// \par EXPORT TO XML
+///
+/// This class supports exporting to an xml file. All of the data is taken from
+/// the listctrl itself, so it will reflect the sorted order (if any).
 class ReportTable : public wxPanel {
  public:
   /// \brief Constructor.
@@ -206,6 +212,18 @@ class ReportTable : public wxPanel {
 
   /// \brief Sorts the listctrl.
   void Sort();
+
+  /// \brief Gets an xml-safe string.
+  /// \param[in] str
+  ///   The starting string, with potentially illegal characters.
+  /// \param[in] ch
+  ///   The legal xml character that will replace illegal characters.
+  /// \return An xml-safe string.
+  std::string StringXml(const std::string& str, const char& ch) const;
+
+  /// \brief Gets an xml node for the entire table.
+  /// \return An xml node for the entire table.
+  wxXmlNode* XmlNodeTable() const;
 
   /// \var data_
   ///   The data that is passed onto the listctrl.

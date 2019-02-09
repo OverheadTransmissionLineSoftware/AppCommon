@@ -3,8 +3,14 @@
 
 #include "appcommon/widgets/report_table.h"
 
+#include <algorithm>
+#include <vector>
+
+#include "appcommon/widgets/status_bar_log.h"
+#include "appcommon/xml/xml_handler.h"
 #include "models/base/helper.h"
 #include "wx/clipbrd.h"
+#include "wx/filename.h"
 #include "wx/imaglist.h"
 
 #include "xpm/sort_arrow_up.xpm"
@@ -32,7 +38,8 @@ enum {
   kClearSort = 0,
   kCopyHeaders = 1,
   kCopyRow = 2,
-  kCopyTable = 3
+  kCopyTable = 3,
+  kExportXml = 4
 };
 
 /// \brief This function is used by the wxListCtrl to sort items.
@@ -412,6 +419,8 @@ void ReportTable::OnColumnRightClick(wxListEvent& event) {
   menu.AppendSeparator();
   menu.Append(kCopyHeaders, "Copy Headers");
   menu.Append(kCopyTable, "Copy Table");
+  menu.AppendSeparator();
+  menu.Append(kExportXml, "Export XML");
 
   // shows context menu
   // the event is caught by the the report table
@@ -437,6 +446,42 @@ void ReportTable::OnContextMenuSelect(wxCommandEvent& event) {
   } else if (id_event == kCopyTable) {
     std::string str = ClipBoardStringTable();
     CopyToClipboard(str);
+  } else if (id_event == kExportXml) {
+    // gets filepath to save xml
+    std::string filepath;
+    wxFileDialog dialog_file(this, "Save XML File", "", "report.xml",
+                             "XML Files (*.xml) | *.xml", wxFD_SAVE);
+    if (dialog_file.ShowModal() != wxID_OK) {
+      return;
+    } else {
+      filepath = dialog_file.GetPath();
+    }
+
+    wxBusyCursor cursor;
+
+    // logs
+    std::string message = "Saving file: " + filepath;
+    wxLogVerbose(message.c_str());
+    status_bar_log::PushText(message, 0);
+
+    // generates an xml node
+    wxXmlNode* root = XmlNodeTable();
+
+    // creates any directories that are needed
+    wxFileName filename(filepath);
+    if (filename.DirExists() == false) {
+      filename.Mkdir(wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL);
+    }
+
+    // creates an xml document and saves
+    wxXmlDocument doc;
+    doc.SetRoot(root);
+    bool status = doc.Save(filepath, 2);
+    if (status == false) {
+      wxLogError("File didn't save");
+    }
+
+    status_bar_log::PopText(0);
   }
 }
 
@@ -445,6 +490,8 @@ void ReportTable::OnItemRightClick(wxListEvent& event) {
   wxMenu menu;
   menu.Append(kCopyRow, "Copy Row");
   menu.Append(kCopyTable, "Copy Table");
+  menu.AppendSeparator();
+  menu.Append(kExportXml, "Export XML");
 
   // shows context menu
   // the event is caught by the report table
@@ -467,4 +514,63 @@ void ReportTable::Sort() {
 
   // temporarily casts the column number to the sort data parameter
   listctrl_->SortItems(wxListCompareFunction, (wxIntPtr)&data);
+}
+
+std::string ReportTable::StringXml(const std::string& str,
+                                   const char& ch) const {
+  std::string str_xml = str;
+
+  std::replace(str_xml.begin(), str_xml.end(), '<', ch);
+  std::replace(str_xml.begin(), str_xml.end(), '>', ch);
+  std::replace(str_xml.begin(), str_xml.end(), '/', ch);
+  std::replace(str_xml.begin(), str_xml.end(), '&', ch);
+  std::replace(str_xml.begin(), str_xml.end(), '\'', ch);
+  std::replace(str_xml.begin(), str_xml.end(), '\"', ch);
+
+  return str_xml;
+}
+
+wxXmlNode* ReportTable::XmlNodeTable() const {
+  wxXmlNode* root = new wxXmlNode(wxXML_ELEMENT_NODE, "report_table");
+
+  // gets headers
+  std::vector<std::string> headers;
+  headers.resize(listctrl_->GetColumnCount());
+
+  const int kColumnMax = listctrl_->GetColumnCount() - 1;
+  for (int index_column = 0; index_column <= kColumnMax; index_column++) {
+    // gets string from listctrl
+    wxListItem item;
+    item.SetMask(wxLIST_MASK_TEXT);
+    listctrl_->GetColumn(index_column, item);
+    std::string str = item.GetText();
+
+    // converts to xml safe and caches
+    headers[index_column] = StringXml(str, '_');
+  }
+
+  // creates an xml tree of table data
+  wxXmlNode* node = nullptr;
+  wxXmlNode* sub_node = nullptr;
+
+  // iterates over the number of rows
+  const int kRowMax = listctrl_->GetItemCount() - 1;
+  for (int index_row = 0; index_row <= kRowMax; index_row++) {
+    node = new wxXmlNode(wxXML_ELEMENT_NODE, "row");
+
+    // iterates over the number of columns
+    for (int index_column = 0; index_column <= kColumnMax; index_column++) {
+      // gets string from row/column index
+      std::string str = listctrl_->GetItemText(index_row, index_column);
+
+      // creates an entry node and adds to row node
+      sub_node = XmlHandler::CreateElementNodeWithContent(
+          headers[index_column], str);
+      node->AddChild(sub_node);
+    }
+
+    root->AddChild(node);
+  }
+
+  return root;
 }
