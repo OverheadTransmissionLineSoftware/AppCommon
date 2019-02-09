@@ -321,6 +321,7 @@ std::string ReportTable::ClipboardStringHeaders() const {
   const int kColumnMax = listctrl_->GetColumnCount() - 1;
   for (int index_column = 0; index_column <= kColumnMax; index_column++) {
     wxListItem item;
+    item.SetMask(wxLIST_MASK_TEXT);
     listctrl_->GetColumn(index_column, item);
     str = str + item.GetText();
 
