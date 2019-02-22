@@ -83,9 +83,9 @@ wxXmlNode* WeatherLoadCaseXmlHandler::CreateNode(
   value = weathercase.temperature_cable;
   content = helper::DoubleToString(value, 2, true);
   if (system_units == units::UnitSystem::kMetric) {
-    attribute = wxXmlAttribute("units", "deg C");
+    attribute = wxXmlAttribute("units", L"\u00B0C");
   } else if (system_units == units::UnitSystem::kImperial) {
-    attribute = wxXmlAttribute("units", "deg F");
+    attribute = wxXmlAttribute("units", L"\u00B0F");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);

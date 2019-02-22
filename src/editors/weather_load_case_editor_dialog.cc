@@ -89,7 +89,7 @@ void WeatherLoadCaseEditorDialog::SetUnitsStaticText(
     XRCCTRL(*this, "statictext_pressure_wind_units", wxStaticText)->
         SetLabel("[Pa]");
     XRCCTRL(*this, "statictext_temperature_cable_units", wxStaticText)->
-        SetLabel("[degC]");
+        SetLabel(L"[\u00B0C]");
   } else if (units == units::UnitSystem::kImperial) {
     XRCCTRL(*this, "statictext_thickness_ice_units", wxStaticText)->
         SetLabel("[in]");
@@ -98,7 +98,7 @@ void WeatherLoadCaseEditorDialog::SetUnitsStaticText(
     XRCCTRL(*this, "statictext_pressure_wind_units", wxStaticText)->
         SetLabel("[psf]");
     XRCCTRL(*this, "statictext_temperature_cable_units", wxStaticText)->
-        SetLabel("[degF]");
+        SetLabel(L"[\u00B0F]");
   }
 }
 

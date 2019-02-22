@@ -33,9 +33,9 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   value = component.capacity_heat;
   content = helper::DoubleToString(value, 6);
   if (system_units == units::UnitSystem::kMetric) {
-    attribute = wxXmlAttribute("units", "W-s/m-degC");
+    attribute = wxXmlAttribute("units", L"W-s/m-\u00B0C");
   } else if (system_units == units::UnitSystem::kImperial) {
-    attribute = wxXmlAttribute("units", "W-s/ft-degF");
+    attribute = wxXmlAttribute("units", L"W-s/ft-\u00B0F");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
@@ -45,9 +45,9 @@ wxXmlNode* CableComponentXmlHandler::CreateNode(
   value = component.coefficient_expansion_linear_thermal;
   content = helper::DoubleToString(value, 6);
   if (system_units == units::UnitSystem::kMetric) {
-    attribute = wxXmlAttribute("units", "/100degC");
+    attribute = wxXmlAttribute("units", L"/100\u00B0C");
   } else if (system_units == units::UnitSystem::kImperial) {
-    attribute = wxXmlAttribute("units", "/100degF");
+    attribute = wxXmlAttribute("units", L"/100\u00B0F");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
@@ -500,9 +500,9 @@ wxXmlNode* CableXmlHandler::CreateNode(const Cable& cable,
   value = cable.temperature_properties_components;
   content = helper::DoubleToString(value, 6);
   if (system_units == units::UnitSystem::kMetric) {
-    attribute = wxXmlAttribute("units", "deg C");
+    attribute = wxXmlAttribute("units", L"\u00B0C");
   } else if (system_units == units::UnitSystem::kImperial) {
-    attribute = wxXmlAttribute("units", "deg F");
+    attribute = wxXmlAttribute("units", L"\u00B0F");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);
@@ -629,9 +629,9 @@ wxXmlNode* CableXmlHandler::CreateNodeResistancePoint(
   value = point.temperature;
   content = helper::DoubleToString(value, 6);
   if (system_units == units::UnitSystem::kMetric) {
-    attribute = wxXmlAttribute("units", "deg C");
+    attribute = wxXmlAttribute("units", L"\u00B0C");
   } else if (system_units == units::UnitSystem::kImperial) {
-    attribute = wxXmlAttribute("units", "deg F");
+    attribute = wxXmlAttribute("units", L"\u00B0F");
   }
   node_element = CreateElementNodeWithContent(title, content, &attribute);
   node_root->AddChild(node_element);

@@ -42,7 +42,7 @@ class WeatherLoadCaseUnitConverter {
   /// The 'different' style units are as follows:
   ///  - density_ice = [N/m^3 or lb/ft^3]
   ///  - pressure_wind = [Pa or lb/ft^2]
-  ///  - temperature_cable = [degC or deg F]
+  ///  - temperature_cable = [degC or degF]
   ///  - thickness_ice = [cm or in]
   static void ConvertUnitStyleToDifferent(const units::UnitSystem& system,
                                           WeatherLoadCase& weathercase);

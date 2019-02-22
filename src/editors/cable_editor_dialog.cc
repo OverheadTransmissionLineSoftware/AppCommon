@@ -137,25 +137,25 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
     XRCCTRL(*this, "statictext_strength_rated_units", wxStaticText)->
         SetLabel("[N]");
     XRCCTRL(*this, "statictext_temperature_reference_units", wxStaticText)->
-        SetLabel("[degC]");
+        SetLabel(L"[\u00B0C]");
 
     XRCCTRL(*this, "statictext_resistance_1_units", wxStaticText)->
-        SetLabel("[ohm/km, degC]");
+        SetLabel(L"[ohm/km, \u00B0C]");
     XRCCTRL(*this, "statictext_resistance_2_units", wxStaticText)->
-        SetLabel("[ohm/km, degC]");
+        SetLabel(L"[ohm/km, \u00B0C]");
     XRCCTRL(*this, "statictext_absorptivity_units", wxStaticText)->
         SetLabel("[ ]");
     XRCCTRL(*this, "statictext_emissivity_units", wxStaticText)->
         SetLabel("[ ]");
 
     XRCCTRL(*this, "statictext_shell_coefficient_expansion_thermal_units",
-            wxStaticText)->SetLabel("/100degC");
+            wxStaticText)->SetLabel(L"/100\u00B0C");
     XRCCTRL(*this, "statictext_shell_modulus_compression_units", wxStaticText)->
         SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_shell_modulus_tension_units", wxStaticText)->
         SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_shell_capacity_heat_units", wxStaticText)->
-        SetLabel("[W-s/m-degC]");
+        SetLabel(L"[W-s/m-\u00B0C]");
     XRCCTRL(*this, "statictext_shell_polynomial_units", wxStaticText)->
         SetLabel("[%, MPa]");
     XRCCTRL(*this, "statictext_shell_stressstrain_limit_units", wxStaticText)->
@@ -164,13 +164,13 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
         SetLabel("[MPa/100]");
 
     XRCCTRL(*this, "statictext_core_coefficient_expansion_thermal_units",
-            wxStaticText)->SetLabel("/100degC");
+            wxStaticText)->SetLabel(L"/100\u00B0C");
     XRCCTRL(*this, "statictext_core_modulus_compression_units", wxStaticText)->
         SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_core_modulus_tension_units", wxStaticText)->
         SetLabel("[MPa/100]");
     XRCCTRL(*this, "statictext_core_capacity_heat_units", wxStaticText)->
-        SetLabel("[W-s/m-degC]");
+        SetLabel(L"[W-s/m-\u00B0C]");
     XRCCTRL(*this, "statictext_core_polynomial_units", wxStaticText)->
         SetLabel("[%, MPa]");
     XRCCTRL(*this, "statictext_core_stressstrain_limit_units", wxStaticText)->
@@ -187,25 +187,25 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
     XRCCTRL(*this, "statictext_strength_rated_units", wxStaticText)->
         SetLabel("[lbs]");
     XRCCTRL(*this, "statictext_temperature_reference_units", wxStaticText)->
-        SetLabel("[degF]");
+        SetLabel(L"[\u00B0F]");
 
     XRCCTRL(*this, "statictext_resistance_1_units", wxStaticText)->
-        SetLabel("[ohm/mi, degF]");
+        SetLabel(L"[ohm/mi, \u00B0F]");
     XRCCTRL(*this, "statictext_resistance_2_units", wxStaticText)->
-        SetLabel("[ohm/mi, degF]");
+        SetLabel(L"[ohm/mi, \u00B0F]");
     XRCCTRL(*this, "statictext_absorptivity_units", wxStaticText)->
         SetLabel("[ ]");
     XRCCTRL(*this, "statictext_emissivity_units", wxStaticText)->
         SetLabel("[ ]");
 
     XRCCTRL(*this, "statictext_shell_coefficient_expansion_thermal_units",
-            wxStaticText)->SetLabel("[/100degF]");
+            wxStaticText)->SetLabel(L"[/100\u00B0F]");
     XRCCTRL(*this, "statictext_shell_modulus_compression_units", wxStaticText)->
         SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_shell_modulus_tension_units", wxStaticText)->
         SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_shell_capacity_heat_units", wxStaticText)->
-        SetLabel("[W-s/ft-degF]");
+        SetLabel(L"[W-s/ft-\u00B0F]");
     XRCCTRL(*this, "statictext_shell_polynomial_units", wxStaticText)->
         SetLabel("[%, psi]");
     XRCCTRL(*this, "statictext_shell_stressstrain_limit_units", wxStaticText)->
@@ -214,13 +214,13 @@ void CableEditorDialog::SetUnitsStaticText(const units::UnitSystem& units) {
         SetLabel("[psi/100]");
 
     XRCCTRL(*this, "statictext_core_coefficient_expansion_thermal_units",
-            wxStaticText)->SetLabel("[/100degF]");
+            wxStaticText)->SetLabel(L"[/100\u00B0F]");
     XRCCTRL(*this, "statictext_core_modulus_compression_units", wxStaticText)->
         SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_core_modulus_tension_units", wxStaticText)->
         SetLabel("[psi/100]");
     XRCCTRL(*this, "statictext_core_capacity_heat_units", wxStaticText)->
-        SetLabel("[W-s/ft-degF]");
+        SetLabel(L"[W-s/ft-\u00B0F]");
     XRCCTRL(*this, "statictext_core_polynomial_units", wxStaticText)->
         SetLabel("[%, psi]");
     XRCCTRL(*this, "statictext_core_stressstrain_limit_units", wxStaticText)->
