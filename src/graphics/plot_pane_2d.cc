@@ -42,7 +42,9 @@ PlotPane2d::~PlotPane2d() {
 }
 
 void PlotPane2d::RenderPlot(wxDC& dc) {
+  RenderBefore(dc);
   plot_.Render(dc, GetClientRect());
+  RenderAfter(dc);
 }
 
 wxBrush PlotPane2d::background() const {
@@ -163,4 +165,12 @@ void PlotPane2d::OnPaint(wxPaintEvent& event) {
 
   // renders
   RenderPlot(dc);
+}
+
+void PlotPane2d::RenderAfter(wxDC& dc) {
+  // placeholder for optional override
+}
+
+void PlotPane2d::RenderBefore(wxDC& dc) {
+  // placeholder for optional override
 }

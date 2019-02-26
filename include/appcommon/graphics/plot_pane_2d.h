@@ -61,6 +61,18 @@ class PlotPane2d : public wxPanel {
   ///   The event.
   void OnPaint(wxPaintEvent& event);
 
+  /// \brief Renders content after (on top of) the plot.
+  /// \param[in] dc
+  ///   The device context.
+  /// This method is empty but can optionally be overridden.
+  virtual void RenderAfter(wxDC& dc);
+
+  /// \brief Renders content before (underneath) the plot.
+  /// \param[in] dc
+  ///   The device context.
+  /// This method is empty but can optionally be overridden.
+  virtual void RenderBefore(wxDC& dc);
+
   /// \brief Updates the plot datasets.
   virtual void UpdatePlotDatasets() = 0;
 
