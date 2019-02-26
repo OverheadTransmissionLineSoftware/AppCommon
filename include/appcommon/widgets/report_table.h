@@ -99,7 +99,13 @@ class ReportTable : public wxPanel {
   /// \return The report row index, which does not reflect any sorting.
   const long IndexReportRow(const long& index_listctrl) const;
 
+  /// \brief Gets if the listctrl is refreshing.
+  /// \return If the listctrl is refreshing.
+  bool IsRefreshing() const;
+
   /// \brief Refreshes the listctrl with the data.
+  /// This method will clear the listctrl and re-insert the data. Any sorting
+  /// and selection will be reapplied as well.
   void Refresh();
 
   /// \brief Gets a header title.
@@ -237,6 +243,10 @@ class ReportTable : public wxPanel {
   /// \var index_sorted_
   ///   The column index that is currently sorted. Set to -1 if none are sorted.
   long index_sorted_;
+
+  /// \var is_refreshing_
+  ///   An indicator that determines if the listctrl is being refreshed.
+  bool is_refreshing_;
 
   /// \var type_sort_
   ///   The type of sorting that is currently applied.

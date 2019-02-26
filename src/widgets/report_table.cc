@@ -105,6 +105,7 @@ END_EVENT_TABLE()
 ReportTable::ReportTable(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
   // initializes members
   data_ = nullptr;
+  is_refreshing_ = false;
   index_selected_ = -1;
   index_sorted_ = -1;
   type_sort_ = SortOrderType::kNone;
@@ -161,7 +162,13 @@ const long ReportTable::IndexReportRow(const long& index_listctrl) const {
   return -1;
 }
 
+bool ReportTable::IsRefreshing() const {
+  return is_refreshing_;
+}
+
 void ReportTable::Refresh() {
+  is_refreshing_ = true;
+
   // helps reduce flicker
   listctrl_->Freeze();
 
@@ -221,6 +228,8 @@ void ReportTable::Refresh() {
   }
 
   listctrl_->Thaw();
+
+  is_refreshing_ = false;
 }
 
 std::string ReportTable::TitleHeader(const int& index_column) const {
