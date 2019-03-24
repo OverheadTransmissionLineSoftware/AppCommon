@@ -74,6 +74,7 @@ class TransmissionLineUnitConverter {
                                 const units::UnitSystem& system_to,
                                 const bool& is_recursive,
                                 TransmissionLine& line);
+
  private:
   /// \brief Converts to 'consistent' unit style using version 1.
   /// \param[in] system
