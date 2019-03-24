@@ -44,7 +44,7 @@ class LineStructureXmlHandler : public XmlHandler {
   ///   node. If empty, no attribute will be created.
   /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
-  /// \param[in] system_style
+  /// \param[in] style_units
   ///   The unit style, which is used for attributing child XML nodes.
   /// \return An XML node for the line structure.
   static wxXmlNode* CreateNode(const LineStructure& line_structure,

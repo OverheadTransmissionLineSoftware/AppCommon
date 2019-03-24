@@ -51,6 +51,7 @@ class LogPane : public wxPanel {
   ~LogPane();
 
   /// \brief Gets the textctrl.
+  /// \return The textctrl.
   wxTextCtrl* textctrl();
 
  private:

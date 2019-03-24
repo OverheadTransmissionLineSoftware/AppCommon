@@ -43,7 +43,7 @@ class CableComponentXmlHandler : public XmlHandler {
   ///   node. If empty, no attribute will be created.
   /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
-  /// \param[in] system_style
+  /// \param[in] style_units
   ///   The unit style, which is used for attributing child XML nodes.
   /// \return An XML node for the cable component.
   static wxXmlNode* CreateNode(const CableComponent& component,
@@ -154,7 +154,7 @@ class CableXmlHandler : public XmlHandler {
   ///   node. If empty, no attribute will be created.
   /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
-  /// \param[in] system_style
+  /// \param[in] style_units
   ///   The unit style, which is used for attributing child XML nodes.
   /// \return An XML node for the cable.
   static wxXmlNode* CreateNode(const Cable& cable,
@@ -194,7 +194,7 @@ class CableXmlHandler : public XmlHandler {
   ///   node. If empty, no attribute will be created.
   /// \param[in] system_units
   ///   The unit system, which is used for attributing child XML nodes.
-  /// \param[in] system_style
+  /// \param[in] style_units
   ///   The unit style, which is used for attributing child XML nodes.
   /// \return An XML node for the cable.
   static wxXmlNode* CreateNodeResistancePoint(

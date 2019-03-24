@@ -88,6 +88,8 @@ enum class SortOrderType {
 class ReportTable : public wxPanel {
  public:
   /// \brief Constructor.
+  /// \param[in] parent
+  ///   The parent window.
   ReportTable(wxWindow* parent);
 
   /// \brief Destructor.
@@ -123,6 +125,7 @@ class ReportTable : public wxPanel {
   std::string ValueTable(const int& index_row, const int& index_column) const;
 
   /// \brief Gets the data that is displayed.
+  /// \return The displayed data.
   const ReportData* data() const;
 
   /// \brief Gets the selected item index.

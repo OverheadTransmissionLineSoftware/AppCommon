@@ -21,6 +21,8 @@ class PlotAxis {
   PlotAxis();
 
   /// \brief Alternate (preferred) constructor.
+  /// \param[in] orientation
+  ///   The axis orientation.
   PlotAxis(OrientationType orientation);
 
   /// \brief Destructor.

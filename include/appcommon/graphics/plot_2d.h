@@ -283,7 +283,7 @@ class Plot2d {
   ///   scaling.
   float scale_y_;
 
-  /// \var zoom_modified_fitted_
+  /// \var zoom_factor_fitted_
   ///   The zoom factor to apply after the plot is fitted. Setting this to 1
   ///   will not modify the scale or offset.
   float zoom_factor_fitted_;

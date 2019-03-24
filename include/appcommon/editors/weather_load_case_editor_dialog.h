@@ -20,6 +20,13 @@
 class WeatherLoadCaseEditorDialog : public wxDialog {
  public:
   /// \brief Constructor.
+  /// \brief Default constructor.
+  /// \param[in] parent
+  ///   The parent window.
+  /// \param[in] weathercase
+  ///   The weathercase to be modified with the dialog.
+  /// \param[in] units
+  ///   The unit system to display on the form.
   WeatherLoadCaseEditorDialog(wxWindow* parent, WeatherLoadCase* weathercase,
                               const units::UnitSystem units);
 
